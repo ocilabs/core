@@ -182,5 +182,5 @@ variables:
 
   unprotect:
     type: boolean
-    title: "unprotect administrator domains against destroy?"
+    title: "Allow administrator domains to be destroyed?"
     required: true
