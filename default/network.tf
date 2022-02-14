@@ -2,15 +2,15 @@
 // Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
 
 output "network" { 
-    value = { for segment in var.input.segments : segment.name => {
+    value = { for segment in var.asset.segments : segment.name => {
         name         = segment.name
         region       = var.input.region
         display_name = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}"
         dns_label    = "${local.service_label}${index(local.vcn_list, segment.name) + 1}"
-        compartment  = contains(flatten(var.input.domains[*].name), "network") ? "${local.service_name}_network_compartment" : local.service_name
+        compartment  = contains(flatten(var.asset.domains[*].name), "network") ? "${local.service_name}_network_compartment" : local.service_name
         stage        = segment.stage
         cidr         = segment.cidr
-        ipv6         = segment.ipv6
+        ipv6         = var.input.ipv6
         gateways = {
             drg = {
                 name     = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_drg"
@@ -21,12 +21,12 @@ output "network" {
             }
             internet = {
                 name   = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_internet"
-                create = segment.internet == "ENABLE" ? true : false
+                create = var.input.internet == "ENABLE" ? true : false
             }
             nat = {
                 name          = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_nat"
-                create        = segment.nat == "ENABLE" ? true : false
-                block_traffic = segment.nat == "DISABLE" ? true : false
+                create        = var.input.nat == "ENABLE" ? true : false
+                block_traffic = var.input.nat == "DISABLE" ? true : false
             }
             osn = {
                 name     = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_osn"

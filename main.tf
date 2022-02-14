@@ -26,22 +26,24 @@ variable "tenancy_ocid" { }
 module "configuration" {
   source         = "./default/"
 
-  options = {
+  asset = {
     domains      = var.domains
     segments     = var.segments
   }
   input = {
     tenancy      = var.tenancy_ocid
     class        = var.class
+    parent       = var.parent
     owner        = var.owner
     organization = var.organization
     solution     = var.solution
     repository   = var.repository
     stage        = var.stage
     region       = var.region
-    # to be deleted
-    domains      = var.domains
-    segments     = var.segments
+    internet     = var.internet
+    nat          = var.nat
+    ipv6         = var.ipv6
+    protect      = var.protect
   }
 }
 output "tenancy"   {

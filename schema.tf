@@ -7,9 +7,8 @@ variable "class" {
   description = "The tenancy classification sets boundaries for resource deployments"
   default     = "PAYG"
 }
-
 # Service Configuration
-variable "parentID" {
+variable "parent" {
   type = string
   description = "The Oracle Cloud Identifier (OCID) for a parent compartment, an encapsulating child compartment will be created to define the service resident. Usually this is the root compartment, hence the tenancy OCID."
 }
@@ -73,7 +72,7 @@ variable "nat" {
   default     = "ENABLE"
 }
 
-variable "enableIPv6" {
+variable "ipv6" {
   type = bool
   description = "Triggers the release of IPv6 addresses inside the VCN."
   default     = false
@@ -87,23 +86,18 @@ variable "segments" {
       stage       = 0
       # The referenced segment need to have at least one subnet defined in subnets.tf file before running apply 
       topology    = ["host", "nodes", "container"]
-      # "ENABLE" or "DISABLE" access from public internet
-      internet    = "ENABLE"
       # Access to the Oracle Service Network, options include "DISABLE", "STORAGE" or "ALL"
       osn         = "ALL" 
-      # "ENABLE" or "DISABLE" Network Address Translation for private subnets
-      nat         = "ENABLE" 
-      ipv6        = false
     }
   ]
   description = "Network segments define a service toplogy with route rules and port filters between subnets"
 }
 
 # Administration Domains
-variable "deleteCompartment" {
+variable "protect" {
   type        = bool
   description = "A flage that allows to delete compartments with terraform destroy. This setting should only be changed by experienced users."
-  default     = true
+  default     = false
 }
 
 variable "domains" {

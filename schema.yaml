@@ -19,7 +19,7 @@ variableGroups:
 - title: "Service Resident"
   visible: true
   variables:
-  - parentID
+  - parent
   - compartment_ocid
   - region
   - current_user_ocid
@@ -34,13 +34,13 @@ variableGroups:
   variables:
   - internet
   - nat
-  - enableIPv6
+  - ipv6
   - segments
 
 - title: "Domain Settings"
   visible: true
   variables:
-  - deleteCompartment
+  - protect
   - domains
 
 variables:
@@ -86,7 +86,7 @@ variables:
     type: string
     required: true
   
-  parentID:
+  parent:
     title: "Parent Compartment"
     description: "The Oracle Cloud Identifier for the root compartment. The default should only be changed by experienced users."
     type: oci:identity:compartment:id
@@ -166,7 +166,7 @@ variables:
       - ENABLE
       - DISABLE
 
-  enableIPv6:
+  ipv6:
     type: boolean
     title: "IPv6"
     required: true
@@ -180,7 +180,7 @@ variables:
     type: list
     required: true
 
-  deleteCompartment:
+  protect:
     type: boolean
-    title: "Allow administrator domains to be deleted?"
+    title: "Protect administrator domains against destroy?"
     required: true
