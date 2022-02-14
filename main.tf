@@ -16,6 +16,7 @@ terraform {
 // --- tenancy configuration --- //
 provider "oci" {
   alias  = "init"
+  region = var.region
 }
 variable "tenancy_ocid" { }
 module "configuration" {
