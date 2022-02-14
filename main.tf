@@ -68,27 +68,26 @@ output "resident" {
 }
 // --- operation controls --- //
 
-/*/ --- network configuration --- //
+// --- network configuration --- //
+provider "oci" {
+  alias  = "service"
+  region = module.configuration.resident.region.key
+}
 module "network" {
-  source = "github.com/torstenboettjer/ocloud-assets-network"
-  depends_on = [ 
-    module.configuration, 
-    module.resident
-  ]
-  providers = { oci = oci.home }
+  source = "github.com/ocilabs/assets-network"
+  depends_on = [module.configuration, module.resident]
+  providers = {oci = oci.service}
   for_each  = {for segment in var.segments : segment.name => segment}
   tenancy   = module.configuration.tenancy
   resident  = module.configuration.resident
   network   = module.configuration.network[each.key]
   input = {
+    internet = var.internet
+    nat      = var.nat
+    ipv6     = var.ipv6
     resident = module.resident
   }
-  configuration = {
-    tenancy   = module.configuration.tenancy
-    resident  = module.configuration.resident
-    network   = module.configuration.network[each.key]
-  }
-  assets = {
+  asset = {
     resident = module.resident
   }
 }
@@ -97,7 +96,7 @@ output "network" {
     for resource, parameter in module.network : resource => parameter
     }
 }
-// --- network configuration --- /*/
+// --- network configuration --- //
 
 
 /*/ --- host configuration --- //
