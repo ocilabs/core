@@ -2,12 +2,12 @@
 // Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
 
 output "network" { 
-    value = { for segment in var.asset.segments : segment.name => {
+    value = { for segment in var.resolve.segments : segment.name => {
         name         = segment.name
         region       = var.input.region
         display_name = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}"
         dns_label    = "${local.service_label}${index(local.vcn_list, segment.name) + 1}"
-        compartment  = contains(flatten(var.asset.domains[*].name), "network") ? "${local.service_name}_network_compartment" : local.service_name
+        compartment  = contains(flatten(var.resolve.domains[*].name), "network") ? "${local.service_name}_network_compartment" : local.service_name
         stage        = segment.stage
         cidr         = segment.cidr
         ipv6         = var.input.ipv6

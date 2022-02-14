@@ -19,11 +19,11 @@ variable "input" {
     nat          = string,
     ipv6         = bool,
     # domains
-    unprotect      = bool
+    amend      = bool
   })
 }
 
-variable "asset" {
+variable "resolve" {
   description = "configuration paramenter for the service, defined through schema.tf"
   type = object({
     domains      = list(any),
@@ -75,10 +75,10 @@ locals {
     "class"     = var.input.class
   }
   group_map = zipmap(
-    flatten("${var.asset.domains[*].roles}"),
-    flatten([for domain in var.asset.domains : [for role in domain.roles : "${local.service_name}_${domain.name}_compartment"]])
+    flatten("${var.resolve.domains[*].roles}"),
+    flatten([for domain in var.resolve.domains : [for role in domain.roles : "${local.service_name}_${domain.name}_compartment"]])
   )
-  vcn_list   = var.asset.segments[*].name
+  vcn_list   = var.resolve.segments[*].name
   router_map = {for router in local.routers : router.name => {
     name     = router.name
     cpe      = router.cpe
@@ -94,22 +94,22 @@ locals {
     }]])
   }}
   application_profiles = [for firewall, traffic in local.firewall_map: traffic]
-  subnet_newbits = {for segment in var.asset.segments : segment.name => zipmap(
+  subnet_newbits = {for segment in var.resolve.segments : segment.name => zipmap(
     [for subnet in local.subnets : subnet.name if contains(segment.topology, subnet.topology)],
     [for subnet in local.subnets : subnet.newbits if contains(segment.topology, subnet.topology)]
   )}
-  subnet_cidr = {for segment in var.asset.segments : segment.name => zipmap(
+  subnet_cidr = {for segment in var.resolve.segments : segment.name => zipmap(
     keys(local.subnet_newbits[segment.name]),
     flatten(cidrsubnets(segment.cidr, values(local.subnet_newbits[segment.name])...))
   )}
-  defined_routes = {for segment in var.asset.segments : segment.name => {
+  defined_routes = {for segment in var.resolve.segments : segment.name => {
     "cpe"      = length(keys(local.router_map)) != 0 ? try(local.router_map[segment.name].cpe,local.router_map["default"].cpe) : null
     "internet" = length(keys(local.router_map)) != 0 ? try(local.router_map[segment.name].anywhere,local.router_map["default"].anywhere) : null
     "vcn"      = segment.cidr
     "osn"      = local.osn_cidrs.all
     "buckets"  = local.osn_cidrs.storage
   }}
-  zones = {for segment in var.asset.segments : segment.name => merge(
+  zones = {for segment in var.resolve.segments : segment.name => merge(
     local.defined_routes[segment.name],
     local.destinations[segment.name],
     local.subnet_cidr[segment.name]
