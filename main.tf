@@ -25,11 +25,6 @@ variable "tenancy_ocid" { }
 
 module "configuration" {
   source         = "./default/"
-
-  asset = {
-    domains      = var.domains
-    segments     = var.segments
-  }
   input = {
     tenancy      = var.tenancy_ocid
     class        = var.class
@@ -44,19 +39,17 @@ module "configuration" {
     ipv6         = var.ipv6
     unprotect    = var.unprotect
   }
-}
-output "tenancy" {
-  value = module.configuration.tenancy
-  description = "Retrieved configuration details for the tenancy"
+  asset = {
+    domains      = var.domains
+    segments     = var.segments
+  }
 }
 // --- tenancy configuration  --- //
 
 // --- operation controls --- //
 module "resident" {
   source = "github.com/torstenboettjer/ocloud-assets-resident"
-  depends_on = [
-    module.configuration
-  ]
+  depends_on = [module.configuration]
   providers = {oci = oci.init}
   tenancy   = module.configuration.tenancy
   resident  = module.configuration.resident
@@ -65,10 +58,6 @@ module "resident" {
     parent_id     = var.parent
     # Enable compartment delete on destroy. If true, compartment will be deleted when `terraform destroy` is executed; If false, compartment will not be deleted on `terraform destroy` execution
     enable_delete = alltrue([var.stage != "PROD" ? true : false, var.unprotect])
-  }
-  configuration = {
-    tenancy   = module.configuration.tenancy
-    resident  = module.configuration.resident
   }
 }
 output "resident" {
