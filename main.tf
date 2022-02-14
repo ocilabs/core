@@ -42,10 +42,10 @@ module "configuration" {
     internet     = var.internet
     nat          = var.nat
     ipv6         = var.ipv6
-    unprotect      = var.unprotect
+    unprotect    = var.unprotect
   }
 }
-output "tenancy"   {
+output "tenancy" {
   value = module.configuration.tenancy
   description = "Retrieved configuration details for the tenancy"
 }
@@ -78,7 +78,7 @@ output "resident" {
 }
 // --- operation controls --- //
 
-// --- network configuration --- //
+/*/ --- network configuration --- //
 module "network" {
   source = "github.com/torstenboettjer/ocloud-assets-network"
   depends_on = [ 
@@ -107,7 +107,7 @@ output "network" {
     for resource, parameter in module.network : resource => parameter
     }
 }
-// --- network configuration --- //
+// --- network configuration --- /*/
 
 
 /*/ --- host configuration --- //
