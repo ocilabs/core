@@ -11,9 +11,7 @@ terraform {
     }
   }
 }
-provider "oci" { 
-  alias = "init"
-}
+
 provider "oci" {
   alias  = "home"
   region = module.configuration.tenancy.region.key
@@ -60,6 +58,7 @@ module "resident" {
     enable_delete = alltrue([var.stage != "PROD" ? true : false, var.unprotect])
   }
 }
+
 output "resident" {
   value = {
     for resource, parameter in module.resident : resource => parameter
