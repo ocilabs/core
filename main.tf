@@ -11,18 +11,16 @@ terraform {
     }
   }
 }
-
-provider "oci" {
-  alias  = "home"
-  region = local.home_region_key
-}
 // --- provider settings  --- //
 
 // --- tenancy configuration --- //
+provider "oci" {
+  alias  = "init"
+}
 variable "tenancy_ocid" { }
-
 module "configuration" {
   source         = "./default/"
+  providers = {oci = oci.init}
   input = {
     tenancy      = var.tenancy_ocid
     class        = var.class
@@ -45,6 +43,10 @@ module "configuration" {
 // --- tenancy configuration  --- //
 
 // --- operation controls --- //
+provider "oci" {
+  alias  = "home"
+  region = module.configuration.tenancy.region.key
+}
 module "resident" {
   source = "github.com/torstenboettjer/ocloud-assets-resident"
   depends_on = [module.configuration]
@@ -58,7 +60,6 @@ module "resident" {
     enable_delete = alltrue([var.stage != "PROD" ? true : false, var.unprotect])
   }
 }
-
 output "resident" {
   value = {
     for resource, parameter in module.resident : resource => parameter
