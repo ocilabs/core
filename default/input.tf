@@ -20,7 +20,7 @@ variable "input" {
     nat          = string,
     ipv6         = bool,
     # domains
-    protect      = bool
+    unprotect      = bool
   })
 }
 

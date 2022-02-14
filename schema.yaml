@@ -40,7 +40,7 @@ variableGroups:
 - title: "Domain Settings"
   visible: true
   variables:
-  - protect
+  - unprotect
   - domains
 
 variables:
@@ -180,7 +180,7 @@ variables:
     type: list
     required: true
 
-  protect:
+  unprotect:
     type: boolean
-    title: "Protect administrator domains against destroy?"
+    title: "unprotect administrator domains against destroy?"
     required: true
