@@ -14,7 +14,7 @@ terraform {
 
 provider "oci" {
   alias  = "home"
-  region = module.configuration.tenancy.region.key
+  region = local.home_region_key
 }
 // --- provider settings  --- //
 
