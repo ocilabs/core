@@ -48,7 +48,7 @@ module "configuration" {
 module "resident" {
   source = "github.com/torstenboettjer/ocloud-assets-resident"
   depends_on = [module.configuration]
-  providers = {oci = oci.init}
+  providers = {oci = oci.home}
   tenancy   = module.configuration.tenancy
   resident  = module.configuration.resident
   input = {
