@@ -8,7 +8,6 @@ variable "input" {
     tenancy      = string,
     class        = string,
     # resident
-    parent       = string,
     owner        = string,
     organization = string,
     solution     = string,
