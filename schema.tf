@@ -97,7 +97,7 @@ variable "segments" {
 variable "unprotect" {
   type        = bool
   description = "A flage that allows to delete compartments with terraform destroy. This setting should only be changed by experienced users."
-  default     = false
+  default     = true
 }
 
 variable "domains" {
