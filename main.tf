@@ -49,7 +49,7 @@ provider "oci" {
   region = module.configuration.tenancy.region.key
 }
 module "resident" {
-  source = "github.com/torstenboettjer/ocloud-assets-resident"
+  source = "github.com/ocilabs/asset-resident"
   depends_on = [module.configuration]
   providers = {oci = oci.home}
   tenancy   = module.configuration.tenancy
