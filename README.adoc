@@ -8,7 +8,7 @@ image::https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/dep
 image:https://img.shields.io/badge/license-UPL-green[link="LICENSE"]
 
 === Introduction
-The ocloud framework is a collection of automation scripts and aims at system administrators and operators building services with Oracle Cloud Infrastructure (OCI). It helps acclerating the onboarding process for enterprise services. While provisioning a cloud server has become a matter of pressing a button, launching a hosting platform for intra- and extranet services is more challenging. link:https://en.wikipedia.org/wiki/Infrastructure_as_code["Infrastructure as Code" (IaC)] is employed to provision dedicated infrastructure and enable the necessary operator controls to address typical compliance and security requirements. 
+The ocloud framework is a collection of automation scripts and aims at operators launching services on Oracle Cloud Infrastructure (OCI). It helps acclerating the process of setting up a foundation for enterprise services. While provisioning a cloud server has become a matter of pressing a button, building a hosting platform for intra- and extranet services is more challenging. link:https://en.wikipedia.org/wiki/Infrastructure_as_code["Infrastructure as Code" (IaC)] is employed to provision dedicated infrastructure and enable the necessary operator controls to address typical compliance and security requirements. 
 
 === Getting Started
 Incremental development is to build small increment of a full fledges product. Each increment adds more software value – like Adding package to a Software Product. After lot of increments, you have got a big Software Product.
