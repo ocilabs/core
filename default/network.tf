@@ -10,7 +10,6 @@ output "network" {
         compartment  = contains(flatten(var.resolve.domains[*].name), "network") ? "${local.service_name}_network_compartment" : local.service_name
         stage        = segment.stage
         cidr         = segment.cidr
-        #ipv6         = var.input.ipv6
         gateways = {
             drg = {
                 name     = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_drg"

@@ -1,9 +1,8 @@
 [
   {
     "name"     : "core",
-    "cidr"     :  "10.0.0.0/23",
+    "cidr"     : "10.0.0.0/23",
     "stage"    : 0,
-    "topology" : ["host", "nodes", "container"],
-    "osn"      : "ALL" 
+    "topology" : ["host", "nodes", "container"]
   }
 ]

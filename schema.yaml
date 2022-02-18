@@ -29,6 +29,13 @@ variableGroups:
   - stage
   - repository
 
+- title: "Service Topology"
+  visible: true
+  variables:
+  - host
+  - nodes
+  - container
+
 - title: "Network Options"
   visible: true
   variables:
@@ -138,6 +145,25 @@ variables:
     description: "Provide an eMail address for the technical administrator"
     type: string
     required: true
+
+# Service Topology
+  host:
+    type: boolean
+    title: "Provisioning a host topology prepares a service resident to deploy a traditional enterprise application with presentation, application and database tier."
+    required: false
+    default: true
+
+  nodes:
+    type: boolean
+    title: "Provisioning a nodes topology prepares a service resident to deploy two tier cloud services with front- and backend tier."
+    required: false
+    default: true
+
+  container:
+    type: boolean
+    title: "Provisioning a container topology prepares a service resident to deploy cloud native services on Oracle's Kubernetes Engine (OKE)."
+    required: false
+    default: true
 
 # Network Options
   ipv6:
