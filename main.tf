@@ -49,7 +49,7 @@ provider "oci" {
   region = module.configuration.tenancy.region.key
 }
 module "resident" {
-  source = "github.com/ocilabs/asset-resident"
+  source = "github.com/ocilabs/resident"
   depends_on = [module.configuration]
   providers = {oci = oci.home}
   tenancy   = module.configuration.tenancy
@@ -74,7 +74,7 @@ provider "oci" {
   region = module.configuration.resident.region.key
 }
 module "network" {
-  source = "github.com/ocilabs/asset-network"
+  source = "github.com/ocilabs/network"
   depends_on = [module.configuration, module.resident]
   providers = {oci = oci.service}
   for_each  = {for segment in var.segments : segment.name => segment}
