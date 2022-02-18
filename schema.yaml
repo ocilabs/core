@@ -39,9 +39,9 @@ variableGroups:
 - title: "Network Options"
   visible: true
   variables:
+  - ipv6
   - internet
   - nat
-  - ipv6
   - osn
 
 - title: "Domain Settings"
@@ -149,21 +149,18 @@ variables:
 # Service Topology
   host:
     type: boolean
-    title: "Provisioning a host topology prepares a service resident to deploy a traditional enterprise application with presentation, application and database tier."
+    title: "Enterprise Service"
     required: false
-    default: true
 
   nodes:
     type: boolean
-    title: "Provisioning a nodes topology prepares a service resident to deploy two tier cloud services with front- and backend tier."
+    title: "Cloud Service"
     required: false
-    default: true
 
   container:
     type: boolean
-    title: "Provisioning a container topology prepares a service resident to deploy cloud native services on Oracle's Kubernetes Engine (OKE)."
+    title: "Container Service"
     required: false
-    default: true
 
 # Network Options
   ipv6:
