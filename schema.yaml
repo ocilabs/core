@@ -140,6 +140,12 @@ variables:
     required: true
 
 # Network Options
+  ipv6:
+    type: boolean
+    title: "IPv6"
+    required: true
+    default: false
+
   internet:
     type: enum
     title: "Internet access"
@@ -155,12 +161,6 @@ variables:
     enum:
       - ENABLE
       - DISABLE
-
-  ipv6:
-    type: boolean
-    title: "IPv6"
-    required: true
-    default: false
 
   osn:
     type: enum
