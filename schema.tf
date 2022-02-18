@@ -59,6 +59,13 @@ variable "region" {
   default     = "us-ashburn-1"
 }
 
+# Domain Protection
+variable "amend" {
+  type        = bool
+  description = "A flage that allows to delete compartments with terraform destroy. This setting should only be changed by experienced users."
+  default     = true
+}
+
 # Network Settings
 variable "internet" {
   type        = string
@@ -78,11 +85,10 @@ variable "ipv6" {
   default     = false
 }
 
-# Domain Protection
-variable "amend" {
-  type        = bool
-  description = "A flage that allows to delete compartments with terraform destroy. This setting should only be changed by experienced users."
-  default     = true
+variable "osn" {
+  type = string
+  description = "Configures the scope for the service gateway"
+  default     = "ALL"
 }
 
 /*

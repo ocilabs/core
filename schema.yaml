@@ -35,13 +35,12 @@ variableGroups:
   - internet
   - nat
   - ipv6
-  - segments
+  - osn
 
 - title: "Domain Settings"
   visible: true
   variables:
   - amend
-  - domains
 
 variables:
 # Tenancy
@@ -141,17 +140,9 @@ variables:
     required: true
 
 # Network Options
-  segments:
-    title: "Network Segments"
-    visible: false
-    description: "Defining a network topology"
-    type: list
-    required: true
-
   internet:
     type: enum
     title: "Internet access"
-    #default: "ENABLE"
     required: true
     enum:
       - ENABLE
@@ -160,7 +151,6 @@ variables:
   nat:
     type: enum
     title: "NAT for private subnets"
-    #default: "ENABLE"
     required: true
     enum:
       - ENABLE
@@ -172,14 +162,16 @@ variables:
     required: true
     default: false
 
-# Administration Domains
-  domains:
-    title: "Administrator Domains"
-    description: "Enabling a seperation of concerns"
-    visible: false
-    type: list
+  osn:
+    type: enum
+    title: "Scope of Oracle Cloud Services, attached to the service resident."
     required: true
+    enum:
+      - ALL
+      - STORAGE
+      - DISABLE
 
+# Administration Domains
   amend:
     type: boolean
     title: "Allow administrator domains to be destroyed?"
