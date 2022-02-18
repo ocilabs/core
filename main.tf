@@ -19,6 +19,11 @@ provider "oci" {
   region = var.region
 }
 variable "tenancy_ocid" { }
+
+locals {
+  domains  = jsondecode(file("${path.module}/default/resident/domains.json"))
+  segments = jsondecode(file("${path.module}/default/network/segments.json"))
+}
 module "configuration" {
   source         = "./default/"
   providers = {oci = oci.init}
@@ -37,8 +42,8 @@ module "configuration" {
     amend        = var.amend
   }
   resolve = {
-    domains      = var.domains
-    segments     = var.segments
+    domains      = local.domains
+    segments     = local.segments
   }
 }
 // --- tenancy configuration  --- //
