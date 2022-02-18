@@ -88,8 +88,8 @@ locals {
   }}
   application_profiles = [for firewall, traffic in local.firewall_map: traffic]
   subnet_newbits = {for segment in var.resolve.segments : segment.name => zipmap(
-    [for subnet in local.subnets : subnet.name if contains(segment.topology, subnet.topology)],
-    [for subnet in local.subnets : subnet.newbits if contains(segment.topology, subnet.topology)]
+    [for subnet in local.subnets : subnet.name if contains(var.resolve.topologies, subnet.topology)],
+    [for subnet in local.subnets : subnet.newbits if contains(var.resolve.topologies, subnet.topology)]
   )}
   subnet_cidr = {for segment in var.resolve.segments : segment.name => zipmap(
     keys(local.subnet_newbits[segment.name]),

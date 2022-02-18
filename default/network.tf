@@ -39,7 +39,7 @@ output "network" {
             #route_table   = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${route.name}_route"
             security_list = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${subnet.name}_firewall"
 
-        } if contains(segment.topology, subnet.topology)}
+        } if contains(var.resolve.topologies, subnet.topology)}
         route_tables = {for route in local.routes: route.name => {
             display_name = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${route.name}_route"
             route_rules  = {for destination in route.destinations: destination => {

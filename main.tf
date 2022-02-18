@@ -21,8 +21,9 @@ provider "oci" {
 variable "tenancy_ocid" { }
 
 locals {
-  domains  = jsondecode(file("${path.module}/default/resident/domains.json"))
-  segments = jsondecode(file("${path.module}/default/network/segments.json"))
+  topologies = flatten(compact([var.host == true ? "host" : "", var.nodes == true ? "nodes" : "", var.container == true ? "container" : ""]))
+  domains    = jsondecode(file("${path.module}/default/resident/domains.json"))
+  segments   = jsondecode(file("${path.module}/default/network/segments.json"))
 }
 
 module "configuration" {
@@ -40,8 +41,9 @@ module "configuration" {
     osn          = var.osn
   }
   resolve = {
-    domains      = local.domains
-    segments     = local.segments
+    topologies = local.topologies
+    domains    = local.domains
+    segments   = local.segments
   }
 }
 // --- tenancy configuration  --- //
