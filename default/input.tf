@@ -11,7 +11,8 @@ variable "input" {
     solution     = string,
     repository   = string,
     stage        = string,
-    region       = string
+    region       = string,
+    osn          = string
   })
 }
 

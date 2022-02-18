@@ -26,7 +26,7 @@ output "network" {
             }
             osn = {
                 name     = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_osn"
-                services = segment.osn == "ALL" ? "all" : "storage"
+                services = var.input.osn == "ALL" ? "all" : "storage"
                 all      = local.osn_cidrs.all
                 storage  = local.osn_cidrs.storage
             }
