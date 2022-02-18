@@ -19,8 +19,9 @@ variable "input" {
 variable "resolve" {
   description = "configuration paramenter for the service, defined through schema.tf"
   type = object({
-    domains      = list(any),
-    segments     = list(any)
+    topologies = list(string),
+    domains    = list(any),
+    segments   = list(any)
   })
 }
 
