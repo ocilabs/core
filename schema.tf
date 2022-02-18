@@ -78,6 +78,14 @@ variable "ipv6" {
   default     = false
 }
 
+# Domain Protection
+variable "amend" {
+  type        = bool
+  description = "A flage that allows to delete compartments with terraform destroy. This setting should only be changed by experienced users."
+  default     = true
+}
+
+/*
 variable "segments" {
   default = [
     {
@@ -91,13 +99,6 @@ variable "segments" {
     }
   ]
   description = "Network segments define a service toplogy with route rules and port filters between subnets"
-}
-
-# Domain Protection
-variable "amend" {
-  type        = bool
-  description = "A flage that allows to delete compartments with terraform destroy. This setting should only be changed by experienced users."
-  default     = true
 }
 
 variable "domains" {
@@ -126,3 +127,4 @@ variable "domains" {
   ]
   description = "Administrator domains reflect the structure of a service management organization and ensure the seperation of concerns"
 }
+*/
