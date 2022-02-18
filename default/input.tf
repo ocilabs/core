@@ -4,20 +4,14 @@
 variable "input" {
   description = "configuration paramenter for the service, defined through schema.tf"
   type = object({
-    # tenancy
     tenancy      = string,
     class        = string,
-    # resident
     owner        = string,
     organization = string,
     solution     = string,
     repository   = string,
     stage        = string,
     region       = string,
-    # network
-    #internet     = string,
-    #nat          = string,
-    #ipv6         = bool,
     # domains
     amend      = bool
   })
