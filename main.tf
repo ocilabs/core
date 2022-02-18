@@ -24,6 +24,7 @@ locals {
   domains  = jsondecode(file("${path.module}/default/resident/domains.json"))
   segments = jsondecode(file("${path.module}/default/network/segments.json"))
 }
+
 module "configuration" {
   source         = "./default/"
   providers = {oci = oci.init}
@@ -90,9 +91,8 @@ module "network" {
     internet = var.internet
     nat      = var.nat
     ipv6     = var.ipv6
-    resident = module.resident
   }
-  asset = {
+  assets = {
     resident = module.resident
   }
 }
