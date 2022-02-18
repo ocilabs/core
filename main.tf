@@ -83,6 +83,7 @@ module "network" {
     internet = var.internet
     nat      = var.nat
     ipv6     = var.ipv6
+    osn      = var.osn
   }
   assets = {
     resident = module.resident
