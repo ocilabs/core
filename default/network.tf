@@ -21,16 +21,12 @@ output "network" {
             }
             internet = {
                 name   = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_internet"
-                #create = var.input.internet == "ENABLE" ? true : false
             }
             nat = {
                 name          = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_nat"
-                #create        = var.input.nat == "ENABLE" ? true : false
-                #block_traffic = var.input.nat == "DISABLE" ? true : false
             }
             osn = {
                 name     = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_osn"
-                create   = segment.osn != "DISABLE" ? true : false
                 services = segment.osn == "ALL" ? "all" : "storage"
                 all      = local.osn_cidrs.all
                 storage  = local.osn_cidrs.storage
