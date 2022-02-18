@@ -79,7 +79,7 @@ module "network" {
   source = "github.com/ocilabs/network"
   depends_on = [module.configuration, module.resident]
   providers = {oci = oci.service}
-  for_each  = {for segment in var.segments : segment.name => segment}
+  for_each  = {for segment in local.segments : segment.name => segment}
   tenancy   = module.configuration.tenancy
   resident  = module.configuration.resident
   network   = module.configuration.network[each.key]
