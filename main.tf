@@ -37,10 +37,6 @@ module "configuration" {
     repository   = var.repository
     stage        = var.stage
     region       = var.region
-    internet     = var.internet
-    nat          = var.nat
-    ipv6         = var.ipv6
-    amend        = var.amend
   }
   resolve = {
     domains      = local.domains
