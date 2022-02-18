@@ -1,13 +1,13 @@
 // Copyright (c) 2020 Oracle and/or its affiliates.
 // Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
 
-# Tenancy Configuration
+# Tenancy Classification
 variable "class" {
   type        = string
   description = "The tenancy classification sets boundaries for resource deployments"
   default     = "PAYG"
 }
-# Service Configuration
+# Resident Configuration
 variable "parent" {
   type = string
   description = "The Oracle Cloud Identifier (OCID) for a parent compartment, an encapsulating child compartment will be created to define the service resident. Usually this is the root compartment, hence the tenancy OCID."
@@ -59,7 +59,7 @@ variable "region" {
   default     = "us-ashburn-1"
 }
 
-# Network Configuration
+# Network Settings
 variable "internet" {
   type        = string
   description = "Allows or disallows to provision resources with public IP addresses."
@@ -93,7 +93,7 @@ variable "segments" {
   description = "Network segments define a service toplogy with route rules and port filters between subnets"
 }
 
-# Administration Domains
+# Domain Protection
 variable "amend" {
   type        = bool
   description = "A flage that allows to delete compartments with terraform destroy. This setting should only be changed by experienced users."
@@ -126,4 +126,3 @@ variable "domains" {
   ]
   description = "Administrator domains reflect the structure of a service management organization and ensure the seperation of concerns"
 }
-
