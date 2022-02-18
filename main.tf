@@ -15,7 +15,7 @@ terraform {
 
 // --- tenancy configuration --- //
 provider "oci" {
-  alias  = "init"
+  alias  = "service"
   region = var.region
 }
 variable "tenancy_ocid" { }
@@ -27,7 +27,7 @@ locals {
 
 module "configuration" {
   source         = "./default/"
-  providers = {oci = oci.init}
+  providers = {oci = oci.service}
   input = {
     tenancy      = var.tenancy_ocid
     class        = var.class
@@ -71,10 +71,6 @@ output "resident" {
 // --- operation controls --- //
 
 // --- network configuration --- //
-provider "oci" {
-  alias  = "service"
-  region = module.configuration.resident.region.key
-}
 module "network" {
   source = "github.com/ocilabs/network"
   depends_on = [module.configuration, module.resident]
