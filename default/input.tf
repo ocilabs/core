@@ -15,9 +15,9 @@ variable "input" {
     stage        = string,
     region       = string,
     # network
-    internet     = string,
-    nat          = string,
-    ipv6         = bool,
+    #internet     = string,
+    #nat          = string,
+    #ipv6         = bool,
     # domains
     amend      = bool
   })
