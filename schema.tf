@@ -68,7 +68,7 @@ variable "host" {
 
 variable "nodes" {
   type        = bool
-  description = "Provisioning a nodes topology prepares a service resident to deploy two tier cloud services with front- and backend tier."
+  description = "Provisioning a nodes topology prepares a service resident to deploy automatically scaling services separated front- and backend tier for services like like big data or mobile backend."
   default     = true
 }
 
