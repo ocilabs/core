@@ -29,12 +29,14 @@ No resources.
 | <a name="input_owner"></a> [owner](#input\_owner) | The service owner is identified by his or her eMail address | `string` | `"RobotNotExist@oracle.com"` | no |
 | <a name="input_stage"></a> [stage](#input\_stage) | The stage variable triggers lifecycle related resources to be provisioned | `string` | `"DEV"` | no |
 | <a name="input_region"></a> [region](#input\_region) | The region defines the target region for service deployments | `string` | `"us-ashburn-1"` | no |
+| <a name="input_host"></a> [host](#input\_host) | Provisioning a host topology prepares a service resident to deploy a traditional enterprise application with presentation, application and database tier. | `bool` | `true` | no |
+| <a name="input_nodes"></a> [nodes](#input\_nodes) | Provisioning a nodes topology prepares a service resident to deploy automatically scaling services separated front- and backend tier for services like like big data or mobile backend. | `bool` | `true` | no |
+| <a name="input_container"></a> [container](#input\_container) | Provisioning a container topology prepares a service resident to deploy cloud native services on Oracle's Kubernetes Engine (OKE). | `bool` | `true` | no |
+| <a name="input_amend"></a> [amend](#input\_amend) | A flage that allows to delete compartments with terraform destroy. This setting should only be changed by experienced users. | `bool` | `true` | no |
 | <a name="input_internet"></a> [internet](#input\_internet) | Allows or disallows to provision resources with public IP addresses. | `string` | `"ENABLE"` | no |
 | <a name="input_nat"></a> [nat](#input\_nat) | Enables or disables routes through a NAT Gateway. | `string` | `"ENABLE"` | no |
 | <a name="input_ipv6"></a> [ipv6](#input\_ipv6) | Triggers the release of IPv6 addresses inside the VCN. | `bool` | `false` | no |
-| <a name="input_segments"></a> [segments](#input\_segments) | Network segments define a service toplogy with route rules and port filters between subnets | `list` | <pre>[<br>  {<br>    "cidr": "10.0.0.0/23",<br>    "name": "core",<br>    "osn": "ALL",<br>    "stage": 0,<br>    "topology": [<br>      "host",<br>      "nodes",<br>      "container"<br>    ]<br>  }<br>]</pre> | no |
-| <a name="input_unprotect"></a> [amend](#input\_unprotect) | A flage that allows to delete compartments with terraform destroy. This setting should only be changed by experienced users. | `bool` | `false` | no |
-| <a name="input_domains"></a> [domains](#input\_domains) | Administrator domains reflect the structure of a service management organization and ensure the seperation of concerns | `list` | <pre>[<br>  {<br>    "channels": [<br>      "activation",<br>      "events"<br>    ],<br>    "name": "operation",<br>    "roles": [<br>      "cloudops",<br>      "auditor",<br>      "secops"<br>    ],<br>    "stage": 0<br>  },<br>  {<br>    "channels": [<br>      "events"<br>    ],<br>    "name": "network",<br>    "roles": [<br>      "netops"<br>    ],<br>    "stage": 0<br>  },<br>  {<br>    "channels": [<br>      "events"<br>    ],<br>    "name": "database",<br>    "roles": [<br>      "dba"<br>    ],<br>    "stage": 0<br>  },<br>  {<br>    "channels": [<br>      "events"<br>    ],<br>    "name": "application",<br>    "roles": [<br>      "sysops"<br>    ],<br>    "stage": 0<br>  }<br>]</pre> | no |
+| <a name="input_osn"></a> [osn](#input\_osn) | Configures the scope for the service gateway | `string` | `"ALL"` | no |
 
 ## Outputs
 
