@@ -1,6 +1,6 @@
 ## Requirements
 
-The service configuration module is the first out of three obligatory modules that build a landing zone for new services in OCI. The link:https://docs.oracle.com/en-us/iaas/Content/ResourceManager/Concepts/resourcemanager.htm[resource manager (ORM)] is used to expose assets through proteced user- and application interfaces, keeping service owners in charge to determine when and where a service will be launched. The default schema offers a couple of options for a landing zone deployment.
+The configuration module is the first out of three obligatory modules that build a landing zone for new services in OCI. The link:https://docs.oracle.com/en-us/iaas/Content/ResourceManager/Concepts/resourcemanager.htm[resource manager (ORM)] is used to expose assets through proteced user- and application interfaces, keeping service owners in charge to determine when and where a service will be launched. The default schema offers a couple of options for a landing zone deployment.
 
 ## Providers
 
