@@ -1,10 +1,14 @@
 ## Requirements
 
-No requirements.
+The configuration module is the first out of three obligatory modules that build a landing zone for new services in OCI. The link:https://docs.oracle.com/en-us/iaas/Content/ResourceManager/Concepts/resourcemanager.htm[resource manager (ORM)] is used to expose assets through proteced user- and application interfaces, keeping service owners in charge to determine when and where a service will be launched. The default schema offers a couple of options for a landing zone deployment.
 
 ## Providers
 
-No providers.
+| Name | Version |
+|------|---------|
+| <a name="provider_oci"></a> [oci](#provider\_oci) | n/a |
+| <a name="provider_null"></a> [null](#provider\_null) | n/a |
+| <a name="provider_time"></a> [time](#provider\_time) | n/a |
 
 ## Modules
 
@@ -18,14 +22,14 @@ No resources.
 
 ## Inputs
 
-| Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| Name | Description                   | Type | Default | Required |
+|------|-------------------------------|:----:|:--------|:--------:|
 | <a name="input_tenancy_ocid"></a> [tenancy\_ocid](#input\_tenancy\_ocid) | A unique identifier for the root tenancy, provided by the cloud controller | `string` | `"ocid_tenancy.xxx"` | no |
 | <a name="input_class"></a> [class](#input\_class) | The tenancy classification sets boundaries for resource deployments | `string` | `"PAYG"` | no |
 | <a name="input_parent"></a> [parent](#input\_parent) | The Oracle Cloud Identifier (OCID) for a parent compartment, an encapsulating child compartment will be created to define the service resident. Usually this is the root compartment, hence the tenancy OCID. | `string` | `"ocid_tenancy.xxx"` | no |
 | <a name="input_organization"></a> [organization](#input\_organization) | The organization represents an unique identifier for a service owner and triggers the definition of groups on root compartment level | `string` | `"Organization"` | no |
 | <a name="input_solution"></a> [solution](#input\_solution) | The solution represents an unique identifier for a service defined on root compartment level | `string` | `"Service"` | no |
-| <a name="input_repository"></a> [repository](#input\_repository) | The service configuration is stored using infrastructure code in a repository | `string` | `"https://github.com/torstenboettjer/ocloud-default-configuration"` | no |
+| <a name="input_repository"></a> [repository](#input\_repository) | The service configuration is stored using infrastructure code in a repository | `string` | `"xxx"` | no |
 | <a name="input_owner"></a> [owner](#input\_owner) | The service owner is identified by his or her eMail address | `string` | `"RobotNotExist@oracle.com"` | no |
 | <a name="input_stage"></a> [stage](#input\_stage) | The stage variable triggers lifecycle related resources to be provisioned | `string` | `"DEV"` | no |
 | <a name="input_region"></a> [region](#input\_region) | The region defines the target region for service deployments | `string` | `"us-ashburn-1"` | no |
