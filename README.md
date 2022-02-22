@@ -19,7 +19,7 @@ No resources.
 ## Inputs
 
 | Name | Description                   | Type | Default | Required |
-|------|:------------------------------|------|---------|:--------:|
+|------|-------------------------------|:----:|:-------:|:--------:|
 | <a name="input_tenancy_ocid"></a> [tenancy\_ocid](#input\_tenancy\_ocid) | A unique identifier for the root tenancy, provided by the cloud controller | `string` | `"ocid_tenancy.xxx"` | no |
 | <a name="input_class"></a> [class](#input\_class) | The tenancy classification sets boundaries for resource deployments | `string` | `"PAYG"` | no |
 | <a name="input_parent"></a> [parent](#input\_parent) | The Oracle Cloud Identifier (OCID) for a parent compartment, an encapsulating child compartment will be created to define the service resident. Usually this is the root compartment, hence the tenancy OCID. | `string` | `"ocid_tenancy.xxx"` | no |
