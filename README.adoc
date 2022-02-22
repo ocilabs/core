@@ -7,8 +7,8 @@ The configuration module is the first out of three obligatory modules that build
 |===
 | Name | Version 
 | link:https://registry.terraform.io/providers/hashicorp/oci/latest/docs[oci] | n/a 
-| <a name="provider_null"></a> [null](#provider\_null) | n/a 
-| <a name="provider_time"></a> [time](#provider\_time) | n/a 
+| link:https://registry.terraform.io/providers/hashicorp/null/latest/docs[null] | n/a 
+| link:https://registry.terraform.io/providers/hashicorp/time/latest/docs[time] | n/a 
 |===
 
 == Modules
