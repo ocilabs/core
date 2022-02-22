@@ -1,0 +1,138 @@
+== Requirements
+
+No requirements.
+
+== Providers
+
+No providers.
+
+== Modules
+
+[cols="a,a,a",options="header,autowidth"]
+|===
+|Name |Source |Version
+|[[module_configuration]] <<module_configuration,configuration>> |./default/ |
+|===
+
+== Resources
+
+No resources.
+
+== Inputs
+
+[cols="a,a,a,a,a",options="header,autowidth"]
+|===
+|Name |Description |Type |Default |Required
+|[[input_tenancy_ocid]] <<input_tenancy_ocid,tenancy_ocid>>
+|A unique identifier for the root tenancy, provided by the cloud controller
+|`string`
+|`"ocid_tenancy.xxx"`
+|no
+
+|[[input_class]] <<input_class,class>>
+|The tenancy classification sets boundaries for resource deployments
+|`string`
+|`"PAYG"`
+|no
+
+|[[input_parent]] <<input_parent,parent>>
+|The Oracle Cloud Identifier (OCID) for a parent compartment, an encapsulating child compartment will be created to define the service resident. Usually this is the root compartment, hence the tenancy OCID.
+|`string`
+|`"ocid_tenancy.xxx"`
+|no
+
+|[[input_organization]] <<input_organization,organization>>
+|The organization represents an unique identifier for a service owner and triggers the definition of groups on root compartment level
+|`string`
+|`"Organization"`
+|no
+
+|[[input_solution]] <<input_solution,solution>>
+|The solution represents an unique identifier for a service defined on root compartment level
+|`string`
+|`"Service"`
+|no
+
+|[[input_repository]] <<input_repository,repository>>
+|The service configuration is stored using infrastructure code in a repository
+|`string`
+|`"https://github.com/torstenboettjer/ocloud-default-configuration"`
+|no
+
+|[[input_owner]] <<input_owner,owner>>
+|The service owner is identified by his or her eMail address
+|`string`
+|`"RobotNotExist@oracle.com"`
+|no
+
+|[[input_stage]] <<input_stage,stage>>
+|The stage variable triggers lifecycle related resources to be provisioned
+|`string`
+|`"DEV"`
+|no
+
+|[[input_region]] <<input_region,region>>
+|The region defines the target region for service deployments
+|`string`
+|`"us-ashburn-1"`
+|no
+
+|[[input_host]] <<input_host,host>>
+|Provisioning a host topology prepares a service resident to deploy a traditional enterprise application with presentation, application and database tier.
+|`bool`
+|`true`
+|no
+
+|[[input_nodes]] <<input_nodes,nodes>>
+|Provisioning a nodes topology prepares a service resident to deploy automatically scaling services separated front- and backend tier for services like like big data or mobile backend.
+|`bool`
+|`true`
+|no
+
+|[[input_container]] <<input_container,container>>
+|Provisioning a container topology prepares a service resident to deploy cloud native services on Oracle's Kubernetes Engine (OKE).
+|`bool`
+|`true`
+|no
+
+|[[input_amend]] <<input_amend,amend>>
+|A flage that allows to delete compartments with terraform destroy. This setting should only be changed by experienced users.
+|`bool`
+|`true`
+|no
+
+|[[input_internet]] <<input_internet,internet>>
+|Allows or disallows to provision resources with public IP addresses.
+|`string`
+|`"ENABLE"`
+|no
+
+|[[input_nat]] <<input_nat,nat>>
+|Enables or disables routes through a NAT Gateway.
+|`string`
+|`"ENABLE"`
+|no
+
+|[[input_ipv6]] <<input_ipv6,ipv6>>
+|Triggers the release of IPv6 addresses inside the VCN.
+|`bool`
+|`false`
+|no
+
+|[[input_osn]] <<input_osn,osn>>
+|Configures the scope for the service gateway
+|`string`
+|`"ALL"`
+|no
+
+|===
+
+== Outputs
+
+[cols="a,a",options="header,autowidth"]
+|===
+|Name |Description
+|[[output_tenancy]] <<output_tenancy,tenancy>> |n/a
+|[[output_resident]] <<output_resident,resident>> |n/a
+|[[output_network]] <<output_network,network>> |n/a
+|===
