@@ -56,7 +56,7 @@ Default settings enable initial deployments for a new services. Operators evalua
 ==== Service Configuration
 Default settings are stored in configuration files, containing parameters as lists of objects. Combining mulitple resources into assets, the number of resource arguments is significantly reduced.  Dependencies are modelled referencing resource names. Subject matter experts refine these parameter to add, change or delete resources from a template. JSON files represent the design, scale and scope of a service. In the refinement phase teams collect input from practitioners to adjust the default parameter that allow operators to controll demand and optimize capacity utilization. 
 
-* link:https://github.com/ocilabs/default-configuration/blob/main/default/resident/domains.json[Administrator Domains] : Domains organize the stewardship for service assets like network, storage or compute. Domain names must be unique for a service resident. 
+* link:/default/resident/domains.json[Administrator Domains] : Domains organize the stewardship for service assets like network, storage or compute. Domain names must be unique for a service resident. 
 
 * link:https://github.com/ocilabs/default-configuration/blob/main/default/resident/roles.json[Administrator Roles] : Roles reflect a series of policies to ensure a seprartion of duties between operators. Each role allows to manage administrator priviledges and policies independently. 
 
