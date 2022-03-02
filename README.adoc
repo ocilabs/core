@@ -1,11 +1,11 @@
 // Copyright (c) 2020 Oracle and/or its affiliates.
 // Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
 
-image::https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg[Deploy on Oracle Cloud, link="https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/ocilabs/default-configuration/archive/refs/heads/main.zip"]
-
-== ocloud Framework
-
 image:https://img.shields.io/badge/license-UPL-green[link="LICENSE"]
+
+== Kickstart your Oracle Cloud Infrastructure (OCI) Deployments
+
+image::https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg[Deploy on Oracle Cloud, link="https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/ocilabs/default-configuration/archive/refs/heads/main.zip"]
 
 With a new generation of cloud infrastructure, hyperscale offerings have taken a leap and become managed infrastructure platforms, capable of running enterprise workloads. While launching a cloud server is a matter of pressing a button, building a hosting platform for intra- and extranet services, operators need to comply with strict security and compliance guidelines. link:https://www.oracle.com/cloud/[Oracle Cloud Infrastructure (OCI)] addresses the need for more control with dedicated resources and isolated networks. But while OCI allows operators to increase operational efficiency with link:https://developer.oracle.com/infrastructure-as-code["Infrastructure as Code" (IaC)], expedites the development of solutions with predefined services and prevents investment risks with flexible pricing, a link:https://continuousarchitecture.com/continuous-architecture-principles[continous architecture pracitice] is required to translate operational benefits to reduced cost, decreased time-to-market and increased revenue. This framework aims at IT departments looking for a service delivery that keeps services aligned with the needs of the business while functional and non-functional requirements evolve. Service residents enable "multi-tenant" deployments with shared services, service assets facilitate a modular approach and service configurations extracted from deployment plans allow for small, incremental development steps. The link:https://docs.oracle.com/en-us/iaas/Content/ResourceManager/Concepts/resourcemanager.htm[Oracle's Resource Manager (ORM)] is employed to generate graphical user interfaces and REST-API from code variables. This enables operations engineers to build self-service portals that trigger provisioning processes rather than launching infrastructure resources prior to adopting a CI/CD practice. 
 
