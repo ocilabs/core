@@ -190,8 +190,8 @@ variables:
     title: "Scope of Oracle Cloud Services, attached to the service resident."
     required: true
     enum:
-      - ALL
-      - STORAGE
+      - ALL_SERVICES
+      - OBJECT_STORAGE
       - DISABLE
 
 # Administration Domains

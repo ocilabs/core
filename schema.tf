@@ -107,5 +107,5 @@ variable "ipv6" {
 variable "osn" {
   type = string
   description = "Configures the scope for the service gateway"
-  default     = "ALL"
+  default     = "ALL_SERVICES"
 }
