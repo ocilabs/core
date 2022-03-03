@@ -22,7 +22,7 @@ variable "resolve" {
     topologies = list(string),
     domains    = list(any),
     segments   = list(any),
-    wallets   = list(any),
+    wallets    = list(any),
   })
 }
 
