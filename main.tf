@@ -109,7 +109,7 @@ module "network" {
   network   = module.configuration.network[each.key]
   input = {
     internet = var.internet == "PUBLIC" ? "ENABLE" : "DISABLE"
-    nat      = var.internet == true ? "ENABLE" : "DISABLE"
+    nat      = var.nat == true ? "ENABLE" : "DISABLE"
     ipv6     = var.ipv6
     osn      = var.osn
   }
