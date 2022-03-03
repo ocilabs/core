@@ -78,9 +78,10 @@ module "encryption" {
   source     = "github.com/ocilabs/encryption"
   depends_on = [module.configuration, module.resident]
   providers  = {oci = oci.service}
+  for_each  = {for wallet in local.wallets : wallet.name => wallet}
   tenancy    = module.configuration.tenancy
   resident   = module.configuration.resident
-  encryption = module.configuration.encryption
+  encryption = module.configuration.encryption[each.key]
   input = {
     type   = var.wallet_type == "Software" ? "DEFAULT" : "VIRTUAL_PRIVATE"
     secret = var.secret_name
