@@ -84,13 +84,6 @@ variables:
     visible: false
     type: string
     required: true
-
-  region:
-    title: "Home Region"
-    description: "The Oracle Cloud Identifier for your home region"
-    visible: false
-    type: string
-    required: true
   
   current_user_ocid:
     title: "User ID"
@@ -98,16 +91,24 @@ variables:
     visible: false
     type: string
     required: true
-  
+    
   parent:
     title: "Parent Compartment"
     description: "The Oracle Cloud Identifier for the root compartment. The default should only be changed by experienced users."
     type: oci:identity:compartment:id
+    visible: false
     dependsOn:
       compartmentId: tenancy_ocid
       accessLevel: ANY
       lifecycleState: ACTIVE
     default: tenancy_ocid
+    required: true
+
+  region:
+    title: "Region"
+    description: "The Oracle Cloud Identifier the target region"
+    visible: true
+    type: oci:identity:region:name
     required: true
 
   organization:
