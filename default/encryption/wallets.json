@@ -1,0 +1,9 @@
+[
+  {
+    "name"      : "default",
+    "stage"     : 0,
+    "algorithm" : "tbd",
+    "length"    : "tbd",
+    "signature" : "rsa"
+  }
+]

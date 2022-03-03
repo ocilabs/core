@@ -1,0 +1,15 @@
+[
+  {
+    "name"      : "rsa",
+    "message"   : "Thie is a RSA-PSS signature",
+    "type"      : "RAW",
+    "algorithm" : "SHA_256_RSA_PKCS_PSS",
+    "stage"     : 0
+  },{
+    "name"      : "ecdsa",
+    "message"   : "Thie is a ECDSA signature",
+    "type"      : "RAW",
+    "algorithm" : "ECDSA_SHA_256",
+    "stage"     : 0
+  }
+]
