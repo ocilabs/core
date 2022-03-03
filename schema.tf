@@ -93,19 +93,19 @@ variable "internet" {
 }
 
 variable "nat" {
-  type = bool
+  type        = bool
   description = "Enables or disables routes through a NAT Gateway."
   default     = true
 }
 
 variable "ipv6" {
-  type = bool
+  type        = bool
   description = "Triggers the release of IPv6 addresses inside the VCN."
   default     = false
 }
 
 variable "osn" {
-  type = string
+  type        = string
   description = "Configures the scope for the service gateway"
   default     = "ALL_SERVICES"
 }
