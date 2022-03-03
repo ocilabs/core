@@ -54,9 +54,9 @@ provider "oci" {
 module "resident" {
   source = "github.com/ocilabs/resident"
   depends_on = [module.configuration]
-  providers = {oci = oci.home}
-  tenancy   = module.configuration.tenancy
-  resident  = module.configuration.resident
+  providers  = {oci = oci.home}
+  tenancy    = module.configuration.tenancy
+  resident   = module.configuration.resident
   input = {
     # Reference to the deployment root. The service is setup in an encapsulating child compartment 
     parent_id     = var.parent
