@@ -90,13 +90,13 @@ variable "amend" {
 variable "internet" {
   type        = string
   description = "Allows or disallows to provision resources with public IP addresses."
-  default     = "ENABLE"
+  default     = "PUBLIC"
 }
 
 variable "nat" {
-  type = string
+  type = bool
   description = "Enables or disables routes through a NAT Gateway."
-  default     = "ENABLE"
+  default     = true
 }
 
 variable "ipv6" {

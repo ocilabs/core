@@ -116,7 +116,7 @@ variables:
     title: "Region"
     description: "The Oracle Cloud Identifier the target region"
     visible: true
-    type: oci:identity:region_subscriptions:name
+    type: oci:identity:region:name
     required: true
 
   organization:
@@ -198,31 +198,29 @@ variables:
     required: false
 
 # Network Options
+  internet:
+    type: enum
+    title: "Network Type"
+    required: true
+    enum:
+      - PUBLIC
+      - PRIVATE
+
   ipv6:
     type: boolean
     title: "IPv6"
     required: true
     default: false
 
-  internet:
-    type: enum
-    title: "Internet access"
-    required: true
-    enum:
-      - ENABLE
-      - DISABLE
-
   nat:
-    type: enum
-    title: "NAT for private subnets"
+    type: boolean
+    title: "Enabling NAT for Private Subnets?"
     required: true
-    enum:
-      - ENABLE
-      - DISABLE
+    default: false
 
   osn:
     type: enum
-    title: "Scope of Oracle Cloud Services, attached to the service resident."
+    title: "Attach Oracle Cloud Services to the service resident."
     required: true
     enum:
       - ALL_SERVICES

@@ -105,8 +105,8 @@ module "network" {
   resident  = module.configuration.resident
   network   = module.configuration.network[each.key]
   input = {
-    internet = var.internet
-    nat      = var.nat
+    internet = var.internet == "PUBLIC" ? "ENABLE" : "DISABLE"
+    nat      = var.internet == true ? "ENABLE" : "DISABLE"
     ipv6     = var.ipv6
     osn      = var.osn
   }
