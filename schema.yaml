@@ -3,7 +3,7 @@
 
 title: "Kickstart Application Deployments"
 description: "The kickstart framwork creates a foundation for application deployments in Oracle Cloud Infrastructure"
-informationalText: "This framework helps operators to set up a hosting environment for enterprise applications in Oracle Cloud Infrastructure (OCI). A base set of resources is provisioned and configured."
+informationalText: "This stack helps operators to set up a hosting environment for enterprise applications in Oracle Cloud Infrastructure (OCI). A base set of resources is provisioned and configured."
 schemaVersion: 1.1.0
 version: "20210611"
 locale: "en"
