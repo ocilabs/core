@@ -32,7 +32,7 @@ variableGroups:
   variables:
   - wallet_type
 
-- title: "Contract"
+- title: "Contract Type"
   visible: true
   variables:
   - tenancy_ocid
@@ -74,7 +74,7 @@ variables:
     required: true
 
   class:
-    title: "Classification"
+    title: "Contract Related Limits"
     description: "Selecting the Universal Credit Consumption (UCC) Model preselects appropriate resource types"
     type: enum
     default: "FREE_TIER"
