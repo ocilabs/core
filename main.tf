@@ -75,12 +75,12 @@ output "resident" {
 
 // --- wallet configuration --- //
 module "encryption" {
-  source    = "github.com/ocilabs/encryption"
+  source     = "github.com/ocilabs/encryption"
   depends_on = [module.configuration, module.resident]
-  providers = {oci = oci.service}
-  tenancy   = module.configuration.tenancy
-  resident  = module.configuration.resident
-  wallet    = module.configuration.wallet
+  providers  = {oci = oci.service}
+  tenancy    = module.configuration.tenancy
+  resident   = module.configuration.resident
+  encryption = module.configuration.encryption
   input = {
     type   = var.wallet_type == "Software" ? "DEFAULT" : "VIRTUAL_PRIVATE"
     secret = var.secret_name
