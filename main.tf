@@ -80,6 +80,7 @@ module "encryption" {
   providers = {oci = oci.service}
   tenancy   = module.configuration.tenancy
   resident  = module.configuration.resident
+  wallet    = module.configuration.wallet
   input = {
     type   = var.wallet_type == "Software" ? "DEFAULT" : "VIRTUAL_PRIVATE"
     secret = var.secret_name
@@ -89,7 +90,7 @@ module "encryption" {
     resident = module.resident
   }
 }
-output "wallet" {
+output "encryption" {
   value = {
     for resource, parameter in module.encryption : resource => parameter
   }
