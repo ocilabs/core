@@ -16,12 +16,16 @@ variableGroups:
   - tenancy_ocid
   - class
 
+- title: "Region"
+  visible: true
+  variables:
+  - region
+
 - title: "Service Resident"
   visible: true
   variables:
   - parent
   - compartment_ocid
-  - region
   - current_user_ocid
   - organization
   - solution
@@ -33,6 +37,10 @@ variableGroups:
   visible: true
   variables:
   - wallet_type
+
+- title: "Secret"
+  visible: true
+  variables:
   - secret_name
   - secret_phrase
 
@@ -156,9 +164,12 @@ variables:
 
 # Encryption Service
   wallet_type:
-    type: string
     title: "Wallet Type"
     required: true
+    type: enum
+    enum:
+      - Software
+      - HSM
 
   secret_name:
     type: string
