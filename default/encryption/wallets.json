@@ -3,7 +3,7 @@
     "name"      : "default",
     "stage"     : 0,
     "algorithm" : "tbd",
-    "length"    : "32",
+    "length"    : 32,
     "signature" : "rsa"
   }
 ]
