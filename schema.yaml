@@ -54,10 +54,10 @@ variableGroups:
 - title: "Network Options"
   visible: true
   variables:
-  - ipv6
   - internet
-  - nat
   - osn
+  - ipv6
+  - nat
 
 - title: "Domain Settings"
   visible: true
@@ -200,7 +200,7 @@ variables:
 # Network Options
   internet:
     type: enum
-    title: "Network Type"
+    title: "Network Type:"
     required: true
     enum:
       - PUBLIC
@@ -208,7 +208,7 @@ variables:
 
   ipv6:
     type: boolean
-    title: "IPv6"
+    title: "Enabling IPv6?"
     required: true
     default: false
 
@@ -220,7 +220,7 @@ variables:
 
   osn:
     type: enum
-    title: "Attach Oracle Cloud Services to the service resident."
+    title: "Access to Oracle Cloud Services:"
     required: true
     enum:
       - ALL_SERVICES
