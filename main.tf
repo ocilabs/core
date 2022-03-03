@@ -41,6 +41,7 @@ module "configuration" {
   resolve = {
     topologies = local.topologies
     domains    = local.domains
+    wallets    = local.wallets
     segments   = local.segments
   }
 }

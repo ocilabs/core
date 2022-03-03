@@ -17,8 +17,8 @@ variable "organization" {
   description =  "The organization represents an unique identifier for a service owner and triggers the definition of groups on root compartment level"
   default     = "Organization"
   validation {
-    condition     = length(regexall("^[A-Za-z][A-Za-z]{1,26}$", var.organization)) > 6
-    error_message = "The service_name variable is required and must contain upto 15 alphanumeric characters only and start with a letter."
+    condition     = length(regexall("^[A-Za-z][A-Za-z]{1,26}$", var.organization)) > 0
+    error_message = "The organization variable is required and must contain upto 15 alphanumeric characters only and start with a letter."
   }
 }
 variable "solution" { 
@@ -122,7 +122,7 @@ variable "secret_name" {
   description = "Please provide a secret name"
   default     = "secret"
   validation {
-    condition     = length(regexall("^[A-Za-z][A-Za-z]{1,26}$", var.secret_name)) > 3
+    condition     = length(regexall("^[A-Za-z][A-Za-z]{1,26}$", var.secret_name)) > 0
     error_message = "The secret name variable is required and must contain upto 15 alphanumeric characters only and start with a letter."
   }
 }
