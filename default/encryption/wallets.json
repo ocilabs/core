@@ -2,7 +2,7 @@
   {
     "name"      : "default",
     "stage"     : 0,
-    "algorithm" : "tbd",
+    "algorithm" : "AES",
     "length"    : 32,
     "signature" : "rsa"
   }
