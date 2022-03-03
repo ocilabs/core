@@ -71,6 +71,30 @@ output "resident" {
 }
 // --- operation controls --- //
 
+// --- wallet configuration --- //
+module "encryption" {
+  source    = "github.com/ocilabs/encryption"
+  depends_on = [module.configuration, module.resident]
+  providers = {oci = oci.service}
+  tenancy   = module.configuration.tenancy
+  resident  = module.configuration.resident
+  wallet    = module.configuration.wallet
+  input = {
+    type   = var.wallet_type == "Software" ? "DEFAULT" : "VIRTUAL_PRIVATE"
+    secret = var.secret_name
+    phrase = var.secret_phrase
+  }
+  assets = {
+    resident = module.resident
+  }
+}
+output "wallet" {
+  value = {
+    for resource, parameter in module.encryption : resource => parameter
+  }
+}
+// --- wallet configuration --- //
+
 // --- network configuration --- //
 module "network" {
   source = "github.com/ocilabs/network"

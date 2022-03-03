@@ -9,15 +9,16 @@ variable "class" {
 }
 # Resident Configuration
 variable "parent" {
-  type = string
+  type        = string
   description = "The Oracle Cloud Identifier (OCID) for a parent compartment, an encapsulating child compartment will be created to define the service resident. Usually this is the root compartment, hence the tenancy OCID."
+  default     = var.tenancy_ocid
 }
 variable "organization"            { 
   type        = string
   description =  "The organization represents an unique identifier for a service owner and triggers the definition of groups on root compartment level"
   default     = "Organization"
   validation {
-    condition     = length(regexall("^[A-Za-z][A-Za-z]{1,26}$", var.organization)) > 0
+    condition     = length(regexall("^[A-Za-z][A-Za-z]{1,26}$", var.organization)) > 6
     error_message = "The service_name variable is required and must contain upto 15 alphanumeric characters only and start with a letter."
   }
 }
@@ -26,7 +27,7 @@ variable "solution"            {
   description =  "The solution represents an unique identifier for a service defined on root compartment level"
   default     = "Service"   # Define a name that identifies the service
   validation {
-    condition     = length(regexall("^[A-Za-z][A-Za-z]{1,26}$", var.solution)) > 0
+    condition     = length(regexall("^[A-Za-z][A-Za-z]{1,26}$", var.solution)) > 3
     error_message = "The service_name variable is required and must contain alphanumeric characters only, start with a letter and 15 character max."
   }
 }
@@ -108,4 +109,27 @@ variable "osn" {
   type = string
   description = "Configures the scope for the service gateway"
   default     = "ALL_SERVICES"
+}
+
+// Encryption
+variable "wallet_type" {
+  type        = string
+  description = "Define the storage entity, either Software or HSM"
+  default     = "Software"
+}
+
+variable "secret_name" {
+  type        = string
+  description = "Please provide a secret name"
+  default     = "secret"
+  validation {
+    condition     = length(regexall("^[A-Za-z][A-Za-z]{1,26}$", var.organization)) > 6
+    error_message = "The service_name variable is required and must contain upto 15 alphanumeric characters only and start with a letter."
+  }
+}
+
+variable "secret_phrase" {
+  type        = string
+  description = "Please provide a secret phrase"
+  default     = "Please provide a secret phrase"
 }

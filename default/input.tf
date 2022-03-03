@@ -21,22 +21,24 @@ variable "resolve" {
   type = object({
     topologies = list(string),
     domains    = list(any),
-    segments   = list(any)
+    segments   = list(any),
+    wallets   = list(any),
   })
 }
 
 locals {
   # Input Parameter
-  channels  = jsondecode(templatefile("${path.module}/resident/channels.json", {owner = var.input.owner}))
-  roles     = jsondecode(templatefile("${path.module}/resident/roles.json", {service = local.service_name}))
-  controls  = jsondecode(file("${path.module}/resident/controls.json"))
-  tags      = jsondecode(file("${path.module}/resident/tags.json"))
-  subnets   = jsondecode(file("${path.module}/network/subnets.json"))
-  routers   = jsondecode(file("${path.module}/network/routers.json"))
-  routes    = jsondecode(file("${path.module}/network/routes.json"))
+  channels   = jsondecode(templatefile("${path.module}/resident/channels.json", {owner = var.input.owner}))
+  roles      = jsondecode(templatefile("${path.module}/resident/roles.json", {service = local.service_name}))
+  controls   = jsondecode(file("${path.module}/resident/controls.json"))
+  tags       = jsondecode(file("${path.module}/resident/tags.json"))
+  signatures = jsondecode(file("${path.module}/encryption/signatures.json"))
+  subnets    = jsondecode(file("${path.module}/network/subnets.json"))
+  routers    = jsondecode(file("${path.module}/network/routers.json"))
+  routes     = jsondecode(file("${path.module}/network/routes.json"))
   destinations = jsondecode(file("${path.module}/network/destinations.json"))
-  firewalls = jsondecode(file("${path.module}/network/firewalls.json"))
-  ports     = jsondecode(file("${path.module}/network/ports.json"))
+  firewalls  = jsondecode(file("${path.module}/network/firewalls.json"))
+  ports      = jsondecode(file("${path.module}/network/ports.json"))
   # Computed Parameter
   service_name  = lower("${var.input.organization}_${var.input.solution}_${var.input.stage}")
   service_label = format(
