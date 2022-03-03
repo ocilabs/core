@@ -12,7 +12,7 @@ variable "parent" {
   type        = string
   description = "The Oracle Cloud Identifier (OCID) for a parent compartment, an encapsulating child compartment will be created to define the service resident. Usually this is the root compartment, hence the tenancy OCID."
 }
-variable "organization"            { 
+variable "organization" { 
   type        = string
   description =  "The organization represents an unique identifier for a service owner and triggers the definition of groups on root compartment level"
   default     = "Organization"
@@ -21,13 +21,13 @@ variable "organization"            {
     error_message = "The service_name variable is required and must contain upto 15 alphanumeric characters only and start with a letter."
   }
 }
-variable "solution"            { 
+variable "solution" { 
   type        = string
-  description =  "The solution represents an unique identifier for a service defined on root compartment level"
+  description = "The solution represents an unique identifier for a service defined on root compartment level"
   default     = "Service"   # Define a name that identifies the service
   validation {
-    condition     = length(regexall("^[A-Za-z][A-Za-z]{1,26}$", var.solution)) > 3
-    error_message = "The service_name variable is required and must contain alphanumeric characters only, start with a letter and 15 character max."
+    condition     = length(regexall("^[A-Za-z][A-Za-z]{1,26}$", var.solution)) > 0
+    error_message = "The solution variable is required and must contain alphanumeric characters only, start with a letter and 15 character max."
   }
 }
 
@@ -122,8 +122,8 @@ variable "secret_name" {
   description = "Please provide a secret name"
   default     = "secret"
   validation {
-    condition     = length(regexall("^[A-Za-z][A-Za-z]{1,26}$", var.secret_name)) > 6
-    error_message = "The service_name variable is required and must contain upto 15 alphanumeric characters only and start with a letter."
+    condition     = length(regexall("^[A-Za-z][A-Za-z]{1,26}$", var.secret_name)) > 3
+    error_message = "The secret name variable is required and must contain upto 15 alphanumeric characters only and start with a letter."
   }
 }
 
