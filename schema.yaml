@@ -21,7 +21,7 @@ variableGroups:
   variables:
   - region
 
-- title: "Service Resident"
+- title: "Project"
   visible: true
   variables:
   - parent
@@ -116,7 +116,7 @@ variables:
     title: "Region"
     description: "The Oracle Cloud Identifier the target region"
     visible: true
-    type: oci:identity:region:name
+    type: oci:identity:region_subscriptions:name
     required: true
 
   organization:
