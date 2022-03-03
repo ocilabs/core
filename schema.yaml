@@ -184,17 +184,17 @@ variables:
 # Service Topology
   host:
     type: boolean
-    title: "Enterprise Service"
+    title: "Enterprise Application"
     required: false
 
   nodes:
     type: boolean
-    title: "Cloud Service"
+    title: "Web Application"
     required: false
 
   container:
     type: boolean
-    title: "Container Service"
+    title: "Cloud Native Service"
     required: false
 
 # Network Options
