@@ -31,7 +31,7 @@ variableGroups:
   variables:
   - wallet_type
 
-- title: "Contract Type"
+- title: "Resource Limits"
   visible: true
   variables:
   - tenancy_ocid
@@ -52,7 +52,7 @@ variableGroups:
   - nat
   - ipv6
 
-- title: "Domain Settings"
+- title: "Terraform Settings"
   visible: true
   variables:
   - amend
@@ -67,7 +67,7 @@ variables:
     required: true
 
   class:
-    title: "Contract Related Limits"
+    title: "Contract Type"
     description: "Selecting the Universal Credit Consumption (UCC) Model preselects appropriate resource types"
     type: enum
     default: "FREE_TIER"
@@ -144,13 +144,13 @@ variables:
       - PROD
 
   repository:
-    title: "Source Code"
-    description: "Provide an URL to your IaC repository"
+    title: "Repository"
+    description: "Provide an URL for the code source"
     type: string
     required: false
 
   owner:
-    title: "Owner"
+    title: "Administrator"
     description: "Provide an eMail address for the technical administrator"
     type: string
     required: true
