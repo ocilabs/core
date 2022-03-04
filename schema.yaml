@@ -102,7 +102,6 @@ variables:
       compartmentId: tenancy_ocid
       accessLevel: ANY
       lifecycleState: ACTIVE
-    default: tenancy_ocid
     required: true
 
   region:
