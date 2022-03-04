@@ -2,8 +2,8 @@
   {
     "name"      : "main",
     "stage"     : 0,
-    "algorithm" : "AES",
-    "length"    : 32,
+    "algorithm" : "RSA",
+    "length"    : 256,
     "signature" : "rsa"
   }
 ]
