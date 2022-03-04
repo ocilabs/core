@@ -157,7 +157,7 @@ variables:
 
 # Encryption Service
   wallet_type:
-    title: "Wallet Type"
+    title: "Vault Type"
     required: true
     type: enum
     enum:
