@@ -14,7 +14,7 @@ variableGroups:
   variables:
   - region
 
-- title: "Project"
+- title: "Service Configuration"
   visible: true
   variables:
   - parent
@@ -123,10 +123,10 @@ variables:
     required: true
 
   solution:
-    title: "Name"
+    title: "Solution"
     description: "Identifier for the service, the name should be unique within the tenancy"
     type: string
-    default: "Service"
+    default: "Name"
     minLength: 1
     maxLength: 25
     pattern: "^[a-zA-Z]+$"
@@ -144,7 +144,7 @@ variables:
       - PROD
 
   repository:
-    title: "Source Code URL"
+    title: "Source Code"
     description: "Provide an URL to your IaC repository"
     type: string
     required: false
