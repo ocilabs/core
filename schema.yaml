@@ -183,7 +183,7 @@ variables:
 # Network Options
   internet:
     type: enum
-    title: "Network Type:"
+    title: "Network Access:"
     required: true
     enum:
       - PUBLIC
@@ -203,7 +203,7 @@ variables:
 
   osn:
     type: enum
-    title: "Access to Oracle Cloud Services:"
+    title: "Oracle Cloud Services:"
     required: true
     enum:
       - ALL_SERVICES
