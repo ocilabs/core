@@ -3,7 +3,7 @@
     "name"      : "rsa",
     "message"   : "message",
     "type"      : "RAW",
-    "algorithm" : "SHA_256_RSA_PKCS_PSS",
+    "algorithm" : "SHA_224_RSA_PKCS1_V1_5",
     "stage"     : 0
   },{
     "name"      : "ecdsa",

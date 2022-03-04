@@ -32,6 +32,7 @@ locals {
   roles      = jsondecode(templatefile("${path.module}/resident/roles.json", {service = local.service_name}))
   controls   = jsondecode(file("${path.module}/resident/controls.json"))
   tags       = jsondecode(file("${path.module}/resident/tags.json"))
+  secrets    = jsondecode(file("${path.module}/encryption/secrets.json"))
   signatures = jsondecode(file("${path.module}/encryption/signatures.json"))
   subnets    = jsondecode(file("${path.module}/network/subnets.json"))
   routers    = jsondecode(file("${path.module}/network/routers.json"))

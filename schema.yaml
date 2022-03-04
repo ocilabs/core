@@ -37,12 +37,6 @@ variableGroups:
   - tenancy_ocid
   - class
 
-- title: "Secret"
-  visible: false
-  variables:
-  - secret_name
-  - secret_phrase
-
 - title: "Application Type"
   visible: true
   variables:
@@ -169,16 +163,6 @@ variables:
     enum:
       - Software
       - HSM
-
-  secret_name:
-    type: string
-    title: "Secret Name"
-    required: true
-
-  secret_phrase:
-    type: string
-    title: "Secret Phrase"
-    required: true
 
 # Service Topology
   host:

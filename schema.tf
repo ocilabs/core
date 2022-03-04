@@ -116,19 +116,3 @@ variable "wallet_type" {
   description = "Define the storage entity, either Software or HSM"
   default     = "Software"
 }
-
-variable "secret_name" {
-  type        = string
-  description = "Please provide a secret name"
-  default     = "secret"
-  validation {
-    condition     = length(regexall("^[A-Za-z][A-Za-z]{1,26}$", var.secret_name)) > 0
-    error_message = "The secret name variable is required and must contain upto 15 alphanumeric characters only and start with a letter."
-  }
-}
-
-variable "secret_phrase" {
-  type        = string
-  description = "Please provide a secret phrase"
-  default     = "Please provide a secret phrase"
-}
