@@ -26,11 +26,6 @@ variableGroups:
   - stage
   - repository
 
-- title: "Wallet"
-  visible: true
-  variables:
-  - wallet_type
-
 - title: "Resource Limits"
   visible: true
   variables:
@@ -51,6 +46,11 @@ variableGroups:
   - osn
   - nat
   - ipv6
+
+- title: "Wallet"
+  visible: true
+  variables:
+  - wallet_type
 
 - title: "Terraform Settings"
   visible: true
