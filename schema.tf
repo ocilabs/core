@@ -24,7 +24,7 @@ variable "organization" {
 variable "solution" { 
   type        = string
   description = "The solution represents an unique identifier for a service defined on root compartment level"
-  default     = "Service"   # Define a name that identifies the service
+  default     = "Name"   # Define a name that identifies the service
   validation {
     condition     = length(regexall("^[A-Za-z][A-Za-z]{1,26}$", var.solution)) > 0
     error_message = "The solution variable is required and must contain alphanumeric characters only, start with a letter and 15 character max."
@@ -34,7 +34,7 @@ variable "solution" {
 variable "repository" {
   type        = string
   description = "The service configuration is stored using infrastructure code in a repository"
-  default     = "https://github.com/torstenboettjer/ocloud-default-configuration"
+  default     = "https://github.com/oracle-devrel/terraform-oci-ocloud-configuration"
 }
 
 variable "owner" {
