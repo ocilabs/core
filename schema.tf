@@ -8,10 +8,13 @@ variable "class" {
   default     = "PAYG"
 }
 # Resident Configuration
+/*
 variable "parent" {
   type        = string
   description = "The Oracle Cloud Identifier (OCID) for a parent compartment, an encapsulating child compartment will be created to define the service resident. Usually this is the root compartment, hence the tenancy OCID."
 }
+*/
+
 variable "organization" { 
   type        = string
   description =  "The organization represents an unique identifier for a service owner and triggers the definition of groups on root compartment level"
