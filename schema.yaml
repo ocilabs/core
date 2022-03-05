@@ -50,6 +50,7 @@ variableGroups:
 - title: "Wallet"
   visible: true
   variables:
+  - create_wallet
   - wallet_type
 
 - title: "Terraform Settings"
@@ -155,6 +156,11 @@ variables:
     required: true
 
 # Encryption Service
+  create_wallet:
+    type: boolean
+    title: "Create Wallet?"
+    required: false
+
   wallet_type:
     title: "Vault Type"
     required: true

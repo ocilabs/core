@@ -114,6 +114,11 @@ variable "osn" {
 }
 
 // Encryption
+variable "create_wallet" {
+  type        = bool
+  description = "Define whether wallets get created or not"
+  default     = false
+}
 variable "wallet_type" {
   type        = string
   description = "Define the storage entity, either Software or HSM"
