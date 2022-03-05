@@ -39,7 +39,7 @@ variableGroups:
   - nodes
   - container
 
-- title: "Network Configuration"
+- title: "Network"
   visible: true
   variables:
   - internet
@@ -196,13 +196,13 @@ variables:
 
   ipv6:
     type: boolean
-    title: "Enabling IPv6"
+    title: "IPv6"
     required: true
     default: false
 
   nat:
     type: boolean
-    title: "Enabling NAT for Private Subnets"
+    title: "NAT for Private Subnets"
     required: true
     default: true
 
