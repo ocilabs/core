@@ -158,7 +158,7 @@ variables:
 # Encryption Service
   create_wallet:
     type: boolean
-    title: "Create Wallet?"
+    title: "Create Wallet"
     required: false
 
   wallet_type:
@@ -196,13 +196,13 @@ variables:
 
   ipv6:
     type: boolean
-    title: "Enabling IPv6?"
+    title: "Enabling IPv6"
     required: true
     default: false
 
   nat:
     type: boolean
-    title: "Enabling NAT for Private Subnets?"
+    title: "Enabling NAT for Private Subnets"
     required: true
     default: true
 
