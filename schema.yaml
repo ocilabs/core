@@ -14,7 +14,7 @@ variableGroups:
   variables:
   - region
 
-- title: "Service Configuration"
+- title: "Service"
   visible: true
   variables:
   - parent
@@ -26,7 +26,7 @@ variableGroups:
   - stage
   - repository
 
-- title: "Resource Limits"
+- title: "Limits"
   visible: true
   variables:
   - tenancy_ocid
