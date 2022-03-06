@@ -36,7 +36,7 @@ locals {
   signatures = jsondecode(file("${path.module}/encryption/signatures.json"))
   subnets    = jsondecode(file("${path.module}/network/subnets.json"))
   routers    = jsondecode(file("${path.module}/network/routers.json"))
-  routes     = jsondecode(file("${path.module}/network/routes.json"))
+  destinations     = jsondecode(file("${path.module}/network/destinations.json"))
   sections = jsondecode(file("${path.module}/network/sections.json"))
   firewalls  = jsondecode(file("${path.module}/network/firewalls.json"))
   ports      = jsondecode(file("${path.module}/network/ports.json"))

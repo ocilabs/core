@@ -36,17 +36,17 @@ output "network" {
             display_name  = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${subnet.name}"
             cidr_block    = local.subnet_cidr[segment.name][subnet.name]
             dns_label     = "${local.service_label}${index(local.vcn_list, segment.name) + 1}${substr(subnet.name, 0, 3)}"
-            #route_table   = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${route.name}_route"
+            #route_table   = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${destination.name}_route"
             security_list = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${subnet.name}_firewall"
 
         } if contains(var.resolve.topologies, subnet.topology)}
-        route_tables = {for route in local.routes: route.name => {
-            display_name = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${route.name}_route"
-            route_rules  = {for section in route.sections: section => {
-                network_entity   = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${route.gateway}"
+        route_tables = {for destination in local.destinations: destination.name => {
+            display_name = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${destination.name}_route"
+            route_rules  = {for section in destination.sections: section => {
+                network_entity   = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${destination.gateway}"
                 section      = matchkeys(values(local.zones[segment.name]), keys(local.zones[segment.name]), [section])[0]
-                destination_type = route.gateway == "osn" ? "SERVICE_CIDR_BLOCK" : "CIDR_BLOCK"
-                description      = "Routes ${route.name} traffic to ${section} via the ${route.gateway} gateway as next hop"
+                destination_type = destination.gateway == "osn" ? "SERVICE_CIDR_BLOCK" : "CIDR_BLOCK"
+                description      = "Routes ${destination.name} traffic to ${section} via the ${destination.gateway} gateway as next hop"
             }} 
         }}
         security_lists = {for subnet in local.subnets : subnet.name => { 
