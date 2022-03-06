@@ -42,11 +42,11 @@ output "network" {
         } if contains(var.resolve.topologies, subnet.topology)}
         route_tables = {for route in local.routes: route.name => {
             display_name = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${route.name}_route"
-            route_rules  = {for destination in route.destinations: destination => {
+            route_rules  = {for section in route.sections: section => {
                 network_entity   = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${route.gateway}"
-                destination      = matchkeys(values(local.zones[segment.name]), keys(local.zones[segment.name]), [destination])[0]
+                section      = matchkeys(values(local.zones[segment.name]), keys(local.zones[segment.name]), [section])[0]
                 destination_type = route.gateway == "osn" ? "SERVICE_CIDR_BLOCK" : "CIDR_BLOCK"
-                description      = "Routes ${route.name} traffic to ${destination} via the ${route.gateway} gateway as next hop"
+                description      = "Routes ${route.name} traffic to ${section} via the ${route.gateway} gateway as next hop"
             }} 
         }}
         security_lists = {for subnet in local.subnets : subnet.name => { 

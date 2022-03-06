@@ -37,7 +37,7 @@ locals {
   subnets    = jsondecode(file("${path.module}/network/subnets.json"))
   routers    = jsondecode(file("${path.module}/network/routers.json"))
   routes     = jsondecode(file("${path.module}/network/routes.json"))
-  destinations = jsondecode(file("${path.module}/network/destinations.json"))
+  sections = jsondecode(file("${path.module}/network/sections.json"))
   firewalls  = jsondecode(file("${path.module}/network/firewalls.json"))
   ports      = jsondecode(file("${path.module}/network/ports.json"))
   # Computed Parameter
@@ -108,7 +108,7 @@ locals {
   }}
   zones = {for segment in var.resolve.segments : segment.name => merge(
     local.defined_routes[segment.name],
-    local.destinations[segment.name],
+    local.sections[segment.name],
     local.subnet_cidr[segment.name]
   )}
 }

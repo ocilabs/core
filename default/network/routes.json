@@ -2,21 +2,21 @@
     {
         "name"         : "internet",
         "gateway"      : "internet",
-        "destinations" : ["internet"]
+        "sections" : ["internet"]
     },
     {
         "name"         : "nat",
         "gateway"      : "nat",
-        "destinations" : ["internet"]
+        "sections" : ["internet"]
     },
     {
         "name"         : "osn",
         "gateway"      : "osn",
-        "destinations" : ["osn"]
+        "sections" : ["osn"]
     },
     {
         "name"         : "cpe",
         "gateway"      : "drg",
-        "destinations" : ["cpe"]
+        "sections" : ["cpe"]
     }
 ]
