@@ -39,6 +39,7 @@ variableGroups:
 - title: "Network"
   visible: true
   variables:
+  - netsettings
   - internet
   - osn
   - nat
@@ -161,10 +162,17 @@ variables:
     required: true
 
 # Network Options
+  netsettings:
+    type: boolean
+    title: "Advanced Network Settings"
+    required: true
+    default: false
+
   internet:
     type: enum
     title: "Network Access:"
     required: true
+    visible: netsettings
     enum:
       - PUBLIC
       - PRIVATE
@@ -173,18 +181,21 @@ variables:
     type: boolean
     title: "IPv6"
     required: true
+    visible: netsettings
     default: false
 
   nat:
     type: boolean
     title: "NAT for Private Subnets"
     required: true
+    visible: netsettings
     default: true
 
   osn:
     type: enum
     title: "Oracle Cloud Services:"
     required: true
+    visible: netsettings
     enum:
       - ALL_SERVICES
       - OBJECT_STORAGE
