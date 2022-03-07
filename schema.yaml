@@ -44,6 +44,12 @@ variableGroups:
   - nodes
   - container
 
+- title: "Database"
+  visible: true
+  variables:
+  - create_adb
+  - adb
+
 - title: "Network"
   visible: true
   variables:
@@ -52,12 +58,6 @@ variableGroups:
   - osn
   - nat
   - ipv6
-
-- title: "Database"
-  visible: true
-  variables:
-  - create_adb
-  - adb
 
 - title: "Wallet"
   visible: true
