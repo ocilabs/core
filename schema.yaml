@@ -14,6 +14,11 @@ variableGroups:
   variables:
   - region
 
+- title: "Lifecycle"
+  visible: true
+  variables:
+  - stage
+
 - title: "Service"
   visible: true
   variables:
@@ -23,7 +28,6 @@ variableGroups:
   - organization
   - solution
   - owner
-  - stage
   - repository
 
 - title: "Limits"

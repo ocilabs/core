@@ -23,7 +23,7 @@ locals {
   domains    = jsondecode(file("${path.module}/default/resident/domains.json"))
   wallets    = jsondecode(file("${path.module}/default/encryption/wallets.json"))
   segments   = jsondecode(file("${path.module}/default/network/segments.json"))
-  databases  = jsondecode(file("${path.module}/default/database/adb.json"))
+  database   = jsondecode(file("${path.module}/default/database/adb.json"))
 }
 
 module "configuration" {
@@ -39,13 +39,14 @@ module "configuration" {
     stage        = var.stage
     region       = var.region
     osn          = var.osn
+    database     = var.database
   }
   resolve = {
     topologies = local.topologies
     domains    = local.domains
     wallets    = local.wallets
     segments   = local.segments
-    databases  = local.databases
+    database   = local.database
   }
 }
 // --- tenancy configuration  --- //
@@ -123,6 +124,30 @@ output "network" {
     }
 }
 // --- network configuration --- //
+
+// --- database creation --- //
+module "database" {
+  source     = "github.com/ocilabs/database"
+  depends_on = [module.configuration, module.resident, module.network, module.encryption]
+  providers  = {oci = oci.service}
+  tenancy    = module.configuration.tenancy
+  resident   = module.configuration.resident
+  database   = module.configuration.databases.autonomous
+  input = {
+    database   = var.database
+    password   = var.create_wallet ? "wallet" : "random"
+  }
+  assets = {
+    resident   = module.resident
+    encryption = module.encryption
+  }
+}
+output "encryption" {
+  value = {
+    for resource, parameter in module.encryption : resource => parameter
+  }
+}
+// --- database creation --- //
 
 
 /*/ --- host configuration --- //

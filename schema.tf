@@ -106,7 +106,7 @@ variable "osn" {
   default     = "ALL_SERVICES"
 }
 
-// Encryption
+// Enable Encryption
 variable "create_wallet" {
   type        = bool
   description = "Define whether wallets get created or not"
@@ -116,4 +116,11 @@ variable "wallet_type" {
   type        = string
   description = "Define the storage entity, either Software or HSM"
   default     = "Software"
+}
+
+// Database Selection
+variable "database" {
+  type = string
+  description = "Configures the type of database"
+  default     = "OLTP"
 }

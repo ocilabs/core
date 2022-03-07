@@ -3,7 +3,7 @@
 
 output "databases" {
   value = {
-    autonomous = {for database in var.resolve.databases : database.name => {
+    autonomous = [for database in local.adb : {
       compartment  = contains(flatten(var.resolve.domains[*].name), "database") ? "${local.service_name}_database_compartment" : local.service_name
       stage        = database.stage
       name         = database.name
@@ -13,6 +13,6 @@ output "databases" {
       display_name = "${local.service_name}_${lower(database.type)}_${database.name}"
       version      = database.version
       license      = database.license
-    }}
+    }if database.type == var.input.database][0]
   }
 }

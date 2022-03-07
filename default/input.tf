@@ -12,7 +12,8 @@ variable "input" {
     repository   = string,
     stage        = string,
     region       = string,
-    osn          = string
+    osn          = string,
+    database     = string
   })
 }
 
@@ -22,8 +23,7 @@ variable "resolve" {
     topologies = list(string),
     domains    = list(any),
     wallets    = list(any),
-    segments   = list(any),
-    databases  = list(any)
+    segments   = list(any)
   })
 }
 
@@ -35,6 +35,7 @@ locals {
   tags         = jsondecode(file("${path.module}/resident/tags.json"))
   signatures   = jsondecode(file("${path.module}/encryption/signatures.json"))
   secrets      = jsondecode(file("${path.module}/encryption/secrets.json"))
+  adb          = jsondecode(file("${path.module}/database/adb.json"))
   subnets      = jsondecode(file("${path.module}/network/subnets.json"))
   routers      = jsondecode(file("${path.module}/network/routers.json"))
   destinations = jsondecode(file("${path.module}/network/destinations.json"))
