@@ -158,7 +158,8 @@ variables:
 
   wallet_type:
     title: "Vault Type"
-    required: true
+    visible: create_wallet
+    required: false
     type: enum
     enum:
       - Software
