@@ -119,8 +119,8 @@ variable "wallet_type" {
 }
 
 // Database Selection
-variable "database" {
+variable "adb" {
   type = string
-  description = "Configures the type of database"
-  default     = "OLTP"
+  description = "Configures the autonomous database type"
+  default     = "TRANSACTION_PROCESSING"
 }

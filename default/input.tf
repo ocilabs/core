@@ -61,6 +61,13 @@ locals {
     UAT  = 1 
     PROD = 2
   }
+  database = {
+    TRANSACTION_PROCESSING = "OLTP"
+    APEX = "APEX"
+    DATA_WAREHOUSE = "DW"
+    JSON  = "ADJ"
+
+  }
   tag_namespaces = {for namespace in local.controls : "${local.service_name}_${namespace.name}" => namespace.stage} 
   # Merge tags with with the respective namespace information
   tag_map = zipmap(
