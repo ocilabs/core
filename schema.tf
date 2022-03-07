@@ -81,13 +81,6 @@ variable "container" {
   default     = true
 }
 
-# Domain Protection
-variable "amend" {
-  type        = bool
-  description = "A flage that allows to delete compartments with terraform destroy. This setting should only be changed by experienced users."
-  default     = true
-}
-
 # Network Settings
 variable "internet" {
   type        = string

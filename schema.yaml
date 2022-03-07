@@ -53,11 +53,6 @@ variableGroups:
   - create_wallet
   - wallet_type
 
-- title: "Terraform Settings"
-  visible: true
-  variables:
-  - amend
-
 variables:
 # Tenancy
   tenancy_ocid:
@@ -214,9 +209,3 @@ variables:
       - ALL_SERVICES
       - OBJECT_STORAGE
       - DISABLE
-
-# Administration Domains
-  amend:
-    type: boolean
-    title: "Allow Administrator Domains to be Destroyed?"
-    required: true
