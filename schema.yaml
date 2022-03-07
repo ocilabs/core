@@ -55,7 +55,7 @@ variableGroups:
   visible: true
   variables:
   - create_adb
-  - adb_type
+  - adb
 
 - title: "Wallet"
   visible: true
