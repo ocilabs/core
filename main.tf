@@ -142,7 +142,7 @@ module "database" {
     encryption = module.encryption
   }
 }
-output "encryption" {
+output "database" {
   value = {
     for resource, parameter in module.encryption : resource => parameter
   }
