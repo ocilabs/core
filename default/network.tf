@@ -44,7 +44,7 @@ output "network" {
             display_name = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${destination.name}_route"
             route_rules  = {for section in destination.sections: section => {
                 network_entity   = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${destination.gateway}"
-                section      = matchkeys(values(local.zones[segment.name]), keys(local.zones[segment.name]), [section])[0]
+                destination      = matchkeys(values(local.zones[segment.name]), keys(local.zones[segment.name]), [section])[0]
                 destination_type = destination.gateway == "osn" ? "SERVICE_CIDR_BLOCK" : "CIDR_BLOCK"
                 description      = "Routes ${destination.name} traffic to ${section} via the ${destination.gateway} gateway as next hop"
             }} 
