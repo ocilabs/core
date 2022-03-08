@@ -39,7 +39,6 @@ module "configuration" {
     stage        = var.stage
     region       = var.region
     osn          = var.osn
-    database     = var.database
   }
   resolve = {
     topologies = local.topologies
@@ -135,8 +134,8 @@ module "database" {
   encryption = module.configuration.encryption
   database   = module.configuration.databases.autonomous
   input = {
-    database   = var.database
-    password   = var.create_wallet ? "wallet" : "random"
+    type     = var.adb_type
+    password = var.create_wallet ? "wallet" : "random"
   }
   assets = {
     resident   = module.resident

@@ -119,7 +119,7 @@ variable "wallet_type" {
 }
 
 // Database Selection
-variable "adb" {
+variable "adb_type" {
   type = string
   description = "Configures the autonomous database type"
   default     = "TRANSACTION_PROCESSING"

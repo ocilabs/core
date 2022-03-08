@@ -47,7 +47,7 @@ variableGroups:
   visible: true
   variables:
   - create_adb
-  - adb
+  - adb_type
 
 - title: "Network"
   visible: true
@@ -223,7 +223,7 @@ variables:
     title: "Create an Autonomous Database"
     required: false
 
-  adb:
+  adb_type:
     title: "Database Type"
     visible: create_adb
     required: false

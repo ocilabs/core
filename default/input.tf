@@ -12,8 +12,7 @@ variable "input" {
     repository   = string,
     stage        = string,
     region       = string,
-    osn          = string,
-    database     = string
+    osn          = string
   })
 }
 
