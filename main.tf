@@ -132,6 +132,7 @@ module "database" {
   providers  = {oci = oci.service}
   tenancy    = module.configuration.tenancy
   resident   = module.configuration.resident
+  encryption = module.configuration.encryption
   database   = module.configuration.databases.autonomous
   input = {
     database   = var.database
