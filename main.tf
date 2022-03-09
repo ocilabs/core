@@ -84,7 +84,7 @@ module "encryption" {
   for_each   = var.create_wallet ? {for wallet in local.wallets : wallet.name => wallet} : {}
   tenancy    = module.configuration.tenancy
   resident   = module.configuration.resident
-  encryption = module.configuration.encryption[each.value]
+  encryption = module.configuration.encryption[each.key]
   input = {
     type   = var.wallet_type == "Software" ? "DEFAULT" : "VIRTUAL_PRIVATE"
   }
