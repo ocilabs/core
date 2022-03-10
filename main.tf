@@ -144,7 +144,7 @@ module "database" {
 }
 output "database" {
   value = {
-    for resource, parameter in module.encryption : resource => parameter
+    for resource, parameter in module.database : resource => parameter
   }
 }
 // --- database creation --- //
