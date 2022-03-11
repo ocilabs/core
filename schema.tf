@@ -122,7 +122,7 @@ variable "wallet_type" {
 variable "create_adb" {
   type        = bool
   description = "Define whether a database is created or not"
-  default     = false
+  default     = true
 }
 variable "adb_type" {
   type = string
