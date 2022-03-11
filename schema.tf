@@ -109,7 +109,7 @@ variable "osn" {
 // Enable Encryption
 variable "create_wallet" {
   type        = bool
-  description = "Define whether wallets get created or not"
+  description = "Define whether wallets is created or not"
   default     = false
 }
 variable "wallet_type" {
@@ -119,6 +119,11 @@ variable "wallet_type" {
 }
 
 // Database Selection
+variable "create_adb" {
+  type        = bool
+  description = "Define whether a database is created or not"
+  default     = false
+}
 variable "adb_type" {
   type = string
   description = "Configures the autonomous database type"
