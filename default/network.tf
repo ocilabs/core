@@ -41,6 +41,9 @@ output "network" {
         [for section in destination.sections: matchkeys(values(local.zones[segment.name]), keys(local.zones[segment.name]), [section])[0]]   
       )
     }]
+    security_groups = {for firewall in local.firewalls : firewall.name => { 
+      display_name = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${firewall.name}_firewall"
+    }}
     security_lists = {for subnet in local.subnets : subnet.name => { 
       display_name = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${subnet.name}_firewall"
       ingress      = {for traffic in local.firewall_map[subnet.firewall].incoming: "${traffic.firewall}_${traffic.zone}_${traffic.port}" => {
