@@ -48,7 +48,7 @@ output "network" {
         description      = "Routes ${destination.name} traffic to ${section} via the ${destination.gateway} gateway as next hop"
       }} 
     }}
-    routes = [for destination in local.destinations: {
+    route_table_input = [for destination in local.destinations: {
       name         = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${destination.name}_route"
       gateway      = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${destination.gateway}"
       destinations = zipmap(
