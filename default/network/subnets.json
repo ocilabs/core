@@ -5,7 +5,7 @@
         "newbits"  : 3,
         "firewall" : "web",
         "disable_nat" : false,
-        "route_table" : "internet"
+        "route_table" : "default"
     },
     {
         "topology" : "host",
@@ -21,7 +21,7 @@
         "newbits"  : 3,
         "firewall" : "data",
         "disable_nat" : false,
-        "route_table" : "default"
+        "route_table" : "nat"
     },
     {
         "topology" : "nodes",
