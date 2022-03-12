@@ -58,7 +58,7 @@ output "network" {
       display_name  = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${subnet.name}"
       cidr_block    = local.subnet_cidr[segment.name][subnet.name]
       dns_label     = "${local.service_label}${index(local.vcn_list, segment.name) + 1}${substr(subnet.name, 0, 3)}"
-      route_table   = subnet.route_table != "default" ? "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${subnet.route_table}" : "default_route_table"
+      route_table   = subnet.route_table != "default" ? "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${subnet.route_table}_route" : "default_route_table"
       security_list = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${subnet.name}_firewall"
     } if contains(var.resolve.topologies, subnet.topology)}
   }if segment.stage <= local.lifecycle[var.input.stage]}
