@@ -41,7 +41,8 @@ output "network" {
       }} 
     }}
     route_table_input = [for destination in local.destinations: {
-      name         = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${destination.name}_route"
+      name         = destination.name
+      display_name = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${destination.name}_route"
       gateway      = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${destination.gateway}"
       destinations = zipmap(
         [for section in destination.sections: matchkeys(keys(local.zones[segment.name]), keys(local.zones[segment.name]), [section])[0]],
