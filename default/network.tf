@@ -31,17 +31,6 @@ output "network" {
         storage  = local.osn_cidrs.storage
       }
     }
-    /*
-    route_tables = {for destination in local.destinations: destination.name => {
-      display_name = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${destination.name}_route"
-      route_rules  = {for section in destination.sections: section => {
-        network_entity   = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${destination.gateway}"
-        destination      = matchkeys(values(local.zones[segment.name]), keys(local.zones[segment.name]), [section])[0]
-        destination_type = destination.gateway == "osn" ? "SERVICE_CIDR_BLOCK" : "CIDR_BLOCK"
-        description      = "Routes ${destination.name} traffic to ${section} via the ${destination.gateway} gateway as next hop"
-      }} 
-    }}
-    */
     route_table_input = [for destination in local.destinations: {
       name         = destination.name
       display_name = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${destination.name}_route"
