@@ -21,7 +21,7 @@
         "newbits"  : 3,
         "firewall" : "data",
         "disable_nat" : false,
-        "route_table" : "nat"
+        "route_table" : "default"
     },
     {
         "topology" : "nodes",
