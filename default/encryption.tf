@@ -20,5 +20,8 @@ output "encryption" {
       name   = "${local.service_name}_${secret.name}_secret"
       phrase = secret.phrase
     }if contains(wallet.secrets, secret.name)}
+    passwords = {for secret in local.secrets : secret.name => {
+      name   = "${secret.name}_password"
+    }}
   }}
 }
