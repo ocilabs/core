@@ -42,10 +42,10 @@ output "network" {
       )
     }]
     security_groups = {for firewall in local.firewalls : firewall.name => { 
-      display_name = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${firewall.name}_firewall"
+      display_name = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${firewall.name}_host_firewall"
     }}
     security_lists = {for subnet in local.subnets : subnet.name => { 
-      display_name = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${subnet.name}_firewall"
+      display_name = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${subnet.name}_network_firewall"
       ingress      = {for traffic in local.firewall_map[subnet.firewall].incoming: "${traffic.firewall}_${traffic.zone}_${traffic.port}" => {
         protocol    = matchkeys(local.ports[*].protocol, local.ports[*].name, [traffic.port])[0]
         description = "Allow incoming ${traffic.port} traffic from the ${traffic.zone} to the ${traffic.firewall} tier"
