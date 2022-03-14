@@ -1,11 +1,11 @@
 ## Requirements
 
-`locals {
+<pre>locals {
   domains    = jsondecode(file("${path.module}/default/resident/domains.json"))
   wallets    = jsondecode(file("${path.module}/default/encryption/wallets.json"))
   segments   = jsondecode(file("${path.module}/default/network/segments.json"))
   database   = jsondecode(file("${path.module}/default/database/adb.json"))
-}`
+}</pre>
 
 ## Providers
 
