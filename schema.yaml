@@ -9,7 +9,7 @@ version: "20210611"
 locale: "en"
 
 variableGroups:
-- title: "Contract Type"
+- title: "Resources"
   visible: true
   variables:
   - tenancy_ocid
