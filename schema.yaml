@@ -9,7 +9,7 @@ version: "20210611"
 locale: "en"
 
 variableGroups:
-- title: "Contract"
+- title: "Tenancy"
   visible: true
   variables:
   - tenancy_ocid
@@ -162,6 +162,11 @@ variables:
     required: true
 
 # Application Type
+  apex:
+    type: boolean
+    title: "APEX Service"
+    required: false
+
   host:
     type: boolean
     title: "Enterprise Application"
