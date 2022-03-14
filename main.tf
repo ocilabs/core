@@ -135,7 +135,7 @@ module "database" {
   }
   assets = {
     resident   = module.resident
-    encryption = module.encryption
+    encryption = module.encryption["default"]
   }
 }
 output "database" {
