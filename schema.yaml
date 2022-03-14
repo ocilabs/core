@@ -68,13 +68,13 @@ variables:
 # Tenancy
   tenancy_ocid:
     title: "Tenancy ID"
-    description: "The Oracle Cloud Identifier for your tenancy"
+    description: "A unique identifier for your cloud tenancy"
     visible: false
     type: string
     required: true
 
   class:
-    title: "Contract related Resource Limits"
+    title: "Avoid deployment errors related to commercial limitations and budget constraints"
     description: "Selecting the Universal Credit Consumption (UCC) Model preselects appropriate resource types"
     type: enum
     default: "FREE_TIER"
@@ -88,21 +88,21 @@ variables:
 # Service Configuration
   compartment_ocid:
     title: "Compartment ID"
-    description: "The Oracle Cloud Identifier for your compartment"
+    description: "A unique identifier that creates a bspoke administrator domains for your service"
     visible: false
     type: string
     required: true
   
   current_user_ocid:
     title: "User ID"
-    description: "The Oracle Cloud Identifier for the current user"
+    description: "Retrieved OCID for the current user"
     visible: false
     type: string
     required: true
     
   parent:
     title: "Parent Compartment"
-    description: "The Oracle Cloud Identifier for the root compartment. The default should only be changed by experienced users."
+    description: "The OCID for the root compartment, the default selection should only be changed by an experienced user"
     type: oci:identity:compartment:id
     visible: false
     dependsOn:
@@ -112,14 +112,14 @@ variables:
     required: true
 
   region:
-    title: "Region"
+    title: "Select the data center region for the service deployment"
     description: "The Oracle Cloud Identifier the target region"
     visible: true
     type: oci:identity:region:name
     required: true
 
   organization:
-    title: "Organization"
+    title: "Name of the business unit"
     description: "Identifier for the organization, owning the service"
     type: string
     default: "Organization"
@@ -129,7 +129,7 @@ variables:
     required: true
 
   solution:
-    title: "Solution"
+    title: "Name of the solution"
     description: "Identifier for the service, the name should be unique within the tenancy"
     type: string
     default: "Name"
@@ -139,7 +139,7 @@ variables:
     required: true
 
   stage:
-    title: "Lifecycle Stage"
+    title: "Select the lifecycle stage for the deployment"
     description: "Selecting the lifecycle stage preselects an appropriate collection of operational controls"
     type: enum
     default: "DEV"
@@ -150,14 +150,14 @@ variables:
       - PROD
 
   repository:
-    title: "Repository"
+    title: "Source code repository for the provisioning scripts (only used for information pusposes)"
     description: "Provide an URL for the code source"
     type: string
     required: false
 
   owner:
-    title: "Administrator"
-    description: "Provide an eMail address for the technical administrator"
+    title: "Service Administrator"
+    description: "The service administrator will receive notifications when the service topology changes"
     type: string
     required: true
 
