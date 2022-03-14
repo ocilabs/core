@@ -48,6 +48,7 @@ variableGroups:
   - host
   - nodes
   - container
+  - apex
 
 - title: "Network"
   visible: true
