@@ -140,6 +140,7 @@ module "database" {
 }
 output "database" {
   value = {for resource, parameter in module.database : resource => parameter}
+  sensitive = true
 }
 // --- database creation --- //
 
