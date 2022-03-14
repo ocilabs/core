@@ -131,7 +131,6 @@ module "database" {
   database   = module.configuration.databases.autonomous
   input = {
     create   = var.create_adb
-    password = var.create_wallet ? "wallet" : "random"
   }
   assets = {
     resident   = module.resident
