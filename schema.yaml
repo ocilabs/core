@@ -9,13 +9,13 @@ version: "20210611"
 locale: "en"
 
 variableGroups:
-- title: "Resource Limits"
+- title: "Contract"
   visible: true
   variables:
   - tenancy_ocid
   - class
 
-- title: "Target Region"
+- title: "Region"
   visible: true
   variables:
   - region
@@ -74,8 +74,8 @@ variables:
     required: true
 
   class:
-    title: "Avoid deployment errors related to commercial limitations"
-    description: "Selecting the Universal Credit Consumption (UCC) model preselects appropriate resource types"
+    title: "Define service limits related to the contract type"
+    description: "Choose the Universal Credit Consumption (UCC) model to select corresponding resource types"
     type: enum
     default: "FREE_TIER"
     required: true
@@ -113,14 +113,14 @@ variables:
 
   region:
     title: "Select the data center region for the service deployment"
-    description: "The Oracle Cloud Identifier the target region"
+    description: "Before selecting an availability domain in a region, the target region should be activated for a tenancy"
     visible: true
     type: oci:identity:region:name
     required: true
 
   organization:
     title: "Name of the business unit"
-    description: "Identifier for the organization, owning the service"
+    description: "Identifier for the organization that will use the service"
     type: string
     default: "Organization"
     minLength: 1
