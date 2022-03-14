@@ -162,11 +162,6 @@ variables:
     required: true
 
 # Application Type
-  apex:
-    type: boolean
-    title: "APEX Service"
-    required: false
-
   host:
     type: boolean
     title: "Enterprise Application"
@@ -180,6 +175,11 @@ variables:
   container:
     type: boolean
     title: "Cloud Native Service"
+    required: false
+
+  apex:
+    type: boolean
+    title: "APEX Service"
     required: false
 
 # Network Options
