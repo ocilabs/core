@@ -74,7 +74,7 @@ variables:
     required: true
 
   class:
-    title: "Resource Limits"
+    title: "Contract related Resource Limits"
     description: "Selecting the Universal Credit Consumption (UCC) Model preselects appropriate resource types"
     type: enum
     default: "FREE_TIER"
