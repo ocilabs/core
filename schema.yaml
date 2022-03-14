@@ -9,6 +9,12 @@ version: "20210611"
 locale: "en"
 
 variableGroups:
+- title: "Contract Type"
+  visible: true
+  variables:
+  - tenancy_ocid
+  - class
+
 - title: "Region"
   visible: true
   variables:
@@ -25,16 +31,16 @@ variableGroups:
   - owner
   - repository
 
-- title: "Limits"
-  visible: true
-  variables:
-  - tenancy_ocid
-  - class
-
 - title: "Lifecycle"
   visible: true
   variables:
   - stage
+
+- title: "Database"
+  visible: true
+  variables:
+  - create_adb
+  - adb_type
 
 - title: "Application Type"
   visible: true
@@ -42,12 +48,6 @@ variableGroups:
   - host
   - nodes
   - container
-
-- title: "Database"
-  visible: true
-  variables:
-  - create_adb
-  - adb_type
 
 - title: "Network"
   visible: true
@@ -74,7 +74,7 @@ variables:
     required: true
 
   class:
-    title: "Contract Type"
+    title: "Resource Limits"
     description: "Selecting the Universal Credit Consumption (UCC) Model preselects appropriate resource types"
     type: enum
     default: "FREE_TIER"
