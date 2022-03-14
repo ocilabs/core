@@ -16,7 +16,7 @@
 
 ## Modules
 
-`module "configuration" {
+<pre>object(module "configuration" {
   source         = "./default/"
   providers = {oci = oci.service}
   input = {
@@ -38,7 +38,7 @@
     segments   = local.segments
     database   = local.database
   }
-}`
+})
 
 ## Resources
 
