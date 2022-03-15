@@ -23,47 +23,47 @@ variableGroups:
 - title: "Service"
   visible: true
   variables:
-  - parent
-  - compartment_ocid
-  - current_user_ocid
-  - organization
-  - solution
-  - owner
-  - repository
+  - ${parent}
+  - ${compartment_ocid}
+  - ${current_user_ocid}
+  - ${organization}
+  - ${solution}
+  - ${owner}
+  - ${repository}
 
 - title: "Lifecycle"
   visible: true
   variables:
-  - stage
+  - ${stage}
 
 - title: "Database"
   visible: true
   variables:
-  - create_adb
-  - adb_type
+  - ${create_adb}
+  - ${adb_type}
 
 - title: "Application Type"
   visible: true
   variables:
-  - host
-  - nodes
-  - container
-  - apex
+  - ${host}
+  - ${nodes}
+  - ${container}
+  - ${apex}
 
 - title: "Network"
   visible: true
   variables:
-  - netsettings
-  - internet
-  - osn
-  - nat
-  - ipv6
+  - ${netsettings}
+  - ${internet}
+  - ${osn}
+  - ${nat}
+  - ${ipv6}
 
 - title: "Wallet"
   visible: true
   variables:
-  - create_wallet
-  - wallet_type
+  - ${create_wallet}
+  - ${wallet_type}
 
 variables:
 # Tenancy
