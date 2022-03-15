@@ -116,6 +116,7 @@ variables:
     title: "Select the data center region for the service deployment"
     description: "Before selecting an availability domain in a region, the target region should be activated for a tenancy"
     visible: true
+    default: "us-ashburn-1"
     type: oci:identity:region:name
     required: true
 
