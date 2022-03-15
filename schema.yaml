@@ -117,7 +117,6 @@ variables:
     description: "Before selecting an availability domain in a region, the target region should be activated for a tenancy"
     visible: true
     type: oci:identity:region:name
-    required: true
 
   organization:
     title: "Name of the business unit"
