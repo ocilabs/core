@@ -12,13 +12,13 @@ variableGroups:
 - title: "Tenancy"
   visible: true
   variables:
-  - tenancy_ocid
-  - class
+  - ${tenancy_ocid}
+  - ${class}
 
 - title: "Region"
   visible: true
   variables:
-  - region
+  - ${region}
 
 - title: "Service"
   visible: true
@@ -89,7 +89,7 @@ variables:
 # Service Configuration
   compartment_ocid:
     title: "Compartment ID"
-    description: "A unique identifier that creates a bspoke administrator domains for your service"
+    description: "A unique identifier that creates a bespoke administrator domains for your service"
     visible: false
     type: string
     required: true
