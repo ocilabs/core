@@ -1,6 +1,11 @@
 ## Requirements
 
-No requirements.
+<pre>locals {
+  domains    = jsondecode(file("${path.module}/default/resident/domains.json"))
+  wallets    = jsondecode(file("${path.module}/default/encryption/wallets.json"))
+  segments   = jsondecode(file("${path.module}/default/network/segments.json"))
+  database   = jsondecode(file("${path.module}/default/database/adb.json"))
+}</pre>
 
 ## Providers
 
@@ -11,7 +16,29 @@ No requirements.
 
 ## Modules
 
-No modules.
+<pre>module "configuration" {
+  source         = "./default/"
+  providers = {oci = oci.service}
+  input = {
+    tenancy      = var.tenancy_ocid
+    class        = var.class
+    owner        = var.owner
+    organization = var.organization
+    solution     = var.solution
+    repository   = var.repository
+    stage        = var.stage
+    region       = var.region
+    osn          = var.osn
+    adb          = var.adb_type
+  }
+  resolve = {
+    topologies = local.topologies
+    domains    = local.domains
+    wallets    = local.wallets
+    segments   = local.segments
+    database   = local.database
+  }
+}</pre>
 
 ## Resources
 
