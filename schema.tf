@@ -21,7 +21,7 @@ variable "organization" {
   default     = "Organization"
   validation {
     condition     = length(regexall("^[A-Za-z][A-Za-z0-9]{1,26}$", var.organization)) > 0
-    error_message = "The organization variable is required and must contain upto 15 alphanumeric characters only and start with a letter."
+    error_message = "The organization variable is required and must contain upto 25 alphanumeric characters only and start with a letter."
   }
 }
 variable "solution" { 
