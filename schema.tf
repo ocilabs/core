@@ -20,7 +20,7 @@ variable "organization" {
   description =  "The organization represents an unique identifier for a service owner and triggers the definition of groups on root compartment level"
   default     = "Organization"
   validation {
-    condition     = length(regexall("^[A-Za-z][A-Za-z]{1,26}$", var.organization)) > 0
+    condition     = length(regexall("^[A-Za-z][A-Za-z0-9]{1,26}$", var.organization)) > 0
     error_message = "The organization variable is required and must contain upto 15 alphanumeric characters only and start with a letter."
   }
 }
@@ -29,7 +29,7 @@ variable "solution" {
   description = "The solution represents an unique identifier for a service defined on root compartment level"
   default     = "Name"   # Define a name that identifies the service
   validation {
-    condition     = length(regexall("^[A-Za-z][A-Za-z]{1,26}$", var.solution)) > 0
+    condition     = length(regexall("^[A-Za-z][A-Za-z]{1,13}$", var.solution)) > 0
     error_message = "The solution variable is required and must contain alphanumeric characters only, start with a letter and 15 character max."
   }
 }
