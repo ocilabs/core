@@ -59,6 +59,7 @@ variable "stage"           {
 variable "region" {
   type        = string
   description = "The region defines the target region for service deployments"
+  default     = "eu-frankfurt-1"
 }
 
 # Service Topologies
