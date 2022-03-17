@@ -153,6 +153,7 @@ variables:
     title: "Source code repository for the provisioning scripts (only used for information pusposes)"
     description: "Provide an URL for the code source"
     type: string
+    default: "https://github.com/ocilabs/core"
     required: false
 
   owner:
@@ -165,21 +166,25 @@ variables:
   host:
     type: boolean
     title: "Enterprise Application"
+    default: true
     required: false
 
   nodes:
     type: boolean
     title: "Web Application"
+    default: true
     required: false
 
   container:
     type: boolean
     title: "Cloud Native Service"
+    default: true
     required: false
 
   apex:
     type: boolean
-    title: "APEX Service"
+    title: "APEX Cloud Service"
+    default: true
     required: false
 
 # Network Options
@@ -192,6 +197,7 @@ variables:
   internet:
     type: enum
     title: "Network Access:"
+    default: true
     required: true
     visible: netsettings
     enum:
@@ -215,6 +221,7 @@ variables:
   osn:
     type: enum
     title: "Oracle Cloud Services:"
+    default: "ALL_SERVICES"
     required: true
     visible: netsettings
     enum:
@@ -226,11 +233,13 @@ variables:
   create_adb:
     type: boolean
     title: "Create an Autonomous Database"
+    default: false
     required: false
 
   adb_type:
     title: "Database Type"
     visible: create_adb
+    default: "TRANSACTION_PROCESSING"
     required: false
     type: enum
     enum:
@@ -243,11 +252,13 @@ variables:
   create_wallet:
     type: boolean
     title: "Create a Wallet"
+    default: false
     required: false
 
   wallet_type:
     title: "Vault Type"
     visible: create_wallet
+    default: "Software"
     required: false
     type: enum
     enum:
