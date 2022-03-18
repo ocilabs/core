@@ -27,7 +27,7 @@
         "description" : "Allowed ports for the data tier",
         "incoming"  : {
             "vcn" : {
-                "ports"     : ["http", "https", "ssh"],
+                "ports"     : ["http", "https", "ssh", "sql"],
                 "stateless" : true
             }
         }

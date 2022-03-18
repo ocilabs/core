@@ -41,11 +41,8 @@ output "network" {
         [for section in destination.sections: matchkeys(values(local.zones[segment.name]), keys(local.zones[segment.name]), [section])[0]]   
       )
     }]
-    security_groups = {for firewall in local.firewalls : firewall.name => { 
-      display_name = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${firewall.name}_host_firewall"
-    }}
     security_lists = {for subnet in local.subnets : subnet.name => { 
-      display_name = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${subnet.name}_net_firewall"
+      display_name = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${subnet.name}_firewall"
       ingress      = {for traffic in local.firewall_map[subnet.firewall].incoming: "${traffic.firewall}_${traffic.zone}_${traffic.port}" => {
         protocol    = matchkeys(local.ports[*].protocol, local.ports[*].name, [traffic.port])[0]
         description = "Allow incoming ${traffic.port} traffic from the ${traffic.zone} to the ${traffic.firewall} tier"
@@ -55,6 +52,9 @@ output "network" {
         max_port    = matchkeys(local.ports[*].max, local.ports[*].name, [traffic.port])[0]
       }}
     }}
+    security_groups = {for firewall in local.firewalls : firewall.name => { 
+      display_name = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${firewall.name}_firewall"
+    }}
     security_zones = local.zones
     subnets = {for subnet in local.subnets : subnet.name => {
       topology      = subnet.topology
@@ -62,7 +62,7 @@ output "network" {
       cidr_block    = local.subnet_cidr[segment.name][subnet.name]
       dns_label     = "${local.service_label}${index(local.vcn_list, segment.name) + 1}${substr(subnet.name, 0, 3)}"
       route_table   = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${subnet.route_table}_route"
-      security_list = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${subnet.name}_net_firewall"
+      security_list = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${subnet.name}_firewall"
     } if contains(var.resolve.topologies, subnet.topology)}
   }if segment.stage <= local.lifecycle[var.input.stage]}
 }
