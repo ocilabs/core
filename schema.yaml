@@ -122,7 +122,6 @@ variables:
     title: "Name of the business unit"
     description: "Identifier for the organization that will use the service"
     type: string
-    default: "Organization"
     minLength: 1
     maxLength: 25
     pattern: "^[a-zA-Z0-9]+$"
@@ -142,7 +141,6 @@ variables:
     title: "Select the lifecycle stage for the deployment"
     description: "Selecting the lifecycle stage preselects an appropriate collection of operational controls"
     type: enum
-    default: "DEV"
     required: true
     enum:
       - DEV
@@ -184,7 +182,6 @@ variables:
   apex:
     type: boolean
     title: "APEX Cloud Service"
-    default: true
     required: false
 
 # Network Options
@@ -197,7 +194,6 @@ variables:
   internet:
     type: enum
     title: "Network Access:"
-    default: true
     required: true
     visible: netsettings
     enum:
@@ -209,19 +205,16 @@ variables:
     title: "IPv6"
     required: true
     visible: netsettings
-    default: false
 
   nat:
     type: boolean
     title: "NAT for Private Subnets"
     required: true
     visible: netsettings
-    default: true
 
   osn:
     type: enum
     title: "Oracle Cloud Services:"
-    default: "ALL_SERVICES"
     required: true
     visible: netsettings
     enum:
@@ -239,7 +232,6 @@ variables:
   adb_type:
     title: "Database Type"
     visible: create_adb
-    default: "TRANSACTION_PROCESSING"
     required: false
     type: enum
     enum:
@@ -252,13 +244,11 @@ variables:
   create_wallet:
     type: boolean
     title: "Create a Wallet"
-    default: false
     required: false
 
   wallet_type:
     title: "Vault Type"
     visible: create_wallet
-    default: "Software"
     required: false
     type: enum
     enum:

@@ -18,6 +18,7 @@ variable "parent" {
 variable "organization" { 
   type        = string
   description = "The organization represents an unique identifier for a service owner and triggers the definition of groups on root compartment level"
+  default     =  "Organization"
 }
 
 variable "solution" { 
@@ -37,8 +38,9 @@ variable "owner" {
 }
 
 variable "stage"           { 
-  type = string
+  type        = string
   description = "The stage variable triggers lifecycle related resources to be provisioned"
+  default     = "DEV"
 }
 
 variable "region" {
@@ -50,6 +52,7 @@ variable "region" {
 variable "apex" {
   type        = bool
   description = "Provisioning a network topology for an APEX service deployment."
+  default     = true
 }
 variable "host" {
   type        = bool
@@ -70,31 +73,37 @@ variable "container" {
 variable "internet" {
   type        = string
   description = "Allows or disallows to provision resources with public IP addresses."
+  default     = true
 }
 
 variable "nat" {
   type        = bool
   description = "Enables or disables routes through a NAT Gateway."
+  default     = true
 }
 
 variable "ipv6" {
   type        = bool
   description = "Triggers the release of IPv6 addresses inside the VCN."
+  default     = false
 }
 
 variable "osn" {
   type        = string
   description = "Configures the scope for the service gateway"
+  default     = "ALL_SERVICES"
 }
 
 // Enable Encryption
 variable "create_wallet" {
   type        = bool
   description = "Define whether wallets is created or not"
+  default     = false
 }
 variable "wallet_type" {
   type        = string
   description = "Define the storage entity, either Software or HSM"
+  default     = "Software"
 }
 
 // Database Selection
@@ -103,6 +112,7 @@ variable "create_adb" {
   description = "Define whether a database is created or not"
 }
 variable "adb_type" {
-  type = string
+  type        = string
   description = "Configures the autonomous database type"
+  default     = "TRANSACTION_PROCESSING"
 }
