@@ -41,54 +41,28 @@ locals {
   destinations = jsondecode(file("${path.module}/network/destinations.json"))
   sections     = jsondecode(file("${path.module}/network/sections.json"))
   firewalls    = jsondecode(file("${path.module}/network/firewalls.json"))
-  ports        = jsondecode(file("${path.module}/network/ports.json"))
-  # Computed Parameter
-  service_name  = lower("${var.input.organization}_${var.input.solution}_${var.input.stage}")
-  service_label = format(
-    "%s%s%s", 
-    lower(substr(var.input.organization, 0, 3)), 
-    lower(substr(var.input.solution, 0, 2)),
-    lower(substr(var.input.stage, 0, 3)),
-  )
+  profiles     = jsondecode(file("${path.module}/network/profiles.json"))
+  rfc6335      = jsondecode(file("${path.module}/network/rfc6335.json"))
+
+  application_profiles = [for firewall, traffic in local.firewall_map: traffic]
   classification = {
     FREE_TIER = 0
     TRIAL     = 1
     PAYG      = 2
     UCC       = 3
   }
-  lifecycle = {
-    DEV  = 0
-    UAT  = 1 
-    PROD = 2
-  }
   database = {
     TRANSACTION_PROCESSING = "OLTP"
     APEX = "APEX"
     DATA_WAREHOUSE = "DW"
     JSON  = "ADJ"
-
   }
-  tag_namespaces = {for namespace in local.controls : "${local.service_name}_${namespace.name}" => namespace.stage} 
-  # Merge tags with with the respective namespace information
-  tag_map = zipmap(
-    flatten([for tag in local.controls[*].tags : tag]),
-    flatten([for control in local.controls : [for tag in control.tags : "${local.service_name}_${control.name}"]])
-  ) 
-  freeform_tags = {
-    "framework" = "ocloud"
-    "owner"     = var.input.owner
-    "lifecycle" = var.input.stage
-    "class"     = var.input.class
-  }
-  group_map = zipmap(
-    flatten("${var.resolve.domains[*].roles}"),
-    flatten([for domain in var.resolve.domains : [for role in domain.roles : "${local.service_name}_${domain.name}_compartment"]])
-  )
-  vcn_list   = var.resolve.segments[*].name
-  router_map = {for router in local.routers : router.name => {
-    name     = router.name
-    cpe      = router.cpe
-    anywhere = router.anywhere
+  defined_routes = {for segment in var.resolve.segments : segment.name => {
+    "cpe"      = length(keys(local.router_map)) != 0 ? try(local.router_map[segment.name].cpe,local.router_map["default"].cpe) : null
+    "internet" = length(keys(local.router_map)) != 0 ? try(local.router_map[segment.name].anywhere,local.router_map["default"].anywhere) : null
+    "vcn"      = segment.cidr
+    "osn"      = local.osn_cidrs.all
+    "buckets"  = local.osn_cidrs.storage
   }}
   firewall_map = {for firewall in local.firewalls: firewall.name => {
     name    = firewall.name
@@ -99,22 +73,50 @@ locals {
       port     = port
     }]])
   }}
-  application_profiles = [for firewall, traffic in local.firewall_map: traffic]
-  subnet_newbits = {for segment in var.resolve.segments : segment.name => zipmap(
-    [for subnet in local.subnets : subnet.name if contains(var.resolve.topologies, subnet.topology)],
-    [for subnet in local.subnets : subnet.newbits if contains(var.resolve.topologies, subnet.topology)]
-  )}
+  freeform_tags = {
+    "framework" = "ocloud"
+    "owner"     = var.input.owner
+    "lifecycle" = var.input.stage
+    "class"     = var.input.class
+  }
+  group_map = zipmap(
+    flatten("${var.resolve.domains[*].roles}"),
+    flatten([for domain in var.resolve.domains : [for role in domain.roles : "${local.service_name}_${domain.name}_compartment"]])
+  )
+  lifecycle = {
+    DEV  = 0
+    UAT  = 1 
+    PROD = 2
+  }
+  ports = concat(local.rfc6335, local.profiles)
+  router_map = {for router in local.routers : router.name => {
+    name     = router.name
+    cpe      = router.cpe
+    anywhere = router.anywhere
+  }}
+  # Computed Parameter
+  service_name  = lower("${var.input.organization}_${var.input.solution}_${var.input.stage}")
+  service_label = format(
+    "%s%s%s", 
+    lower(substr(var.input.organization, 0, 3)), 
+    lower(substr(var.input.solution, 0, 2)),
+    lower(substr(var.input.stage, 0, 3)),
+  )
   subnet_cidr = {for segment in var.resolve.segments : segment.name => zipmap(
     keys(local.subnet_newbits[segment.name]),
     flatten(cidrsubnets(segment.cidr, values(local.subnet_newbits[segment.name])...))
   )}
-  defined_routes = {for segment in var.resolve.segments : segment.name => {
-    "cpe"      = length(keys(local.router_map)) != 0 ? try(local.router_map[segment.name].cpe,local.router_map["default"].cpe) : null
-    "internet" = length(keys(local.router_map)) != 0 ? try(local.router_map[segment.name].anywhere,local.router_map["default"].anywhere) : null
-    "vcn"      = segment.cidr
-    "osn"      = local.osn_cidrs.all
-    "buckets"  = local.osn_cidrs.storage
-  }}
+  subnet_newbits = {for segment in var.resolve.segments : segment.name => zipmap(
+    [for subnet in local.subnets : subnet.name if contains(var.resolve.topologies, subnet.topology)],
+    [for subnet in local.subnets : subnet.newbits if contains(var.resolve.topologies, subnet.topology)]
+  )}
+  # Merge tags with with the respective namespace information
+  tag_map = zipmap(
+    flatten([for tag in local.controls[*].tags : tag]),
+    flatten([for control in local.controls : [for tag in control.tags : "${local.service_name}_${control.name}"]])
+  ) 
+  tag_namespaces = {for namespace in local.controls : "${local.service_name}_${namespace.name}" => namespace.stage} 
+  vcn_list   = var.resolve.segments[*].name
   zones = {for segment in var.resolve.segments : segment.name => merge(
     local.defined_routes[segment.name],
     local.sections[segment.name],
