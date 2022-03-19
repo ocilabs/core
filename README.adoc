@@ -81,7 +81,7 @@ Default settings are stored in configuration files, containing parameters as lis
 
 * link:/default/network/sections.json[Security Zones] : Security zones describe portions of a network with a security requirements set. Each zone consists of a single interface, to which a security policy is applied. Subnets and routing destinations are predfined zones, additional can be defined as sections.
 
-* link:/default/network/ports.json[Application Profiles] : Application Port Profiles include a combination of a protocol and a port, or a group of ports, that is used for firewalls and NAT gateways.
+* link:/default/network/profiles.json[Application Profiles] : Application Port Profiles include a combination of a protocol and a port, or a group of ports, that is used for firewalls and NAT gateways.
 
 ===== Service Composition
 The objective of every adoption project is the deployment of a service. Beside refining the topology, servers need to be configured and applications need to be installed. Configuration scripts are are triggerdd from a host configuration, and services hosted in the Oracle Service Network can be attached to a network segment. Cloud solutions are assembled using service assets. The framework provides predefined components that abstract provider specific APIs. Using ORM, services are deployed into existing residents. Predefined modules can be invoked referring to OCI modules in the link:https://registry.terraform.io/browse/modules?provider=oci[terraform registry] or to a git repository, containing infrastructure code. A great starting point are the link:https://registry.terraform.io/search/modules?q=oci%20cloud%20bricks[cloudbricks] components. Depending on the level of standardization, service components are introduced using the following methods:
@@ -105,7 +105,7 @@ Code is written in HashiCorp Configuration Language (HCL), includes data stored 
 * link:https://www.oracle.com/cloud/free/[Oracle Cloud Infrastructure (OCI) Account] 
 * link:https://docs.oracle.com/en-us/iaas/Content/ResourceManager/Concepts/resourcemanager.htm[Oracle Resource Manager]
 * link:https://www.terraform.io[HashiCorp Terraform]
-* link:https://registry.terraform.io/providers/hashicorp/oci/latest[Terraform Service Provider for OCI]
+* link:https://registry.terraform.io/providers/oracle/oci/latest[Terraform Service Provider for OCI]
 * link:https://registry.terraform.io/providers/hashicorp/time/latest[Terraform Time Service Provider]
 * link:https://cloudinit.readthedocs.io/en/latest/[Cloud Init]
 
