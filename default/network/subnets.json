@@ -26,7 +26,7 @@
         "newbits"  : 3,
         "firewall" : "data",
         "disable_nat" : false,
-        "route_table" : "service"
+        "route_table" : "services"
     },{
         "topology" : "nodes",
         "name"     : "frontend",
@@ -40,7 +40,7 @@
         "newbits"  : 3,
         "firewall" : "data",
         "disable_nat" : false,
-        "route_table" : "service"
+        "route_table" : "services"
     },{
         "topology" : "container",
         "name"     : "loadbalancer",
@@ -61,6 +61,6 @@
         "newbits"  : 3,
         "firewall" : "data",
         "disable_nat" : false,
-        "route_table" : "service"
+        "route_table" : "services"
     }
 ]
