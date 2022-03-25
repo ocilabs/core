@@ -5,7 +5,7 @@
         "newbits"  : 3,
         "firewall" : "web",
         "disable_nat" : false,
-        "route_table" : "default"
+        "route_table" : "internet"
     },{
         "topology" : "host",
         "name"     : "presentation",
