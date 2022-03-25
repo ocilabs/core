@@ -19,7 +19,7 @@
         "newbits"  : 3,
         "firewall" : "business",
         "disable_nat" : false,
-        "route_table" : "hidden"
+        "route_table" : "cover"
     },{
         "topology" : "host",
         "name"     : "database",
@@ -54,7 +54,7 @@
         "newbits"  : 3,
         "firewall" : "business",
         "disable_nat" : false,
-        "route_table" : "hidden"
+        "route_table" : "cover"
     },{
         "topology" : "container",
         "name"     : "master",

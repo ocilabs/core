@@ -4,7 +4,7 @@
     "gateway" : "internet",
     "zones"   : ["anywhere"]
   },{
-    "name"    : "hidden",
+    "name"    : "cover",
     "gateway" : "nat",
     "zones"   : ["anywhere"]
   },{
