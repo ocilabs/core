@@ -59,7 +59,7 @@ locals {
   }
   defined_routes = {for segment in var.resolve.segments : segment.name => {
     "cpe"      = length(keys(local.router_map)) != 0 ? try(local.router_map[segment.name].cpe,local.router_map["default"].cpe) : null
-    "internet" = length(keys(local.router_map)) != 0 ? try(local.router_map[segment.name].anywhere,local.router_map["default"].anywhere) : null
+    "anywhere" = length(keys(local.router_map)) != 0 ? try(local.router_map[segment.name].anywhere,local.router_map["default"].anywhere) : null
     "vcn"      = segment.cidr
     "osn"      = local.osn_cidrs.all
     "buckets"  = local.osn_cidrs.storage

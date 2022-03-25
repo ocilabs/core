@@ -37,8 +37,8 @@ output "network" {
       gateway      = destination.gateway
       gateway_name = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${destination.gateway}"
       destinations = zipmap(
-        [for section in destination.sections: matchkeys(keys(local.zones[segment.name]), keys(local.zones[segment.name]), [section])[0]],
-        [for section in destination.sections: matchkeys(values(local.zones[segment.name]), keys(local.zones[segment.name]), [section])[0]]   
+        [for zone in destination.zones: matchkeys(keys(local.zones[segment.name]), keys(local.zones[segment.name]), [zone])[0]],
+        [for zone in destination.zones: matchkeys(values(local.zones[segment.name]), keys(local.zones[segment.name]), [zone])[0]]   
       )
     }]
     security_lists = {for subnet in local.subnets : subnet.name => { 

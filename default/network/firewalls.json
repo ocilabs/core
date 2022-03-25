@@ -3,11 +3,7 @@
         "name"    : "web",
         "description" : "Allowed ports for the internet facing web tier",
         "incoming"  : {
-            "internet" : {
-                "ports"     : ["http", "https"],
-                "stateless" : true
-            },
-            "vcn" : {
+            "anywhere" : {
                 "ports"     : ["http", "https", "ssh"],
                 "stateless" : true
             }

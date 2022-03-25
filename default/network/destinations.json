@@ -1,19 +1,19 @@
 [
   {
-    "name"     : "internet",
-    "gateway"  : "internet",
-    "sections" : ["internet"]
+    "name"    : "internet",
+    "gateway" : "internet",
+    "zones"   : ["anywhere"]
   },{
-    "name"     : "nat",
-    "gateway"  : "nat",
-    "sections" : ["internet"]
+    "name"    : "hidden",
+    "gateway" : "nat",
+    "zones"   : ["anywhere"]
   },{
-    "name"     : "osn",
-    "gateway"  : "osn",
-    "sections" : ["osn"]
+    "name"    : "services",
+    "gateway" : "osn",
+    "zones"   : ["osn"]
   },{
-    "name"     : "cpe",
-    "gateway"  : "drg",
-    "sections" : ["cpe", "devices"]
+    "name"    : "onprem",
+    "gateway" : "drg",
+    "zones"   : ["cpe", "devices"]
   }
 ]
