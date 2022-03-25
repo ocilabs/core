@@ -73,7 +73,7 @@ variable "container" {
 variable "internet" {
   type        = string
   description = "Allows or disallows to provision resources with public IP addresses."
-  default     = true
+  default     = "PUBLIC"
 }
 
 variable "nat" {
