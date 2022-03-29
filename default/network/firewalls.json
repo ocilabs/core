@@ -3,12 +3,12 @@
         "name"        : "edge",
         "description" : "Allowed ports for the internet facing web tier",
         "incoming"    : ["anywhere"],
-        "outgoing"    : ["internet"]
+        "outgoing"    : "internet"
     },
     {
         "name"        : "domain",
         "description" : "Allowed ports for the application tier",
         "incoming"    : ["vcn", "osn"],
-        "outgoing"    : ["stealth", "services"]
+        "outgoing"    : "stealth"
     }
 ]

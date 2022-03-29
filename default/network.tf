@@ -57,12 +57,12 @@ output "network" {
     }}
     security_zones = local.zones
     subnets = {for subnet in local.subnets : subnet.name => {
-      topology      = subnet.topology
-      display_name  = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${subnet.name}"
       cidr_block    = local.subnet_cidr[segment.name][subnet.name]
       dns_label     = "${local.service_label}${index(local.vcn_list, segment.name) + 1}${substr(subnet.name, 0, 3)}"
-      route_table   = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${subnet.firewall}_table"
+      display_name  = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${subnet.name}"
+      route_table   = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${keys(local.port_filter[subnet.firewall].egress)[0]}_table"
       security_list = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${subnet.name}_filter"
+      topology      = subnet.topology
     } if contains(var.resolve.topologies, subnet.topology)}
   }if segment.stage <= local.lifecycle[var.input.stage]}
 }
