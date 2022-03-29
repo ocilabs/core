@@ -47,6 +47,9 @@ output "network" {
         protocol    = profile.protocol
         description = "Allow incoming tcp ${profile.port} traffic from ${profile.zone} via the ${profile.firewall} port filter"
         source      = matchkeys(values(local.zones[segment.name]), keys(local.zones[segment.name]), [profile.zone])[0]
+        source_type = can(regex(
+          "^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\/(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$", matchkeys(values(local.zones[segment.name]), keys(local.zones[segment.name]), [profile.zone])[0]
+        )) ? "CIDR_BLOCK" : "SERVICE_CIDR_BLOCK"
         stateless   = profile.stateless
         min_port    = profile.min
         max_port    = profile.max
