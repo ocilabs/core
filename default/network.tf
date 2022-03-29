@@ -31,20 +31,7 @@ output "network" {
         storage  = local.osn_cidrs.storage
       }
     }
-    /*
     route_tables = {for subnet in local.subnets : subnet.name => { 
-      display_name = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${subnet.name}_table"
-      route_rules  = flatten([for rule in keys(local.route_rules): [for destination in local.route_rules[rule] : {
-        description      = "Routes ${local.destination_map[destination].name} traffic via the ${local.destination_map[destination].gateway} gateway."
-        destination    = matchkeys(values(local.zones[segment.name]), keys(local.zones[segment.name]), [rule])[0]
-        destination_type = can(regex(
-          "^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\/(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$", matchkeys(values(local.zones[segment.name]), keys(local.zones[segment.name]), [rule])[0]
-        )) ? "CIDR_BLOCK" : "SERVICE_CIDR_BLOCK"
-        network_entity = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${local.destination_map[destination].gateway}"
-      }]])
-    }}
-    */
-    zzoute_tables = {for subnet in local.subnets : subnet.name => { 
       display_name = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${subnet.name}_table"
       route_rules  = flatten([for destination in local.port_filter[subnet.firewall].egress: [for zone in destination.zones : {
         description = "Routes ${destination.name} traffic via the ${destination.gateway} gateway."
