@@ -85,7 +85,7 @@ locals {
       gateway = destination.gateway
       name    = destination.name
       zones   = destination.zones
-    }if firewall.outgoing == destination.name}
+    }if contains(firewall.outgoing, destination.name)}
     ingress = flatten(distinct(flatten([for zone in firewall.incoming : [for profile in local.sources[zone]: [for port in local.ports : {
       description = port.description
       firewall    = firewall.name
