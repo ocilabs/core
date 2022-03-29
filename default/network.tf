@@ -45,12 +45,12 @@ output "network" {
       display_name = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${subnet.name}_filter"
       ingress      = {for profile in local.port_filter[subnet.firewall].ingress: "${profile.firewall}_${profile.zone}_${profile.port}_${profile.transport}" => {
         protocol    = profile.protocol
-        description = "Allow incoming ${profile.port} traffic from ${profile.zone} via the ${profile.firewall} port filter"
+        description = "Allow incoming ${profile.port} tcp traffic from ${profile.zone} via the ${profile.firewall} port filter"
         source      = matchkeys(values(local.zones[segment.name]), keys(local.zones[segment.name]), [profile.zone])[0]
         stateless   = profile.stateless
         min_port    = profile.min
         max_port    = profile.max
-      }}
+      }if profile.protocol == 6}
     }}
     security_groups = {for firewall in local.firewalls : firewall.name => { 
       display_name = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${firewall.name}_filter"
