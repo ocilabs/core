@@ -2,7 +2,7 @@
 // Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
 
 output "network" { 
-  value = { for segment in var.resolve.segments : segment.name => {
+  value = {for segment in var.resolve.segments : segment.name => {
     name         = segment.name
     region       = var.input.region
     display_name = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}"
@@ -31,29 +31,29 @@ output "network" {
         storage  = local.osn_cidrs.storage
       }
     }
-    route_table_input = [for destination in local.destinations: {
-      name         = destination.name
-      display_name = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${destination.name}_route"
-      gateway      = destination.gateway
-      gateway_name = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${destination.gateway}"
-      destinations = zipmap(
-        [for zone in destination.zones: matchkeys(keys(local.zones[segment.name]), keys(local.zones[segment.name]), [zone])[0]],
-        [for zone in destination.zones: matchkeys(values(local.zones[segment.name]), keys(local.zones[segment.name]), [zone])[0]]   
-      )
-    }]
+    route_tables = {for table in flatten(distinct(flatten(local.firewalls[*].outgoing))) : "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${table}_table" => {
+      display_name = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${table}_table",
+      route_rules  = flatten([for rule in keys(local.route_rules): [for destination in local.route_rules[rule] : {
+        description      = "Routes ${local.destination_map[destination].name} traffic via the ${local.destination_map[destination].gateway} gateway."
+        destination    = matchkeys(values(local.zones[segment.name]), keys(local.zones[segment.name]), [rule])[0]
+        destination_type = local.destination_map[destination].gateway == "osn" ? "SERVICE_CIDR_BLOCK" : "CIDR_BLOCK"
+        network_entity = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${local.destination_map[destination].gateway}"
+        zestination    = destination
+      }if local.destination_map[destination].name == table]])
+    }}
     security_lists = {for subnet in local.subnets : subnet.name => { 
-      display_name = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${subnet.name}_firewall"
-      ingress      = {for traffic in local.firewall_map[subnet.firewall].incoming: "${traffic.firewall}_${traffic.zone}_${traffic.port}" => {
-        protocol    = matchkeys(local.ports[*].protocol, local.ports[*].name, [traffic.port])[0]
-        description = "Allow incoming ${traffic.port} traffic from the ${traffic.zone} to the ${traffic.firewall} tier"
-        source      = matchkeys(values(local.zones[segment.name]), keys(local.zones[segment.name]), [traffic.zone])[0]
-        stateless   = matchkeys(local.ports[*].stateless, local.ports[*].name, [traffic.port])[0]
-        min_port    = matchkeys(local.ports[*].min, local.ports[*].name, [traffic.port])[0]
-        max_port    = matchkeys(local.ports[*].max, local.ports[*].name, [traffic.port])[0]
+      display_name = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${subnet.name}_filter"
+      ingress      = {for profile in local.port_filter[subnet.firewall].ingress: "${profile.firewall}_${profile.zone}_${profile.port}_${profile.transport}" => {
+        protocol    = profile.protocol
+        description = "Allow incoming ${profile.port} traffic from ${profile.zone} via the ${profile.firewall} port filter"
+        source      = matchkeys(values(local.zones[segment.name]), keys(local.zones[segment.name]), [profile.zone])[0]
+        stateless   = profile.stateless
+        min_port    = profile.min
+        max_port    = profile.max
       }}
     }}
     security_groups = {for firewall in local.firewalls : firewall.name => { 
-      display_name = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${firewall.name}_firewall"
+      display_name = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${firewall.name}_filter"
     }}
     security_zones = local.zones
     subnets = {for subnet in local.subnets : subnet.name => {
@@ -61,8 +61,8 @@ output "network" {
       display_name  = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${subnet.name}"
       cidr_block    = local.subnet_cidr[segment.name][subnet.name]
       dns_label     = "${local.service_label}${index(local.vcn_list, segment.name) + 1}${substr(subnet.name, 0, 3)}"
-      route_table   = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${subnet.route_table}_route"
-      security_list = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${subnet.name}_firewall"
+      route_table   = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${subnet.firewall}_table"
+      security_list = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${subnet.name}_filter"
     } if contains(var.resolve.topologies, subnet.topology)}
   }if segment.stage <= local.lifecycle[var.input.stage]}
 }

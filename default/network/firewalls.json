@@ -1,31 +1,14 @@
 [
     {
-        "name"    : "web",
+        "name"        : "edge",
         "description" : "Allowed ports for the internet facing web tier",
-        "incoming"  : {
-            "anywhere" : {
-                "ports"     : ["http", "https", "ssh"],
-                "stateless" : true
-            }
-        }
+        "incoming"    : ["anywhere"],
+        "outgoing"    : ["internet"]
     },
     {
-        "name"    : "business",
+        "name"        : "domain",
         "description" : "Allowed ports for the application tier",
-        "incoming"  : {
-            "vcn" : {
-                "ports"     : ["http", "https", "ssh"],
-                "stateless" : true
-            }
-        }
-    },{
-        "name"    : "data",
-        "description" : "Allowed ports for the data tier",
-        "incoming"  : {
-            "vcn" : {
-                "ports"     : ["http", "https", "ssh", "sql"],
-                "stateless" : true
-            }
-        }
+        "incoming"    : ["vcn", "osn"],
+        "outgoing"    : ["stealth", "services"]
     }
 ]

@@ -1,66 +1,48 @@
 [
     {
-        "topology" : "apex",
-        "name"     : "apex",
-        "newbits"  : 3,
-        "firewall" : "web",
-        "disable_nat" : false,
-        "route_table" : "internet"
+        "topology" : "cloud",
+        "name"     : "management",
+        "newbits"  : 10,
+        "firewall" : "domain"
     },{
         "topology" : "host",
         "name"     : "presentation",
-        "newbits"  : 3,
-        "firewall" : "web",
-        "disable_nat" : false,
-        "route_table" : "internet"
+        "newbits"  : 10,
+        "firewall" : "edge"
     },{
         "topology" : "host",
         "name"     : "application",
-        "newbits"  : 3,
-        "firewall" : "business",
-        "disable_nat" : false,
-        "route_table" : "cover"
+        "newbits"  : 10,
+        "firewall" : "domain"
     },{
         "topology" : "host",
         "name"     : "database",
-        "newbits"  : 3,
-        "firewall" : "data",
-        "disable_nat" : false,
-        "route_table" : "services"
+        "newbits"  : 10,
+        "firewall" : "domain"
     },{
         "topology" : "nodes",
         "name"     : "frontend",
-        "newbits"  : 3,
-        "firewall" : "web",
-        "disable_nat" : false,
-        "route_table" : "internet"
+        "newbits"  : 10,
+        "firewall" : "edge"
     },{
         "topology" : "nodes",
         "name"     : "backend",
-        "newbits"  : 3,
-        "firewall" : "data",
-        "disable_nat" : false,
-        "route_table" : "services"
+        "newbits"  : 10,
+        "firewall" : "domain"
     },{
         "topology" : "container",
         "name"     : "loadbalancer",
-        "newbits"  : 3,
-        "firewall" : "web",
-        "disable_nat" : false,
-        "route_table" : "internet"
+        "newbits"  : 10,
+        "firewall" : "edge"
     },{
         "topology" : "container",
         "name"     : "worker",
-        "newbits"  : 3,
-        "firewall" : "business",
-        "disable_nat" : false,
-        "route_table" : "cover"
+        "newbits"  : 10,
+        "firewall" : "domain"
     },{
         "topology" : "container",
         "name"     : "master",
-        "newbits"  : 3,
-        "firewall" : "data",
-        "disable_nat" : false,
-        "route_table" : "services"
+        "newbits"  : 10,
+        "firewall" : "domain"
     }
 ]

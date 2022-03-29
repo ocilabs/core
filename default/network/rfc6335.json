@@ -6770,8 +6770,8 @@
     "description": "XNS Clearinghouse"
   },
   {
-    "id": "dns-tcp",
-    "name": "dns",
+    "id": "domain-tcp",
+    "name": "domain",
     "stateless": false,
     "min": 53,
     "max": 53,
@@ -6780,8 +6780,8 @@
     "description": "Domain Name Server"
   },
   {
-    "id": "dns-udp",
-    "name": "dns",
+    "id": "domain-udp",
+    "name": "domain",
     "stateless": false,
     "min": 53,
     "max": 53,

@@ -29,33 +29,30 @@ variable "resolve" {
 
 locals {
   # Input Parameter
-  channels     = jsondecode(templatefile("${path.module}/resident/channels.json", {owner = var.input.owner}))
-  roles        = jsondecode(templatefile("${path.module}/resident/roles.json", {service = local.service_name}))
-  controls     = jsondecode(file("${path.module}/resident/controls.json"))
-  tags         = jsondecode(file("${path.module}/resident/tags.json"))
-  signatures   = jsondecode(file("${path.module}/encryption/signatures.json"))
-  secrets      = jsondecode(file("${path.module}/encryption/secrets.json"))
-  adb          = jsondecode(file("${path.module}/database/adb.json"))
-  subnets      = jsondecode(file("${path.module}/network/subnets.json"))
-  routers      = jsondecode(file("${path.module}/network/routers.json"))
-  destinations = jsondecode(file("${path.module}/network/destinations.json"))
-  sections     = jsondecode(file("${path.module}/network/sections.json"))
-  firewalls    = jsondecode(file("${path.module}/network/firewalls.json"))
-  profiles     = jsondecode(file("${path.module}/network/profiles.json"))
-  rfc6335      = jsondecode(file("${path.module}/network/rfc6335.json"))
+  adb            = jsondecode(file("${path.module}/database/adb.json"))
+  channels       = jsondecode(templatefile("${path.module}/resident/channels.json", {owner = var.input.owner}))
+  controls       = jsondecode(file("${path.module}/resident/controls.json"))
+  classification = jsondecode(file("${path.module}/resident/classification.json"))
+  destinations   = jsondecode(file("${path.module}/network/destinations.json"))
+  firewalls      = jsondecode(file("${path.module}/network/firewalls.json"))
+  lifecycle      = jsondecode(file("${path.module}/resident/lifecycle.json"))
+  profiles       = jsondecode(file("${path.module}/network/profiles.json"))
+  rfc6335        = jsondecode(file("${path.module}/network/rfc6335.json"))
+  roles          = jsondecode(templatefile("${path.module}/resident/roles.json", {service = local.service_name}))
+  routers        = jsondecode(file("${path.module}/network/routers.json"))
+  signatures     = jsondecode(file("${path.module}/encryption/signatures.json"))
+  secrets        = jsondecode(file("${path.module}/encryption/secrets.json"))
+  sections       = jsondecode(file("${path.module}/network/sections.json"))
+  sources        = jsondecode(file("${path.module}/network/sources.json"))
+  subnets        = jsondecode(file("${path.module}/network/subnets.json"))
+  tags           = jsondecode(file("${path.module}/resident/tags.json"))
 
-  application_profiles = [for firewall, traffic in local.firewall_map: traffic]
-  classification = {
-    FREE_TIER = 0
-    TRIAL     = 1
-    PAYG      = 2
-    UCC       = 3
-  }
+  #application_profiles = [for firewall, traffic in local.port_filter: traffic]
   database = {
-    TRANSACTION_PROCESSING = "OLTP"
-    APEX = "APEX"
+    APEX           = "APEX"
     DATA_WAREHOUSE = "DW"
-    JSON  = "ADJ"
+    JSON           = "ADJ"
+    TRANSACTION_PROCESSING = "OLTP"
   }
   defined_routes = {for segment in var.resolve.segments : segment.name => {
     "cpe"      = length(keys(local.router_map)) != 0 ? try(local.router_map[segment.name].cpe,local.router_map["default"].cpe) : null
@@ -64,15 +61,11 @@ locals {
     "osn"      = local.osn_cidrs.all
     "buckets"  = local.osn_cidrs.storage
   }}
-  firewall_map = {for firewall in local.firewalls: firewall.name => {
-    name    = firewall.name
-    subnets = flatten(matchkeys(local.subnets[*].name, local.subnets[*].firewall, [firewall.name]))
-    incoming = flatten([for zone, traffic in firewall.incoming: [ for port in traffic.ports : {
-      firewall = firewall.name
-      zone     = zone
-      port     = port
-    }]])
-  }}
+  destination_map = {for destination in local.destinations : destination.name => {
+    gateway = destination.gateway
+    name    = destination.name
+    zones   = destination.zones
+  }if contains(flatten(distinct(flatten(local.firewalls[*].outgoing))), destination.name)}
   freeform_tags = {
     "framework" = "ocloud"
     "owner"     = var.input.owner
@@ -83,17 +76,37 @@ locals {
     flatten("${var.resolve.domains[*].roles}"),
     flatten([for domain in var.resolve.domains : [for role in domain.roles : "${local.service_name}_${domain.name}_compartment"]])
   )
-  lifecycle = {
-    DEV  = 0
-    UAT  = 1 
-    PROD = 2
-  }
   ports = concat(local.rfc6335, local.profiles)
+  port_map = {for firewall in local.firewalls : firewall.name => flatten(distinct(flatten([for zone in firewall.incoming : local.sources[zone]])))}
+  port_filter = {for firewall in local.firewalls: firewall.name => {
+    name    = firewall.name
+    subnets = flatten(matchkeys(local.subnets[*].name, local.subnets[*].firewall, [firewall.name]))
+    egress = {for destination in local.destinations : destination.name => {
+      gateway = destination.gateway
+      name    = destination.name
+      zones   = destination.zones
+    }if contains(firewall.outgoing, destination.name)}
+    ingress = flatten(distinct(flatten([for zone in firewall.incoming : [for profile in local.sources[zone]: [for port in local.ports : {
+      description = port.description
+      firewall    = firewall.name
+      min         = port.min
+      max         = port.max
+      port        = port.name
+      transport   = port.transport
+      protocol    = port.protocol
+      stateless   = port.stateless
+      zone        = zone
+    }if profile == port.name]]])))
+  }}
   router_map = {for router in local.routers : router.name => {
     name     = router.name
     cpe      = router.cpe
     anywhere = router.anywhere
   }}
+  route_rules = transpose({
+    for destination in local.destinations : destination.name => destination.zones
+    if contains(flatten(distinct(flatten(local.firewalls[*].outgoing))), destination.name)
+  })
   # Computed Parameter
   service_name  = lower("${var.input.organization}_${var.input.solution}_${var.input.stage}")
   service_label = format(
