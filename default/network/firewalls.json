@@ -3,7 +3,7 @@
         "name"        : "edge",
         "description" : "Allowed ports for the internet facing web tier",
         "incoming"    : ["anywhere"],
-        "outgoing"    : ["internet", "services"]
+        "outgoing"    : ["internet"]
     },
     {
         "name"        : "domain",
