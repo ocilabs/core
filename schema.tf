@@ -48,12 +48,13 @@ variable "region" {
   description = "The region defines the target region for service deployments"
 }
 
-# Service Topologies
-variable "apex" {
+variable "cloud" {
   type        = bool
-  description = "Provisioning a network topology for an APEX service deployment."
+  description = "Provisioning a network topology allows to access Oracle's public cloud services via a private transfer domain."
   default     = true
 }
+
+# Service Topologies
 variable "host" {
   type        = bool
   description = "Provisioning a host topology prepares a service resident to deploy a traditional enterprise application with presentation, application and database tier."
