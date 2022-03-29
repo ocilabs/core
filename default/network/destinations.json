@@ -2,15 +2,15 @@
   {
     "name"    : "internet",
     "gateway" : "internet",
-    "zones"   : ["anywhere"]
+    "zones"   : ["anywhere", "osn"]
   },{
     "name"    : "stealth",
     "gateway" : "nat",
-    "zones"   : ["anywhere"]
+    "zones"   : ["anywhere", "osn"]
   },{
-    "name"    : "services",
+    "name"    : "data",
     "gateway" : "osn",
-    "zones"   : ["osn"]
+    "zones"   : ["buckets"]
   },{
     "name"    : "onprem",
     "gateway" : "drg",
