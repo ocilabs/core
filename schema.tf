@@ -47,6 +47,7 @@ variable "stage"           {
 variable "location" {
   type        = string
   description = "The region defines the target region for service deployments"
+  default     = "to be set"
 }
 
 variable "cloud" {
