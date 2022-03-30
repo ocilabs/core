@@ -22,7 +22,7 @@ output "network" {
         name   = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_internet"
       }
       nat = {
-        name          = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_stealth"
+        name          = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_translation"
       }
       services = {
         name     = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_services"

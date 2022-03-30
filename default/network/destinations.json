@@ -5,7 +5,7 @@
     "zones"   : ["anywhere"]
   },{
     "name"    : "nat",
-    "gateway" : "stealth",
+    "gateway" : "translation",
     "zones"   : ["anywhere"]
   },{
     "name"    : "storage",
