@@ -9,6 +9,6 @@
         "name"        : "domain",
         "description" : "Allowed ports for the application tier",
         "incoming"    : ["vcn", "osn"],
-        "outgoing"    : ["nat", "services"]
+        "outgoing"    : ["nat", "osn"]
     }
 ]

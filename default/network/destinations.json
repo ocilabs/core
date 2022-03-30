@@ -5,19 +5,19 @@
     "zones"   : ["anywhere"]
   },{
     "name"    : "nat",
-    "gateway" : "nat",
+    "gateway" : "stealth",
     "zones"   : ["anywhere"]
   },{
     "name"    : "storage",
-    "gateway" : "osn",
+    "gateway" : "services",
     "zones"   : ["buckets"]
   },{
-    "name"    : "services",
-    "gateway" : "osn",
+    "name"    : "osn",
+    "gateway" : "services",
     "zones"   : ["osn"]
   },{
-    "name"    : "onprem",
-    "gateway" : "drg",
+    "name"    : "wan",
+    "gateway" : "router",
     "zones"   : ["cpe", "devices"]
   }
 ]

@@ -12,21 +12,21 @@ output "network" {
     cidr         = segment.cidr
     gateways = {
       drg = {
-        name     = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_drg"
+        name     = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_router"
         create   = anytrue([contains(local.routers[*].name, segment.name), contains(local.routers[*].name, "default")])
         type     = "VCN"
         cpe      = try(local.router_map[segment.name].cpe, local.router_map["default"].cpe)
         anywhere = try(local.router_map[segment.name].anywhere, local.router_map["default"].anywhere)
       }
-        internet = {
+      internet = {
         name   = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_internet"
       }
-        nat = {
-        name          = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_nat"
+      nat = {
+        name          = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_stealth"
       }
-        osn = {
-        name     = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_osn"
-        services = var.input.osn == "ALL" ? "all" : "storage"
+      services = {
+        name     = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_services"
+        scope    = var.input.osn == "ALL" ? "osn" : "storage"
         all      = local.osn_cidrs.all
         storage  = local.osn_cidrs.storage
       }
