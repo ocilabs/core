@@ -43,7 +43,7 @@ variable "stage"           {
   default     = "DEV"
 }
 
-variable "region" {
+variable "location" {
   type        = string
   description = "The region defines the target region for service deployments"
 }

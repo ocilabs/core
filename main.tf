@@ -14,7 +14,7 @@ terraform {
 // --- tenancy configuration --- //
 provider "oci" {
   alias  = "service"
-  region = var.region
+  region = var.location
 }
 variable "tenancy_ocid" { }
 
@@ -37,7 +37,7 @@ module "configuration" {
     solution     = var.solution
     repository   = var.repository
     stage        = var.stage
-    region       = var.region
+    region       = var.location
     osn          = var.osn
     adb          = var.adb_type
   }

@@ -26,7 +26,7 @@ variableGroups:
   variables:
   - parent
   - compartment_ocid
-  - region
+  - location
   - current_user_ocid
   - organization
   - solution
@@ -82,7 +82,7 @@ variables:
     type: string
     required: true
 
-  region:
+  location:
     title: "Home Region"
     description: "The Oracle Cloud Identifier for your home region"
     visible: false
