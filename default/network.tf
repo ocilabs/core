@@ -18,13 +18,13 @@ output "network" {
         cpe      = try(local.router_map[segment.name].cpe, local.router_map["default"].cpe)
         anywhere = try(local.router_map[segment.name].anywhere, local.router_map["default"].anywhere)
       }
-      internet = {
-        name   = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_internet"
+      internet   = {
+        name     = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_internet"
       }
-      nat = {
-        name          = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_translation"
+      nat        = {
+        name     = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_translation"
       }
-      service = {
+      service    = {
         name     = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_services"
         scope    = var.input.osn == "ALL" ? "osn" : "storage"
         all      = local.osn_cidrs.all
