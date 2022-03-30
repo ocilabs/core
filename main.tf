@@ -22,22 +22,6 @@ variable "region" {}
 variable "compartment_ocid" {}
 variable "current_user_ocid" {}
 
-output "default_tenancy" {
-  value = var.tenancy_ocid
-}
-
-output "default_region" {
-  value = var.region
-}
-
-output "default_compartment_ocid" {
-  value = var.compartment_ocid
-}
-
-output "default_current_user_ocid" {
-  value = var.current_user_ocid
-}
-
 locals {
   topologies = flatten(compact([var.cloud == true ? "cloud" : "", var.host == true ? "host" : "", var.nodes == true ? "nodes" : "", var.container == true ? "container" : ""]))
   domains    = jsondecode(file("${path.module}/default/resident/domains.json"))

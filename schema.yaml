@@ -19,6 +19,7 @@ variableGroups:
   visible: true
   variables:
   - location
+  - region
 
 - title: "Service"
   visible: true
@@ -58,6 +59,7 @@ variableGroups:
   - osn
   - nat
   - ipv6
+  - cloud
 
 - title: "Wallet"
   visible: true
@@ -117,6 +119,13 @@ variables:
     description: "Before selecting an availability domain in a region, the target region should be activated for a tenancy"
     visible: true
     type: oci:identity:region:name
+    default: region
+    required: true
+
+  region:
+    title: "Default region for the user"
+    visible: false
+    type: string
     required: true
 
   organization:
@@ -178,10 +187,11 @@ variables:
     title: "Cloud Native Service"
     required: false
 
-  apex:
+  cloud:
     type: boolean
-    title: "APEX Service"
-    required: false
+    title: "Management"
+    visible: false
+    required: true
 
 # Network Options
   netsettings:
