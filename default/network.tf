@@ -66,6 +66,7 @@ output "network" {
       display_name  = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${subnet.name}"
       route_table   = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${subnet.name}_table"
       security_list = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${subnet.name}_filter"
+      prohibit_internet_ingress = contains(flatten(distinct(local.port_filter[subnet.firewall].ingress[*].zone)), "anywhere") ? false : true
       topology      = subnet.topology
     } if contains(var.resolve.topologies, subnet.topology)}
   }if segment.stage <= local.lifecycle[var.input.stage]}
