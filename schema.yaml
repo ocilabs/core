@@ -1,10 +1,9 @@
 # Copyright (c) 2020 Oracle and/or its affiliates.
 # Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
 
-
-title: "ocloud Framwork: Service Configuration"
-description: "The ocloud framwork creates a foundation for application deployments in Oracle Cloud Infrastructure"
-informationalText: "This framework helps operators to set up a hosting environment for enterprise applications in Oracle Cloud Infrastructure (OCI). A base set of resources is provisioned and configured."
+title: "Kickstart Application Deployments"
+description: "The kickstart framwork creates a foundation for application deployments in Oracle Cloud Infrastructure"
+informationalText: "This stack helps operators to set up a hosting environment for enterprise applications in Oracle Cloud Infrastructure (OCI). A base set of resources is provisioned and configured."
 schemaVersion: 1.1.0
 version: "20210611"
 locale: "en"
@@ -16,55 +15,68 @@ variableGroups:
   - tenancy_ocid
   - class
 
-- title: "Lifecycle"
+- title: "Region"
   visible: true
   variables:
-  - stage
+  - location
 
-- title: "Service Resident"
+- title: "Service"
   visible: true
   variables:
   - parent
   - compartment_ocid
-  - location
   - current_user_ocid
   - organization
   - solution
   - owner
   - repository
 
-- title: "Service Topology"
+- title: "Lifecycle"
+  visible: true
+  variables:
+  - stage
+
+- title: "Database"
+  visible: true
+  variables:
+  - create_adb
+  - adb_type
+
+- title: "Application Type"
   visible: true
   variables:
   - host
   - nodes
   - container
+  - apex
 
-- title: "Network Options"
+- title: "Network"
   visible: true
   variables:
-  - ipv6
+  - netsettings
   - internet
-  - nat
   - osn
+  - nat
+  - ipv6
 
-- title: "Domain Settings"
+- title: "Wallet"
   visible: true
   variables:
-  - amend
+  - create_wallet
+  - wallet_type
 
 variables:
 # Tenancy
   tenancy_ocid:
     title: "Tenancy ID"
-    description: "The Oracle Cloud Identifier for your tenancy"
+    description: "A unique identifier for your cloud tenancy"
     visible: false
     type: string
     required: true
 
   class:
-    title: "Classification"
-    description: "Selecting the Universal Credit Consumption (UCC) Model preselects appropriate resource types"
+    title: "Define service limits related to the contract type"
+    description: "Choose the Universal Credit Consumption (UCC) model to select corresponding resource types"
     type: enum
     default: "FREE_TIER"
     required: true
@@ -77,39 +89,39 @@ variables:
 # Service Configuration
   compartment_ocid:
     title: "Compartment ID"
-    description: "The Oracle Cloud Identifier for your compartment"
-    visible: false
-    type: string
-    required: true
-
-  location:
-    title: "Home Region"
-    description: "The Oracle Cloud Identifier for your home region"
+    description: "A unique identifier that creates a bspoke administrator domains for your service"
     visible: false
     type: string
     required: true
   
   current_user_ocid:
     title: "User ID"
-    description: "The Oracle Cloud Identifier for the current user"
+    description: "Retrieved OCID for the current user"
     visible: false
     type: string
     required: true
-  
+    
   parent:
     title: "Parent Compartment"
-    description: "The Oracle Cloud Identifier for the root compartment. The default should only be changed by experienced users."
+    description: "The OCID for the root compartment, the default selection should only be changed by an experienced user"
     type: oci:identity:compartment:id
+    visible: false
     dependsOn:
       compartmentId: tenancy_ocid
       accessLevel: ANY
       lifecycleState: ACTIVE
-    default: tenancy_ocid
+    required: true
+
+  location:
+    title: "Select the data center region for the service deployment"
+    description: "Before selecting an availability domain in a region, the target region should be activated for a tenancy"
+    visible: true
+    type: oci:identity:region:name
     required: true
 
   organization:
-    title: "Organization"
-    description: "Identifier for the organization, owning the service"
+    title: "Name of the business unit"
+    description: "Identifier for the organization that will use the service"
     type: string
     default: "Organization"
     minLength: 1
@@ -118,17 +130,17 @@ variables:
     required: true
 
   solution:
-    title: "Name"
+    title: "Name of the solution"
     description: "Identifier for the service, the name should be unique within the tenancy"
     type: string
-    default: "Service"
+    default: "Name"
     minLength: 1
     maxLength: 25
     pattern: "^[a-zA-Z]+$"
     required: true
 
   stage:
-    title: "Lifecycle Stage"
+    title: "Select the lifecycle stage for the deployment"
     description: "Selecting the lifecycle stage preselects an appropriate collection of operational controls"
     type: enum
     default: "DEV"
@@ -139,67 +151,106 @@ variables:
       - PROD
 
   repository:
-    title: "Source Code URL"
-    description: "Provide an URL to your IaC repository"
+    title: "Source code repository for the provisioning scripts (only used for information pusposes)"
+    description: "Provide an URL for the code source"
     type: string
     required: false
 
   owner:
-    title: "Owner"
-    description: "Provide an eMail address for the technical administrator"
+    title: "Service Administrator"
+    description: "The service administrator will receive notifications when the service topology changes"
     type: string
     required: true
 
-# Service Topology
+# Application Type
   host:
     type: boolean
-    title: "Enterprise Service"
+    title: "Enterprise Application"
     required: false
 
   nodes:
     type: boolean
-    title: "Cloud Service"
+    title: "Web Application"
     required: false
 
   container:
     type: boolean
-    title: "Container Service"
+    title: "Cloud Native Service"
+    required: false
+
+  apex:
+    type: boolean
+    title: "APEX Service"
     required: false
 
 # Network Options
-  ipv6:
+  netsettings:
     type: boolean
-    title: "IPv6"
+    title: "Advanced Network Settings"
     required: true
     default: false
 
   internet:
     type: enum
-    title: "Internet access"
+    title: "Network Access:"
     required: true
+    visible: netsettings
     enum:
-      - ENABLE
-      - DISABLE
+      - PUBLIC
+      - PRIVATE
+
+  ipv6:
+    type: boolean
+    title: "IPv6"
+    required: true
+    visible: netsettings
+    default: false
 
   nat:
-    type: enum
-    title: "NAT for private subnets"
+    type: boolean
+    title: "NAT for Private Subnets"
     required: true
-    enum:
-      - ENABLE
-      - DISABLE
+    visible: netsettings
+    default: true
 
   osn:
     type: enum
-    title: "Scope of Oracle Cloud Services, attached to the service resident."
+    title: "Oracle Cloud Services:"
     required: true
+    visible: netsettings
     enum:
-      - ALL
-      - STORAGE
+      - ALL_SERVICES
+      - OBJECT_STORAGE
       - DISABLE
 
-# Administration Domains
-  amend:
+# Database Service
+  create_adb:
     type: boolean
-    title: "Allow administrator domains to be destroyed?"
-    required: true
+    title: "Create an Autonomous Database"
+    required: false
+
+  adb_type:
+    title: "Database Type"
+    visible: create_adb
+    required: false
+    type: enum
+    enum:
+      - TRANSACTION_PROCESSING
+      - APEX
+      - DATA_WAREHOUSE
+      - JSON
+
+# Encryption Service
+  create_wallet:
+    type: boolean
+    title: "Create a Wallet"
+    required: false
+
+  wallet_type:
+    title: "Vault Type"
+    visible: create_wallet
+    required: false
+    type: enum
+    enum:
+      - Software
+      - HSM
