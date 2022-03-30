@@ -29,6 +29,7 @@ variable "solution" {
 variable "repository" {
   type        = string
   description = "The service configuration is stored using infrastructure code in a repository"
+  default     = "https://github.com/oracle-devrel/terraform-oci-ocloud-landing-zone"
 }
 
 variable "owner" {
@@ -46,6 +47,7 @@ variable "stage"           {
 variable "location" {
   type        = string
   description = "The region defines the target region for service deployments"
+  default     = var.region
 }
 
 variable "cloud" {

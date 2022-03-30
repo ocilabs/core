@@ -16,7 +16,8 @@ provider "oci" {
   alias  = "service"
   region = var.location
 }
-variable "tenancy_ocid" { }
+variable "tenancy_ocid" {}
+variable "region" {}
 
 locals {
   topologies = flatten(compact([var.cloud == true ? "cloud" : "", var.host == true ? "host" : "", var.nodes == true ? "nodes" : "", var.container == true ? "container" : ""]))
