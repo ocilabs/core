@@ -9,11 +9,11 @@
     "zones"   : ["anywhere"]
   },{
     "name"    : "storage",
-    "gateway" : "services",
+    "gateway" : "service",
     "zones"   : ["buckets"]
   },{
     "name"    : "osn",
-    "gateway" : "services",
+    "gateway" : "service",
     "zones"   : ["osn"]
   },{
     "name"    : "wan",

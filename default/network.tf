@@ -24,7 +24,7 @@ output "network" {
       nat = {
         name          = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_translation"
       }
-      services = {
+      service = {
         name     = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_services"
         scope    = var.input.osn == "ALL" ? "osn" : "storage"
         all      = local.osn_cidrs.all
