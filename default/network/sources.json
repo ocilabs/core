@@ -1,5 +1,5 @@
 {
     "anywhere" : ["https"],
-    "vcn"      : ["https", "ssh", "sql"],
+    "vcn"      : ["ssh"],
     "osn"      : ["https"]
 }
