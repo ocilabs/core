@@ -1,42 +1,34 @@
 [
   {
-    "name"     : "atp",
-    "type"     : "OLTP",
-    "stage"    : 0,
-    "cores"    : 1,
-    "storage"  : 1,
-    "license"  : "LICENSE_INCLUDED",
-    "password" : "default",
-    "version"  : "19c"
+    "name"    : "TRANSACTION_PROCESSING",
+    "type"    : "OLTP",
+    "stage"   : 0,
+    "sizes"   : ["small", "medium", "large"],
+    "license" : "LICENSE_INCLUDED",
+    "version" : "19c"
   },
   {
-    "name"    : "adw",
+    "name"    : "DATA_WAREHOUSE",
     "type"    : "DW",
     "stage"   : 0,
-    "cores"   : 1,
-    "storage" : 1,
+    "sizes"   : ["small", "medium", "large"],
     "license" : "LICENSE_INCLUDED",
-    "password" : "default",
     "version" : "19c"
   },
   {
-    "name"    : "apex",
+    "name"    : "APEX",
     "type"    : "APEX",
     "stage"   : 0,
-    "cores"   : 1,
-    "storage" : 1,
+    "sizes"   : ["small", "medium", "large"],
     "license" : "LICENSE_INCLUDED",
-    "password" : "default",
     "version" : "19c"
   },
   {
-    "name"    : "json",
+    "name"    : "JSON",
     "type"    : "AJD",
     "stage"   : 0,
-    "cores"   : 1,
-    "storage" : 1,
+    "sizes"   : ["small", "medium", "large"],
     "license" : "LICENSE_INCLUDED",
-    "password" : "default",
     "version" : "19c"
   }
 ]

@@ -1,6 +1,6 @@
 [
   {
-    "name"       : "default",
+    "name"       : "main",
     "stage"      : 0,
     "algorithm"  : "RSA",
     "length"     : 256,

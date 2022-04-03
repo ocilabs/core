@@ -45,7 +45,7 @@ module "configuration" {
     osn          = var.osn
     adb          = var.adb_type
   }
-  resolve = {
+  resident = {
     topologies = local.topologies
     domains    = local.domains
     wallets    = local.wallets

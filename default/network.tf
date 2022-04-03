@@ -2,12 +2,12 @@
 // Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
 
 output "network" { 
-  value = {for segment in var.resolve.segments : segment.name => {
+  value = {for segment in var.resident.segments : segment.name => {
     name         = segment.name
-    region       = var.input.region
+    region       = var.service.region
     display_name = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}"
     dns_label    = "${local.service_label}${index(local.vcn_list, segment.name) + 1}"
-    compartment  = contains(flatten(var.resolve.domains[*].name), "network") ? "${local.service_name}_network_compartment" : local.service_name
+    compartment  = contains(flatten(var.resident.domains[*].name), "network") ? "${local.service_name}_network_compartment" : local.service_name
     stage        = segment.stage
     cidr         = segment.cidr
     gateways = {
@@ -26,7 +26,7 @@ output "network" {
       }
       service    = {
         name     = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_service"
-        scope    = var.input.osn == "ALL" ? "osn" : "storage"
+        scope    = var.service.osn == "ALL" ? "osn" : "storage"
         all      = local.osn_cidrs.all
         storage  = local.osn_cidrs.storage
       }
@@ -68,6 +68,6 @@ output "network" {
       security_list = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${subnet.name}_filter"
       prohibit_internet_ingress = contains(flatten(distinct(local.port_filter[subnet.firewall].ingress[*].zone)), "anywhere") ? false : true
       topology      = subnet.topology
-    } if contains(var.resolve.topologies, subnet.topology)}
-  }if segment.stage <= local.lifecycle[var.input.stage]}
+    } if contains(var.resident.topologies, subnet.topology)}
+  }if segment.stage <= local.lifecycle[var.service.stage]}
 }

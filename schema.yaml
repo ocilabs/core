@@ -42,6 +42,7 @@ variableGroups:
   variables:
   - create_adb
   - adb_type
+  - adb_size
 
 - title: "Application Type"
   visible: true
@@ -249,6 +250,16 @@ variables:
       - APEX
       - DATA_WAREHOUSE
       - JSON
+
+  adb_size:
+    title: "Database Size"
+    visible: create_adb
+    required: false
+    type: enum
+    enum:
+      - small
+      - medium
+      - large
 
 # Encryption Service
   create_wallet:

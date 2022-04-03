@@ -1,23 +1,23 @@
 [
   {
-    "name"     : "operation",
-    "stage"    : 0,
-    "roles"    : ["cloudops", "auditor", "secops"],
-    "channels" : ["activation", "events"]
+    "name"      : "operation",
+    "stage"     : 0,
+    "operators" : ["cloudops", "auditor", "secops"],
+    "channels"  : ["activation", "events"]
   },{
-    "name"     : "network",
-    "stage"    : 0,
-    "roles"    : ["netops"],
-    "channels" : ["events"]
+    "name"      : "network",
+    "stage"     : 0,
+    "operators" : ["netops"],
+    "channels"  : ["events"]
   },{
-    "name"     : "database",
-    "stage"    : 0,
-    "roles"    : ["dba"],
-    "channels" : ["events"]
+    "name"      : "database",
+    "stage"     : 0,
+    "operators" : ["dba"],
+    "channels"  : ["events"]
   },{
-    "name"     : "application",
-    "stage"    : 0,
-    "roles"    : ["sysops"],
-    "channels" : ["events"]
+    "name"      : "application",
+    "stage"     : 0,
+    "operators" : ["sysops"],
+    "channels"  : ["events"]
   }
 ]
