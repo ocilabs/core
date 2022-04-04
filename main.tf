@@ -25,33 +25,31 @@ variable "current_user_ocid" {}
 locals {
   topologies = flatten(compact([var.cloud == true ? "cloud" : "", var.host == true ? "host" : "", var.nodes == true ? "nodes" : "", var.container == true ? "container" : ""]))
   domains    = jsondecode(file("${path.module}/default/resident/domains.json"))
-  wallets    = jsondecode(file("${path.module}/default/encryption/wallets.json"))
   segments   = jsondecode(file("${path.module}/default/network/segments.json"))
-  database   = jsondecode(file("${path.module}/default/database/adb.json"))
 }
 
 module "configuration" {
   source         = "./default/"
   providers = {oci = oci.service}
-  input = {
-    tenancy      = var.tenancy_ocid
-    class        = var.class
-    owner        = var.owner
-    organization = var.organization
-    solution     = var.solution
-    repository   = var.repository
-    stage        = var.stage
-    region       = var.location
-    osn          = var.osn
-    adb          = var.adb_type
-  }
   resident = {
     topologies = local.topologies
     domains    = local.domains
-    wallets    = local.wallets
     segments   = local.segments
-    database   = local.database
   }
+  service = {
+    adb          = "${var.adb_type}_${var.adb_size}"
+    class        = var.class
+    region       = var.location
+    organization = var.organization
+    osn          = var.osn
+    owner        = var.owner
+    repository   = var.repository
+    stage        = var.stage
+    solution     = var.solution
+    tenancy      = var.tenancy_ocid
+    wallet       = var.wallet_type
+  }
+
 }
 // --- tenancy configuration  --- //
 
