@@ -1,6 +1,15 @@
 # Copyright (c) 2020 Oracle and/or its affiliates.
 # Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
 
+variable "tenancy" {
+  description = "retrieved tenancy data"
+  type = object({
+    tenancy_id     = string,
+    compartment_id = string,
+    home           = string,
+    user_id        = string
+  })
+}
 
 variable "resident" {
   description = "configuration paramenter for the service, defined through schema.tf"
@@ -15,6 +24,7 @@ variable "service" {
   description = "configuration paramenter for the service, defined through schema.tf"
   type = object({
     adb          = string,
+    budget       = number,
     class        = string,
     owner        = string,
     organization = string,
@@ -32,7 +42,8 @@ locals {
   # Input Parameter
   adb_types      = jsondecode(file("${path.module}/database/adb.json"))
   adb_sizes      = jsondecode(file("${path.module}/database/sizes.json"))
-  budgets        = jsondecode(file("${path.module}/resident/budgets.json"))
+  alerts         = jsondecode(file("${path.module}/resident/alerts.json"))
+  budgets        = jsondecode(templatefile("${path.module}/resident/budgets.json", {user = var.tenancy.user_id}))
   channels       = jsondecode(templatefile("${path.module}/resident/channels.json", {owner = var.service.owner}))
   controls       = jsondecode(file("${path.module}/resident/controls.json"))
   classification = jsondecode(file("${path.module}/resident/classification.json"))
@@ -42,6 +53,7 @@ locals {
   profiles       = jsondecode(file("${path.module}/network/profiles.json"))
   rfc6335        = jsondecode(file("${path.module}/network/rfc6335.json"))
   operators      = jsondecode(templatefile("${path.module}/resident/operators.json", {service = local.service_name}))
+  periods        = jsondecode(file("${path.module}/resident/periods.json"))
   routers        = jsondecode(file("${path.module}/network/routers.json"))
   signatures     = jsondecode(file("${path.module}/encryption/signatures.json"))
   secrets        = jsondecode(file("${path.module}/encryption/secrets.json"))

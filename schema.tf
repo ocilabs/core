@@ -13,16 +13,16 @@ variable "adb_type" {
   default     = "TRANSACTION_PROCESSING"
 }
 
+variable "budget" {
+  type = number
+  description = "Sets a monthly budget for the service"
+  default     = 500
+}
+
 variable "class" {
   type        = string
   description = "The tenancy classification sets boundaries for resource deployments"
   default     = "PAYG"
-}
-
-variable "cloud" {
-  type        = bool
-  description = "Provisioning a network topology allows to access Oracle's public cloud services via a private transfer domain."
-  default     = true
 }
 
 variable "container" {
@@ -61,6 +61,12 @@ variable "ipv6" {
 variable "location" {
   type        = string
   description = "The region defines the target region for service deployments"
+}
+
+variable "management" {
+  type        = bool
+  description = "Provisioning a network topology allows to access Oracle's public cloud services via a private transfer domain."
+  default     = true
 }
 
 variable "nat" {
@@ -116,7 +122,7 @@ variable "osn" {
   default     = "ALL_SERVICES"
 }
 
-variable "wallet_type" {
+variable "wallet" {
   type        = string
   description = "Define the storage entity, either Software or HSM"
   default     = "Software"

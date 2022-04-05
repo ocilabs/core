@@ -31,6 +31,12 @@ locals {
 module "configuration" {
   source         = "./default/"
   providers = {oci = oci.service}
+  tenancy = {
+    tenancy_id     = var.tenancy_ocid
+    compartment_id = var.compartment_ocid
+    home           = var.region
+    user_id        = var.current_user_ocid
+  }
   resident = {
     topologies = local.topologies
     domains    = local.domains

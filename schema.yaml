@@ -60,185 +60,15 @@ variableGroups:
   - osn
   - nat
   - ipv6
-  - cloud
+  - management
 
 - title: "Wallet"
   visible: true
   variables:
   - create_wallet
-  - wallet_type
+  - wallet
 
 variables:
-# Tenancy
-  tenancy_ocid:
-    title: "Tenancy ID"
-    description: "A unique identifier for your cloud tenancy"
-    visible: false
-    type: string
-    required: true
-
-  class:
-    title: "Define service limits related to the contract type"
-    description: "Choose the Universal Credit Consumption (UCC) model to select corresponding resource types"
-    type: enum
-    default: "FREE_TIER"
-    required: true
-    enum:
-      - FREE_TIER
-      - TRIAL
-      - PAYG
-      - UCC
-
-# Service Configuration
-  compartment_ocid:
-    title: "Compartment ID"
-    description: "A unique identifier that creates a bspoke administrator domains for your service"
-    visible: false
-    type: string
-    required: true
-  
-  current_user_ocid:
-    title: "User ID"
-    description: "Retrieved OCID for the current user"
-    visible: false
-    type: string
-    required: true
-    
-  parent:
-    title: "Parent Compartment"
-    description: "The OCID for the root compartment, the default selection should only be changed by an experienced user"
-    type: oci:identity:compartment:id
-    visible: false
-    dependsOn:
-      compartmentId: tenancy_ocid
-      accessLevel: ANY
-      lifecycleState: ACTIVE
-    required: true
-
-  location:
-    title: "Select the data center region for the service deployment"
-    description: "Before selecting an availability domain in a region, the target region should be activated for a tenancy"
-    visible: true
-    type: oci:identity:region:name
-    default: region
-    required: true
-
-  region:
-    title: "Default region for the user"
-    visible: false
-    type: string
-    required: true
-
-  organization:
-    title: "Name of the business unit"
-    description: "Identifier for the organization that will use the service"
-    type: string
-    default: "Organization"
-    minLength: 1
-    maxLength: 25
-    pattern: "^[a-zA-Z]+$"
-    required: true
-
-  solution:
-    title: "Name of the solution"
-    description: "Identifier for the service, the name should be unique within the tenancy"
-    type: string
-    default: "Name"
-    minLength: 1
-    maxLength: 25
-    pattern: "^[a-zA-Z]+$"
-    required: true
-
-  stage:
-    title: "Select the lifecycle stage for the deployment"
-    description: "Selecting the lifecycle stage preselects an appropriate collection of operational controls"
-    type: enum
-    default: "DEV"
-    required: true
-    enum:
-      - DEV
-      - UAT
-      - PROD
-
-  repository:
-    title: "Source code repository for the provisioning scripts (only used for information pusposes)"
-    description: "Provide an URL for the code source"
-    type: string
-    required: false
-
-  owner:
-    title: "Service Administrator"
-    description: "The service administrator will receive notifications when the service topology changes"
-    type: string
-    required: true
-
-# Application Type
-  host:
-    type: boolean
-    title: "Enterprise Application"
-    required: false
-
-  nodes:
-    type: boolean
-    title: "Web Application"
-    required: false
-
-  container:
-    type: boolean
-    title: "Cloud Native Service"
-    required: false
-
-  cloud:
-    type: boolean
-    title: "Management"
-    visible: false
-    required: true
-
-# Network Options
-  netsettings:
-    type: boolean
-    title: "Advanced Network Settings"
-    required: true
-    default: false
-
-  internet:
-    type: enum
-    title: "Network Access:"
-    required: true
-    visible: netsettings
-    enum:
-      - PUBLIC
-      - PRIVATE
-
-  ipv6:
-    type: boolean
-    title: "IPv6"
-    required: true
-    visible: netsettings
-    default: false
-
-  nat:
-    type: boolean
-    title: "NAT for Private Subnets"
-    required: true
-    visible: netsettings
-    default: true
-
-  osn:
-    type: enum
-    title: "Oracle Cloud Services:"
-    required: true
-    visible: netsettings
-    enum:
-      - ALL_SERVICES
-      - OBJECT_STORAGE
-      - DISABLE
-
-# Database Service
-  create_adb:
-    type: boolean
-    title: "Create an Autonomous Database"
-    required: false
 
   adb_type:
     title: "Database Type"
@@ -261,13 +91,178 @@ variables:
       - medium
       - large
 
-# Encryption Service
+  class:
+    title: "Define service limits related to the contract type"
+    description: "Choose the Universal Credit Consumption (UCC) model to select corresponding resource types"
+    type: enum
+    default: "FREE_TIER"
+    required: true
+    enum:
+      - FREE_TIER
+      - TRIAL
+      - PAYG
+      - UCC
+
+  compartment_ocid:
+    title: "Compartment ID"
+    description: "A unique identifier that creates a bspoke administrator domains for your service"
+    visible: false
+    type: string
+    required: true
+
+  container:
+    type: boolean
+    title: "Cloud Native Service"
+    required: false
+
+  create_adb:
+    type: boolean
+    title: "Create an Autonomous Database"
+    required: false
+
   create_wallet:
     type: boolean
     title: "Create a Wallet"
     required: false
+  
+  current_user_ocid:
+    title: "User ID"
+    description: "Retrieved OCID for the current user"
+    visible: false
+    type: string
+    required: true
 
-  wallet_type:
+  host:
+    type: boolean
+    title: "Enterprise Application"
+    required: false
+
+  internet:
+    type: enum
+    title: "Network Access:"
+    required: true
+    visible: netsettings
+    enum:
+      - PUBLIC
+      - PRIVATE
+
+  ipv6:
+    type: boolean
+    title: "IPv6"
+    required: true
+    visible: netsettings
+    default: false
+
+  location:
+    title: "Select the data center region for the service deployment"
+    description: "Before selecting an availability domain in a region, the target region should be activated for a tenancy"
+    visible: true
+    type: oci:identity:region:name
+    default: region
+    required: true
+
+  management:
+    type: boolean
+    title: "Management"
+    visible: false
+    required: true
+
+  nat:
+    type: boolean
+    title: "NAT for Private Subnets"
+    required: true
+    visible: netsettings
+    default: true
+
+  netsettings:
+    type: boolean
+    title: "Advanced Network Settings"
+    required: true
+    default: false
+
+  nodes:
+    type: boolean
+    title: "Web Application"
+    required: false
+
+  organization:
+    title: "Name of the business unit"
+    description: "Identifier for the organization that will use the service"
+    type: string
+    default: "Organization"
+    minLength: 1
+    maxLength: 25
+    pattern: "^[a-zA-Z]+$"
+    required: true
+
+  osn:
+    type: enum
+    title: "Oracle Cloud Services:"
+    required: true
+    visible: netsettings
+    enum:
+      - ALL_SERVICES
+      - OBJECT_STORAGE
+      - DISABLE
+
+  owner:
+    title: "Service Administrator"
+    description: "The service administrator will receive notifications when the service topology changes"
+    type: string
+    required: true
+    
+  parent:
+    title: "Parent Compartment"
+    description: "The OCID for the root compartment, the default selection should only be changed by an experienced user"
+    type: oci:identity:compartment:id
+    visible: false
+    dependsOn:
+      compartmentId: tenancy_ocid
+      accessLevel: ANY
+      lifecycleState: ACTIVE
+    required: true
+
+  region:
+    title: "Default region for the user"
+    visible: false
+    type: string
+    required: true
+
+  repository:
+    title: "Source code repository for the provisioning scripts (only used for information pusposes)"
+    description: "Provide an URL for the code source"
+    type: string
+    required: false
+
+  solution:
+    title: "Name of the solution"
+    description: "Identifier for the service, the name should be unique within the tenancy"
+    type: string
+    default: "Name"
+    minLength: 1
+    maxLength: 25
+    pattern: "^[a-zA-Z]+$"
+    required: true
+
+  stage:
+    title: "Select the lifecycle stage for the deployment"
+    description: "Selecting the lifecycle stage preselects an appropriate collection of operational controls"
+    type: enum
+    default: "DEV"
+    required: true
+    enum:
+      - DEV
+      - UAT
+      - PROD
+
+  tenancy_ocid:
+    title: "Tenancy ID"
+    description: "A unique identifier for your cloud tenancy"
+    visible: false
+    type: string
+    required: true
+
+  wallet:
     title: "Vault Type"
     visible: create_wallet
     required: false

@@ -1,34 +1,58 @@
 [
   {
-    "name"      : "resident",
-    "measure"   : "COMPARTMENT",
-    "period"    : "MONTHLY",
-    "amount"    : 350,
-    "srage"     : 1,
-    "threshold" : 90
-  },{
-    "name"      : "cost_center",
-    "values"    : ["IT", "HR", "Sales"],
-    "measure"   : "TAG",
-    "period"    : "MONTHLY",
-    "amount"    : 100,
-    "srage"     : 2,
-    "threshold" : 90
-  },{
-    "name"      : "cost_type",
-    "values"    : ["operation", "management", "development"],
-    "measure"   : "TAG",
-    "period"    : "MONTHLY",
-    "amount"    : 100,
-    "srage"     : 2,
-    "threshold" : 90
-  },{
-    "name"      : "created_by",
-    "values"    : "name",
-    "measure"   : "TAG",
-    "period"    : "MONTHLY",
-    "amount"    : 100,
-    "srage"     : 2,
-    "threshold" : 90
+    "alert"  : "tag",
+    "amount" : 100,
+    "name"   : "IT",
+    "period" : "default",
+    "stage"  : 2,
+    "tag"    : "cost_center"
+  },
+  {
+    "alert"  : "tag",
+    "amount" : 100,
+    "name"   : "HR",
+    "period" : "default",
+    "stage"  : 2,
+    "tag"    : "cost_center"
+  },
+  {
+    "alert"  : "tag",
+    "amount" : 100,
+    "name"   : "Sales",
+    "period" : "default",
+    "stage"  : 2,
+    "tag"    : "cost_center"
+  },
+  {
+    "alert"  : "tag",
+    "amount" : 100,
+    "name"   : "management",
+    "period" : "default",
+    "stage"  : 2,
+    "tag"    : "cost_type"
+  },
+  {
+    "alert"  : "tag",
+    "amount" : 100,
+    "name"   : "operation",
+    "period" : "default",
+    "stage"  : 2,
+    "tag"    : "cost_type"
+  },
+  {
+    "alert"  : "tag",
+    "amount" : 100,
+    "name"   : "development",
+    "period" : "default",
+    "stage"  : 2,
+    "tag"    : "cost_type"
+  },
+  {
+    "alert"  : "tag",
+    "amount" : 100,
+    "name"   : "${user}",
+    "period" : "default",
+    "stage"  : 2,
+    "tag"    : "created_by"
   }
 ]
