@@ -96,9 +96,11 @@ variables:
     default: 0
     required: false
     visible: 
-      eq:
+      or:
         - class
-        - UCC
+        - eq:
+          - "PAYG"
+          - "UCC"
 
   class:
     title: "Define service limits related to the contract type"
