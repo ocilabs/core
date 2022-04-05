@@ -96,11 +96,11 @@ variables:
     default: 0
     required: false
     visible: 
-      not: 
+      eq: 
         - class
-        - and:
-          - FREE_TIER
-          - TRIAL
+        - or:
+          - PAYG
+          - UCC
 
   class:
     title: "Define service limits related to the contract type"
