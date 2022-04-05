@@ -99,9 +99,8 @@ variables:
       eq:
         - class
         - PAYG
-      or:
-        - class
-        - UCC
+        - or:
+          - UCC
 
   class:
     title: "Define service limits related to the contract type"
