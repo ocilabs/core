@@ -97,9 +97,11 @@ variables:
     required: false
     visible: 
       or:
-        - class
         - eq:
+          - class
           - "PAYG"
+        - eq:
+          - class
           - "UCC"
 
   class:
