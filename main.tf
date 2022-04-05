@@ -23,7 +23,12 @@ variable "compartment_ocid" {}
 variable "current_user_ocid" {}
 
 locals {
-  topologies = flatten(compact([var.cloud == true ? "management" : "", var.host == true ? "host" : "", var.nodes == true ? "nodes" : "", var.container == true ? "container" : ""]))
+  topologies = flatten(compact([
+    var.management == true ? "management" : "", 
+    var.host == true ? "host" : "", 
+    var.nodes == true ? "nodes" : "", 
+    var.container == true ? "container" : ""
+  ]))
   domains    = jsondecode(file("${path.module}/default/resident/domains.json"))
   segments   = jsondecode(file("${path.module}/default/network/segments.json"))
 }
