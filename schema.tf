@@ -15,7 +15,7 @@ variable "adb_type" {
 
 variable "budget" {
   type = number
-  description = "Sets a monthly budget for the service"
+  description = "Set a monthly budget for the service, cost tracking will send an alert when 90% of the budget has been consumed. The budget will be ingored when set to 0,-"
   default     = 500
 }
 

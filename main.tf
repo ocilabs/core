@@ -44,6 +44,7 @@ module "configuration" {
   }
   service = {
     adb          = "${var.adb_type}_${var.adb_size}"
+    budget       = var.budget
     class        = var.class
     region       = var.location
     organization = var.organization
@@ -53,9 +54,8 @@ module "configuration" {
     stage        = var.stage
     solution     = var.solution
     tenancy      = var.tenancy_ocid
-    wallet       = var.wallet_type
+    wallet       = var.wallet
   }
-
 }
 // --- tenancy configuration  --- //
 
