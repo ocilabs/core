@@ -31,6 +31,7 @@ locals {
   ]))
   domains    = jsondecode(file("${path.module}/default/resident/domains.json"))
   segments   = jsondecode(file("${path.module}/default/network/segments.json"))
+  wallets    = jsondecode(file("${path.module}/default/encryption/wallets.json"))
 }
 
 module "configuration" {
