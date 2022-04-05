@@ -4,7 +4,7 @@
 output "resident" {
     value = {
         budgets = concat(
-            flatten([for period in local.periods: [for alert in local.alerts : {
+            flatten([for period in local.periods: {for alert in local.alerts: "${local.service_name}_${lower(period.type)}" => {
                 amount         = var.service.budget
                 budget_processing_period_start_offset = period.offset
                 display_name   = "${local.service_name}_${lower(period.type)}"
@@ -13,8 +13,8 @@ output "resident" {
                 target_type    = "COMPARTMENT"
                 threshold      = alert.threshold
                 threshold_type = alert.measure
-            }if alert.name == "compartment"]if period.name == "default" && var.service.budget > 0]),
-            flatten([for domain in var.resident.domains: [for period in local.periods: [for alert in local.alerts: {
+            }if alert.name == "compartment"}if period.name == "default" && var.service.budget > 0]),
+            flatten([for domain in var.resident.domains: [for period in local.periods: {for alert in local.alerts: "${domain.name}_${lower(period.type)}" => {
                 amount = domain.budget
                 budget_processing_period_start_offset = period.offset
                 display_name   = "${domain.name}_${lower(period.type)}"
@@ -23,8 +23,8 @@ output "resident" {
                 target_type    = "COMPARTMENT"
                 threshold      = alert.threshold
                 threshold_type = alert.measure
-            }if alert.name == "compartment"]if period.name == "default"]if domain.budget > 0]),
-            flatten([for budget in local.budgets: [for period in local.periods: [for alert in local.alerts: {
+            }if alert.name == "compartment"}if period.name == "default"]if domain.budget > 0]),
+            flatten([for budget in local.budgets: [for period in local.periods: {for alert in local.alerts: "${budget.name}_${lower(period.type)}" => {
                 amount         = budget.amount
                 budget_processing_period_start_offset = period.offset
                 display_name   = "${budget.name}_${lower(period.type)}"
@@ -33,7 +33,7 @@ output "resident" {
                 target_type    = "TAG"
                 threshold      = alert.threshold
                 threshold_type = alert.measure
-            }if budget.alert == alert.name]if budget.period == period.name]])
+            }if budget.alert == alert.name}if budget.period == period.name]])
         )
         compartments = {for domain in var.resident.domains : "${local.service_name}_${domain.name}_compartment" => domain.stage}
         groups       = {for operator in flatten(var.resident.domains[*].operators) : operator => "${local.service_name}_${operator}"}
