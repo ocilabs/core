@@ -14,6 +14,7 @@ variableGroups:
   variables:
   - tenancy_ocid
   - class
+  - budget
 
 - title: "Region"
   visible: true
@@ -50,7 +51,6 @@ variableGroups:
   - host
   - nodes
   - container
-  - apex
 
 - title: "Network"
   visible: true
@@ -90,6 +90,12 @@ variables:
       - small
       - medium
       - large
+
+  budget:
+    title: "Set a monthly budget for the service, cost tracking will send an alert when 90% of the budget has been consumed. The budget will be ingored when set to 0,-"
+    default: 0
+    required: false
+    visible: class not "FREE_TIER""
 
   class:
     title: "Define service limits related to the contract type"
