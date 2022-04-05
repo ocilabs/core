@@ -96,10 +96,11 @@ variables:
     default: 0
     required: false
     visible: 
-      or: 
+      eq: 
         - class
-        - eq:
+        - or:
           - PAYG
+        - or:
           - UCC
 
   class:
