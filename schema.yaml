@@ -95,10 +95,12 @@ variables:
     title: "Sets a monthly budget for the service"
     default: 0
     required: false
+    dependsOn: class
     visible: 
-      not: 
+      eq: 
         - class
-        - FREE_TIER
+        - or:
+          - UCC
 
   class:
     title: "Define service limits related to the contract type"
