@@ -1,48 +1,57 @@
 [
     {
-        "topology" : "cloud",
+        "firewall" : "domain",
         "name"     : "management",
         "newbits"  : 10,
-        "firewall" : "domain"
+        "stage"    : 0,
+        "topology" : "cloud"
     },{
-        "topology" : "host",
+        "firewall" : "edge",
         "name"     : "presentation",
         "newbits"  : 10,
-        "firewall" : "edge"
+        "stage"    : 0,
+        "topology" : "host"
     },{
-        "topology" : "host",
+        "firewall" : "domain",
         "name"     : "application",
         "newbits"  : 10,
-        "firewall" : "domain"
+        "stage"    : 0,
+        "topology" : "host"
     },{
-        "topology" : "host",
+        "firewall" : "domain",
         "name"     : "database",
         "newbits"  : 10,
-        "firewall" : "domain"
+        "stage"    : 0,
+        "topology" : "host"
     },{
-        "topology" : "nodes",
+        "firewall" : "edge",
         "name"     : "frontend",
         "newbits"  : 10,
-        "firewall" : "edge"
+        "stage"    : 0,
+        "topology" : "nodes"
     },{
-        "topology" : "nodes",
+        "firewall" : "domain",
         "name"     : "backend",
         "newbits"  : 10,
-        "firewall" : "domain"
+        "stage"    : 0,
+        "topology" : "nodes"
     },{
-        "topology" : "container",
+        "firewall" : "edge",
         "name"     : "loadbalancer",
         "newbits"  : 10,
-        "firewall" : "edge"
+        "stage"    : 0,
+        "topology" : "container"
     },{
-        "topology" : "container",
+        "firewall" : "domain",
         "name"     : "worker",
         "newbits"  : 10,
-        "firewall" : "domain"
+        "stage"    : 0,
+        "topology" : "container"
     },{
-        "topology" : "container",
+        "firewall" : "domain",
         "name"     : "master",
         "newbits"  : 10,
-        "firewall" : "domain"
+        "stage"    : 0,
+        "topology" : "container"
     }
 ]
