@@ -58,9 +58,9 @@ variableGroups:
   - netsettings
   - internet
   - osn
+  - management
   - nat
   - ipv6
-  - management
 
 - title: "Wallet"
   visible: true
@@ -176,8 +176,9 @@ variables:
 
   management:
     type: boolean
-    title: "Management"
-    visible: false
+    title: "Management Network"
+    visible: netsettings
+    default : true
     required: true
 
   nat:
