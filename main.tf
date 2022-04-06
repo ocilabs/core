@@ -142,13 +142,13 @@ module "database" {
   providers  = {oci = oci.service}
   tenancy    = module.configuration.tenancy
   resident   = module.configuration.resident
-  database   = module.configuration.database.autonomous
+  database   = module.configuration.database
   input = {
     create   = var.create_adb
   }
   assets = {
     resident   = module.resident
-    encryption = module.encryption["default"]
+    encryption = module.encryption["main"]
   }
 }
 output "database" {
