@@ -1,10 +1,10 @@
 [
   {
-    "name"       : "main",
-    "stage"      : 0,
     "algorithm"  : "RSA",
     "length"     : 256,
+    "name"       : "main",
+    "secrets"    : ["default"],
     "signatures" : ["rsa"],
-    "secrets"    : ["default"]
+    "stage"      : 0
   }
 ]
