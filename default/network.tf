@@ -33,6 +33,7 @@ output "network" {
     }
     route_tables = {for subnet in local.subnets : subnet.name => { 
       display_name = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${subnet.name}_table"
+      stage        = subnet.stage
       route_rules  = flatten([for destination in local.port_filter[subnet.firewall].egress: [for zone in destination.zones : {
         description = "Routes ${destination.name} traffic via the ${destination.gateway} gateway."
         destination    = matchkeys(values(local.zones[segment.name]), keys(local.zones[segment.name]), [zone])[0]
@@ -44,6 +45,7 @@ output "network" {
     }}
     security_lists = {for subnet in local.subnets : subnet.name => { 
       display_name = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${subnet.name}_filter"
+      stage        = subnet.stage
       ingress      = {for profile in local.port_filter[subnet.firewall].ingress: "${profile.firewall}_${profile.zone}_${profile.port}_${profile.transport}" => {
         protocol    = profile.protocol
         description = "Allow incoming tcp ${profile.port} traffic from ${profile.zone} via the ${profile.firewall} port filter"
@@ -66,6 +68,7 @@ output "network" {
       display_name  = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${subnet.name}"
       route_table   = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${subnet.name}_table"
       security_list = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_${subnet.name}_filter"
+      stage         = subnet.stage
       prohibit_internet_ingress = contains(flatten(distinct(local.port_filter[subnet.firewall].ingress[*].zone)), "anywhere") ? false : true
       topology      = subnet.topology
     } if contains(var.resident.topologies, subnet.topology)}
