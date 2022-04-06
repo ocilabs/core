@@ -52,7 +52,7 @@ variableGroups:
   - nodes
   - container
 
-- title: "Network"
+- title: "Network Configuration"
   visible: true
   variables:
   - netsettings
@@ -130,7 +130,7 @@ variables:
 
   create_adb:
     type: boolean
-    title: "Create an Autonomous Database"
+    title: "Autonomous Database"
     required: false
 
   create_wallet:
@@ -190,7 +190,7 @@ variables:
 
   netsettings:
     type: boolean
-    title: "Advanced Network Settings"
+    title: "Advanced Settings"
     required: true
     default: false
 
