@@ -37,7 +37,7 @@ locals {
 module "configuration" {
   source         = "./default/"
   providers = {oci = oci.service}
-  tenancy = {
+  account = {
     tenancy_id     = var.tenancy_ocid
     compartment_id = var.compartment_ocid
     home           = var.region
@@ -77,10 +77,11 @@ module "resident" {
   tenancy    = module.configuration.tenancy
   resident   = module.configuration.resident
   input = {
-    # Reference to the deployment root. The service is setup in an encapsulating child compartment 
-    parent_id     = var.tenancy_ocid
     # Enable compartment delete on destroy. If true, compartment will be deleted when `terraform destroy` is executed; If false, compartment will not be deleted on `terraform destroy` execution
     enable_delete = var.stage != "PROD" ? true : false
+    # Reference to the deployment root. The service is setup in an encapsulating child compartment 
+    parent_id     = var.tenancy_ocid
+    user_id       = var.current_user_ocid
   }
 }
 output "resident" {

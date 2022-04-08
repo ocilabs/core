@@ -1,7 +1,7 @@
 # Copyright (c) 2020 Oracle and/or its affiliates.
 # Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
 
-variable "tenancy" {
+variable "account" {
   description = "retrieved tenancy data"
   type = object({
     tenancy_id     = string,
@@ -43,7 +43,7 @@ locals {
   adb_types      = jsondecode(file("${path.module}/database/adb.json"))
   adb_sizes      = jsondecode(file("${path.module}/database/sizes.json"))
   alerts         = jsondecode(file("${path.module}/resident/alerts.json"))
-  budgets        = jsondecode(templatefile("${path.module}/resident/budgets.json", {user = var.tenancy.user_id}))
+  budgets        = jsondecode(templatefile("${path.module}/resident/budgets.json", {user = var.account.user_id}))
   channels       = jsondecode(templatefile("${path.module}/resident/channels.json", {owner = var.service.owner}))
   controls       = jsondecode(file("${path.module}/resident/controls.json"))
   classification = jsondecode(file("${path.module}/resident/classification.json"))

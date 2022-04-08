@@ -1,0 +1,50 @@
+[
+    {
+        "name"     : "cloudops",
+        "channels" : ["events"],
+        "stage"    : 0,
+        "groups"   : [
+            "Administrators"
+        ]
+    },
+    {
+        "name"     : "auditor",
+        "channels" : ["activation"],
+        "stage"    : 0,
+        "groups"   : [
+            "Administrators"
+        ]
+    },
+    {
+        "name"     : "secops",
+        "channels" : ["events"],
+        "stage"    : 0,
+        "groups"   : [
+            "Administrators"
+        ]
+    },
+    {
+        "name"     : "sysops",
+        "channels" : ["events"],
+        "stage"    : 0,
+        "groups"   : [
+            "Administrators"
+        ]
+    },
+    {
+        "name"     : "dba",
+        "channels" : ["events"],
+        "stage"    : 0,
+        "groups"   : [
+            "Administrators"
+        ]
+    },
+    {
+        "name"     : "netops",
+        "channels" : ["events"],
+        "stage"    : 0,
+        "groups"   : [
+            "Administrators"
+        ]
+    }
+]
