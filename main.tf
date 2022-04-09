@@ -65,7 +65,7 @@ module "configuration" {
 }
 // --- tenancy configuration  --- //
 
-/*/ --- operation controls --- //
+// --- operation controls --- //
 provider "oci" {
   alias  = "home"
   region = module.configuration.tenancy.region.key
@@ -89,7 +89,7 @@ output "resident" {
 }
 // --- operation controls --- //
 
-// --- wallet configuration --- //
+/*/ --- wallet configuration --- //
 module "encryption" {
   source     = "github.com/ocilabs/encryption"
   depends_on = [module.configuration, module.resident]
