@@ -51,15 +51,15 @@ variableGroups:
 - title: "Advanced Settings"
   visible: true
   variables:
+  - vaultsettings
+  - create_wallet
+  - wallet
   - netsettings
   - internet
   - osn
   - management
   - nat
   - ipv6
-  - vaultsettings
-  - create_wallet
-  - wallet
 
 variables:
 
