@@ -65,7 +65,7 @@ module "configuration" {
 }
 // --- tenancy configuration  --- //
 
-// --- operation controls --- //
+/*/ --- operation controls --- //
 provider "oci" {
   alias  = "home"
   region = module.configuration.tenancy.region.key
@@ -156,7 +156,7 @@ output "database" {
   value = {for resource, parameter in module.database : resource => parameter}
   sensitive = true
 }
-// --- database creation --- //
+// --- database creation --- /*/
 
 
 /*/ --- host configuration --- //
