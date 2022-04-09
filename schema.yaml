@@ -16,27 +16,19 @@ variableGroups:
   - class
   - budget
 
-- title: "Region"
-  visible: true
-  variables:
-  - location
-  - region
-
 - title: "Service"
   visible: true
   variables:
   - parent
   - compartment_ocid
   - current_user_ocid
-  - organization
   - solution
+  - stage
+  - organization
+  - location
+  - region
   - owner
   - repository
-
-- title: "Lifecycle"
-  visible: true
-  variables:
-  - stage
 
 - title: "Database"
   visible: true
@@ -52,7 +44,7 @@ variableGroups:
   - nodes
   - container
 
-- title: "Network Configuration"
+- title: "Advanced Settings"
   visible: true
   variables:
   - netsettings
@@ -61,10 +53,6 @@ variableGroups:
   - management
   - nat
   - ipv6
-
-- title: "Wallet"
-  visible: true
-  variables:
   - create_wallet
   - wallet
 
@@ -135,7 +123,7 @@ variables:
 
   create_wallet:
     type: boolean
-    title: "Create a Wallet"
+    title: "Wallet"
     required: false
   
   current_user_ocid:
@@ -177,7 +165,7 @@ variables:
   management:
     type: boolean
     title: "Management Network"
-    visible: netsettings
+    visible: false
     default : true
     required: true
 
@@ -190,7 +178,7 @@ variables:
 
   netsettings:
     type: boolean
-    title: "Advanced Settings"
+    title: "Network Configuration"
     required: true
     default: false
 
@@ -277,7 +265,7 @@ variables:
     required: true
 
   wallet:
-    title: "Vault Type"
+    title: "Type"
     visible: create_wallet
     required: false
     type: enum
