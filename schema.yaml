@@ -98,7 +98,7 @@ variables:
           - "UCC"
 
   class:
-    title: "Service Limits"
+    title: "Limits"
     description: "Selecting a contract type restricts the resource portfolio to the corresponding service limits and avoids deployment errors."
     type: enum
     default: "FREE_TIER"
