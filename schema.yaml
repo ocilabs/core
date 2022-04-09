@@ -57,6 +57,7 @@ variableGroups:
   - management
   - nat
   - ipv6
+  - vaultsettings
   - create_wallet
   - wallet
 
@@ -182,7 +183,7 @@ variables:
 
   netsettings:
     type: boolean
-    title: "Network Configuration"
+    title: "Network"
     description: "Advanced parameter for the network topology."
     required: true
     default: false
@@ -269,11 +270,18 @@ variables:
     type: string
     required: true
 
+  vaultsettings:
+    type: boolean
+    title: "Encryption"
+    description: "Enforce the creation of a secret store. Storing secrets is strongly recommended for production, but not for the development phase."
+    required: true
+    default: false
+
   wallet:
     title: "Type"
     visible: create_wallet
     required: false
     type: enum
     enum:
-      - Software
-      - HSM
+      - SOFTWARE
+      - HARDWARE

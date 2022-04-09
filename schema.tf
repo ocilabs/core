@@ -124,6 +124,6 @@ variable "osn" {
 
 variable "wallet" {
   type        = string
-  description = "Define the storage entity, either Software or HSM"
-  default     = "Software"
+  description = "Define the storage entity, either Software or HARDWARE"
+  default     = "SOFTWARE"
 }

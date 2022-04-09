@@ -100,7 +100,7 @@ module "encryption" {
   encryption = module.configuration.encryption[each.key]
   input = {
     create = var.create_wallet
-    type   = var.wallet == "Software" ? "DEFAULT" : "VIRTUAL_PRIVATE"
+    type   = var.wallet == "SOFTWARE" ? "DEFAULT" : "VIRTUAL_PRIVATE"
   }
   assets = {
     resident = module.resident
