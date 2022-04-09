@@ -16,14 +16,18 @@ variableGroups:
   - class
   - budget
 
-- title: "Service"
+- title: "Lifecycle"
+  visible: true
+  variables:
+  - stage
+
+- title: "Details"
   visible: true
   variables:
   - parent
   - compartment_ocid
   - current_user_ocid
   - solution
-  - stage
   - organization
   - location
   - region
@@ -179,6 +183,7 @@ variables:
   netsettings:
     type: boolean
     title: "Network Configuration"
+    description: "Advanced parameter for the network topology."
     required: true
     default: false
 
@@ -188,8 +193,8 @@ variables:
     required: false
 
   organization:
-    title: "Name of the business unit"
-    description: "Identifier for the organization that will use the service"
+    title: "Consumer"
+    description: "Identifier for the organization that will use the service."
     type: string
     default: "Organization"
     minLength: 1
@@ -208,7 +213,7 @@ variables:
       - DISABLE
 
   owner:
-    title: "Service Administrator"
+    title: "Administrator"
     description: "The service administrator will receive notifications when the service topology changes"
     type: string
     required: true
@@ -231,14 +236,14 @@ variables:
     required: true
 
   repository:
-    title: "Source code repository for the provisioning scripts (only used for information pusposes)"
-    description: "Provide an URL for the code source"
+    title: "Repository"
+    description: "Source code repository for the provisioning scripts (only used for information pusposes)"
     type: string
     required: false
 
   solution:
-    title: "Name of the solution"
-    description: "Identifier for the service, the name should be unique within the tenancy"
+    title: "Service"
+    description: "Provide an identifier for the service, the name should be unique within the tenancy"
     type: string
     default: "Name"
     minLength: 1
@@ -247,8 +252,8 @@ variables:
     required: true
 
   stage:
-    title: "Select the lifecycle stage for the deployment"
-    description: "Selecting the lifecycle stage preselects an appropriate collection of operational controls"
+    title: "Stage"
+    description: "Providing the lifecycle stage preselects an appropriate collection of operational controls"
     type: enum
     default: "DEV"
     required: true
