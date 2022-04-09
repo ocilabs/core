@@ -128,7 +128,8 @@ variables:
 
   create_wallet:
     type: boolean
-    title: "Wallet"
+    title: "Create a Wallet"
+    visible: vaultsettings
     required: false
   
   current_user_ocid:
@@ -279,7 +280,7 @@ variables:
 
   wallet:
     title: "Type"
-    visible: create_wallet
+    visible: vaultsettings
     required: false
     type: enum
     enum:
