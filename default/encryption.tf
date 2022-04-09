@@ -16,10 +16,13 @@ output "encryption" {
       type      = signature.type
       algorithm = signature.algorithm
     }if contains(wallet.signatures, signature.name)}
-    secrets = {for secret in local.secrets : secret.name => {
-      name   = "${local.service_name}_${secret.name}_secret"
+    secrets = {for secret in local.secrets : secret.resource => {
+      name   = "${local.service_name}_${secret.resource}_secret"
       phrase = secret.phrase
-    }if contains(wallet.secrets, secret.name)}
-    passwords = [for secret in local.secrets : "${secret.name}_password"]
+    }if var.service.encrypt == true}
+    passwords = [
+      for secret in local.secrets : "${local.service_name}_${secret.resource}_password"
+      if var.service.encrypt == false
+    ]
   }}
 }

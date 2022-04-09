@@ -26,6 +26,7 @@ variable "service" {
     adb          = string,
     budget       = number,
     class        = string,
+    encrypt      = bool,
     owner        = string,
     organization = string,
     osn          = string,
@@ -53,15 +54,14 @@ locals {
   profiles       = jsondecode(file("${path.module}/network/profiles.json"))
   rfc6335        = jsondecode(file("${path.module}/network/rfc6335.json"))
   operators      = jsondecode(templatefile("${path.module}/resident/operators.json", {service = local.service_name}))
-  periods        = jsondecode(file("${path.module}/resident/periods.json"))
   /*
   policies       = jsondecode(templatefile("${path.module}/resident/policies.json", {
-    resident     = local.service_name,
-    application  = "${local.service_name}_application_compartment",
-    network      = "${local.service_name}_network_compartment",
-    database     = "${local.service_name}_database_compartment",
+    resident     = oci_identity_compartment.resident.name,
+    application  = "${oci_identity_compartment.resident.name}_application_compartment",
+    network      = "${oci_identity_compartment.resident.name}_network_compartment",
+    database     = "${oci_identity_compartment.resident.name}_database_compartment",
     session_username = var.account.user_id,
-    tenancy_OCID = var.account.tenancy_id,
+    tenancy_OCID = var.tenancy.id,
     #image_OCID   = "${local.service_name}_image_OCID",
     #vault_OCID   = "${local.service_name}_vault_OCID",
     #key_OCID     = "${local.service_name}_key_OCID",
@@ -69,6 +69,7 @@ locals {
     #workspace_OCID = "${local.service_name}_workspace_OCID",
   }))
   */
+  periods        = jsondecode(file("${path.module}/resident/periods.json"))
   routers        = jsondecode(file("${path.module}/network/routers.json"))
   signatures     = jsondecode(file("${path.module}/encryption/signatures.json"))
   secrets        = jsondecode(file("${path.module}/encryption/secrets.json"))

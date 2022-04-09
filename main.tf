@@ -52,6 +52,7 @@ module "configuration" {
     adb          = "${var.adb_type}_${var.adb_size}"
     budget       = var.budget
     class        = var.class
+    encrypt      = var.create_wallet
     region       = var.location
     organization = var.organization
     osn          = var.osn

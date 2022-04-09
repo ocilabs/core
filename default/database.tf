@@ -8,10 +8,10 @@ output "database" {
       display_name = "${local.service_name}_database"
       license      = adb.license
       name         = "${lower(adb.name)}_${size.name}"
-      password     = "${adb.password}_password"
+      password     = var.service.encrypt? "${local.service_name}_${adb.password}_secret" : "${local.service_name}_${adb.password}_password"
       stage        = adb.stage
       storage      = size.storage
       type         = adb.type
       version      = adb.version
-  }if var.service.adb == "${adb.name}_${size.name}"]]))[0]
+  }if var.service.adb == "${adb.name}_${upper(size.name)}"]]))[0]
 }
