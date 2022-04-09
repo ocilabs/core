@@ -3,7 +3,7 @@
     "name"     : "TRANSACTION_PROCESSING",
     "type"     : "OLTP",
     "stage"    : 0,
-    "sizes"    : ["small", "medium", "large"],
+    "sizes"    : ["SMALL", "MEDIUM", "LARGE"],
     "license"  : "LICENSE_INCLUDED",
     "password" : "database",
     "version"  : "19c"
@@ -12,7 +12,7 @@
     "name"     : "DATA_WAREHOUSE",
     "type"     : "DW",
     "stage"    : 0,
-    "sizes"    : ["small", "medium", "large"],
+    "sizes"    : ["SMALL", "MEDIUM", "LARGE"],
     "license"  : "LICENSE_INCLUDED",
     "password" : "database",
     "version"  : "19c"
@@ -21,7 +21,7 @@
     "name"     : "APEX",
     "type"     : "APEX",
     "stage"    : 0,
-    "sizes"    : ["small", "medium", "large"],
+    "sizes"    : ["SMALL", "MEDIUM", "LARGE"],
     "license"  : "LICENSE_INCLUDED",
     "password" : "database",
     "version"  : "19c"
@@ -30,7 +30,7 @@
     "name"     : "JSON",
     "type"     : "AJD",
     "stage"    : 0,
-    "sizes"    : ["small", "medium", "large"],
+    "sizes"    : ["SMALL", "MEDIUM", "LARGE"],
     "license"  : "LICENSE_INCLUDED",
     "password" : "database",
     "version"  : "19c"

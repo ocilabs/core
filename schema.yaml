@@ -79,9 +79,9 @@ variables:
     required: false
     type: enum
     enum:
-      - small
-      - medium
-      - large
+      - SMALL
+      - MEDIUM
+      - LARGE
 
   budget:
     title: "Sets a monthly budget for the service"
@@ -97,8 +97,8 @@ variables:
           - "UCC"
 
   class:
-    title: "Define service limits related to the contract type"
-    description: "Choose the Universal Credit Consumption (UCC) model to select corresponding resource types"
+    title: "Service Limits"
+    description: "Selecting a contract type restricts the resource portfolio to the corresponding service limits and avoids deployment errors."
     type: enum
     default: "FREE_TIER"
     required: true
@@ -110,7 +110,7 @@ variables:
 
   compartment_ocid:
     title: "Compartment ID"
-    description: "A unique identifier that creates a bspoke administrator domains for your service"
+    description: "A unique identifier that creates a bspoke administrator domains for your service."
     visible: false
     type: string
     required: true
@@ -159,8 +159,8 @@ variables:
     default: false
 
   location:
-    title: "Select the data center region for the service deployment"
-    description: "Before selecting an availability domain in a region, the target region should be activated for a tenancy"
+    title: "Region"
+    description: "Define the target region for the service deployment, the target region needs to be activated for a tenancy."
     visible: true
     type: oci:identity:region:name
     default: region
@@ -255,12 +255,12 @@ variables:
     title: "Stage"
     description: "Providing the lifecycle stage preselects an appropriate collection of operational controls"
     type: enum
-    default: "DEV"
+    default: "DEVELOPMENT"
     required: true
     enum:
-      - DEV
-      - UAT
-      - PROD
+      - DEVELOPMENT
+      - TEST
+      - PRODUCTION
 
   tenancy_ocid:
     title: "Tenancy ID"

@@ -4,7 +4,7 @@
 variable "adb_size" {
   type = string
   description = "Configures the size of database"
-  default     = "small"
+  default     = "SMALL"
 }
 
 variable "adb_type" {
@@ -113,7 +113,7 @@ variable "solution" {
 variable "stage"           { 
   type        = string
   description = "The stage variable triggers lifecycle related resources to be provisioned"
-  default     = "DEV"
+  default     = "DEVELOPMENT"
 }
 
 variable "osn" {

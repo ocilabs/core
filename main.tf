@@ -78,7 +78,7 @@ module "resident" {
   resident   = module.configuration.resident
   input = {
     # Enable compartment delete on destroy. If true, compartment will be deleted when `terraform destroy` is executed; If false, compartment will not be deleted on `terraform destroy` execution
-    enable_delete = var.stage != "PROD" ? true : false
+    enable_delete = var.stage != "PRODUCTION" ? true : false
     # Reference to the deployment root. The service is setup in an encapsulating child compartment 
     parent_id     = var.tenancy_ocid
     user_id       = var.current_user_ocid
@@ -174,7 +174,7 @@ module "host" {
   input     = {
     network = module.network["core"]
     name    = "operator"
-    shape   = "small"
+    shape   = "SMALL"
     image   = "linux"
     disk    = "san"
     nic     = "private"
