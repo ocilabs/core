@@ -89,7 +89,7 @@ output "resident" {
 }
 // --- operation controls --- //
 
-/*/ --- wallet configuration --- //
+// --- wallet configuration --- //
 module "encryption" {
   source     = "github.com/ocilabs/encryption"
   depends_on = [module.configuration, module.resident]
@@ -157,7 +157,7 @@ output "database" {
   value = {for resource, parameter in module.database : resource => parameter}
   sensitive = true
 }
-// --- database creation --- /*/
+// --- database creation --- //
 
 
 /*/ --- host configuration --- //
