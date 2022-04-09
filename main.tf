@@ -146,6 +146,7 @@ module "database" {
   database   = module.configuration.database
   input = {
     create   = var.create_adb
+    password = var.create_wallet == false ? "RANDOM" : "VAULT"
   }
   assets = {
     resident   = module.resident
