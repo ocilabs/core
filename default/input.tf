@@ -55,10 +55,10 @@ locals {
   operators      = jsondecode(templatefile("${path.module}/resident/operators.json", {service = local.service_name}))
   periods        = jsondecode(file("${path.module}/resident/periods.json"))
   policies       = jsondecode(templatefile("${path.module}/resident/policies.json", {
-    resident     = oci_identity_compartment.resident.name,
-    application  = "${oci_identity_compartment.resident.name}_application_compartment",
-    network      = "${oci_identity_compartment.resident.name}_network_compartment",
-    database     = "${oci_identity_compartment.resident.name}_database_compartment",
+    resident     = local.service_name,
+    application  = "${local.service_name}_application_compartment",
+    network      = "${local.service_name}_network_compartment",
+    database     = "${local.service_name}_database_compartment",
     session_username = var.account.user_id,
     tenancy_OCID = var.tenancy.id,
     #image_OCID   = "${local.service_name}_image_OCID",
