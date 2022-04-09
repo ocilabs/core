@@ -21,7 +21,7 @@ variableGroups:
   variables:
   - stage
 
-- title: "Details"
+- title: "Settings"
   visible: true
   variables:
   - parent
