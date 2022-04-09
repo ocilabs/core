@@ -54,6 +54,7 @@ locals {
   rfc6335        = jsondecode(file("${path.module}/network/rfc6335.json"))
   operators      = jsondecode(templatefile("${path.module}/resident/operators.json", {service = local.service_name}))
   periods        = jsondecode(file("${path.module}/resident/periods.json"))
+  /*
   policies       = jsondecode(templatefile("${path.module}/resident/policies.json", {
     resident     = local.service_name,
     application  = "${local.service_name}_application_compartment",
@@ -67,6 +68,7 @@ locals {
     #stream_OCID  = "${local.service_name}_stream_OCID",
     #workspace_OCID = "${local.service_name}_workspace_OCID",
   }))
+  */
   routers        = jsondecode(file("${path.module}/network/routers.json"))
   signatures     = jsondecode(file("${path.module}/encryption/signatures.json"))
   secrets        = jsondecode(file("${path.module}/encryption/secrets.json"))
