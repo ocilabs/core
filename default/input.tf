@@ -60,7 +60,7 @@ locals {
     network      = "${local.service_name}_network_compartment",
     database     = "${local.service_name}_database_compartment",
     session_username = var.account.user_id,
-    tenancy_OCID = var.tenancy.id,
+    tenancy_OCID = var.account.tenancy_id,
     #image_OCID   = "${local.service_name}_image_OCID",
     #vault_OCID   = "${local.service_name}_vault_OCID",
     #key_OCID     = "${local.service_name}_key_OCID",
