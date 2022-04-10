@@ -24,7 +24,7 @@
     class        = var.class
     owner        = var.owner
     organization = var.organization
-    solution     = var.service
+    name         = var.name
     repository   = var.repository
     stage        = var.stage
     region       = var.location
