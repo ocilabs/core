@@ -20,19 +20,19 @@ variable "resident" {
   })
 }
 
-variable "service" {
+variable "solution" {
   description = "configuration paramenter for the service, defined through schema.tf"
   type = object({
     adb          = string,
     budget       = number,
     class        = string,
     encrypt      = bool,
+    name         = string,
     owner        = string,
     organization = string,
     osn          = string,
     region       = string,
     repository   = string,
-    solution     = string,
     stage        = string,
     tenancy      = string,
     wallet       = string
@@ -134,11 +134,11 @@ locals {
     if contains(flatten(distinct(flatten(local.firewalls[*].outgoing))), destination.name)
   })
   # Computed Parameter
-  service_name  = lower("${var.solution.organization}_${var.solution.solution}_${var.solution.stage}")
+  service_name  = lower("${var.solution.organization}_${var.solution.name}_${var.solution.stage}")
   service_label = format(
     "%s%s%s", 
     lower(substr(var.solution.organization, 0, 3)), 
-    lower(substr(var.solution.solution, 0, 2)),
+    lower(substr(var.solution.name, 0, 2)),
     lower(substr(var.solution.stage, 0, 3)),
   )
   subnet_cidr = {for segment in var.resident.segments : segment.name => zipmap(

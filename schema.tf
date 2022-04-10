@@ -69,6 +69,11 @@ variable "management" {
   default     = true
 }
 
+variable "name" { 
+  type        = string
+  description = "The name represents an unique identifier for a service defined on root compartment level"
+}
+
 variable "nat" {
   type        = bool
   description = "Enables or disables routes through a NAT Gateway."
@@ -103,11 +108,6 @@ variable "repository" {
   type        = string
   description = "The service configuration is stored using infrastructure code in a repository"
   default     = "https://github.com/oracle-devrel/terraform-oci-ocloud-landing-zone"
-}
-
-variable "solution" { 
-  type        = string
-  description = "The solution represents an unique identifier for a service defined on root compartment level"
 }
 
 variable "stage"           { 
