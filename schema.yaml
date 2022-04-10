@@ -26,12 +26,12 @@ variableGroups:
   variables:
   - compartment_ocid
   - current_user_ocid
-  - location
   - name
+  - location
+  - region
   - organization
   - owner
   - parent
-  - region
   - repository
 
 - title: "Database"
