@@ -87,9 +87,9 @@ variables:
     required: false
     type: enum
     enum:
-      - small
-      - medium
-      - large
+      - SMALL
+      - MEDIUM
+      - LARGE
 
   class:
     title: "Define service limits related to the contract type"
