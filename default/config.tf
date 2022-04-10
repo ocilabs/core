@@ -14,10 +14,10 @@ terraform {
 // --- provider seetings --- //
 
 // --- service configuration ---//
-data "oci_identity_tenancy"      "resident" {tenancy_id = var.service.tenancy}
+data "oci_identity_tenancy"      "resident" {tenancy_id = var.account.tenancy_id}
 data "oci_identity_regions"      "tenancy" { }
-data "oci_identity_availability_domains" "tenancy" {compartment_id = var.service.tenancy}
-data "oci_objectstorage_namespace"       "tenancy" {compartment_id = var.service.tenancy}
+data "oci_identity_availability_domains" "tenancy" {compartment_id = var.account.tenancy_id}
+data "oci_objectstorage_namespace"       "tenancy" {compartment_id = var.account.tenancy_id}
 # list data center (availability domain) names in home region 
 data "template_file" "ad_names" { 
     count    = length(data.oci_identity_availability_domains.tenancy.availability_domains)
