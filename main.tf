@@ -48,7 +48,7 @@ module "configuration" {
     domains    = local.domains
     segments   = local.segments
   }
-  solution = {
+  service = {
     adb          = "${var.adb_type}_${var.adb_size}"
     budget       = var.budget
     class        = var.class
@@ -75,14 +75,16 @@ module "resident" {
   source = "github.com/ocilabs/resident"
   depends_on = [module.configuration]
   providers  = {oci = oci.home}
-  tenancy    = module.configuration.tenancy
-  resident   = module.configuration.resident
-  input = {
+  options = {
     # Enable compartment delete on destroy. If true, compartment will be deleted when `terraform destroy` is executed; If false, compartment will not be deleted on `terraform destroy` execution
     enable_delete = var.stage != "PRODUCTION" ? true : false
     # Reference to the deployment root. The service is setup in an encapsulating child compartment 
     parent_id     = var.tenancy_ocid
     user_id       = var.current_user_ocid
+  }
+  input = {
+    tenancy    = module.configuration.tenancy
+    resident   = module.configuration.resident
   }
 }
 output "resident" {
@@ -96,15 +98,17 @@ module "encryption" {
   depends_on = [module.configuration, module.resident]
   providers  = {oci = oci.service}
   for_each   = {for wallet in local.wallets : wallet.name => wallet}
-  tenancy    = module.configuration.tenancy
-  resident   = module.configuration.resident
-  encryption = module.configuration.encryption[each.key]
-  input = {
+  options = {
     create = var.create_wallet
     type   = var.wallet == "SOFTWARE" ? "DEFAULT" : "VIRTUAL_PRIVATE"
   }
+  input = {
+    tenancy    = module.configuration.tenancy
+    service    = module.configuration.service
+    encryption = module.configuration.encryption[each.key]
+  }
   assets = {
-    resident = module.resident
+    resident   = module.resident
   }
 }
 output "encryption" {
@@ -119,14 +123,16 @@ module "network" {
   depends_on = [module.configuration, module.encryption, module.resident]
   providers = {oci = oci.service}
   for_each  = {for segment in local.segments : segment.name => segment}
-  tenancy   = module.configuration.tenancy
-  resident  = module.configuration.resident
-  network   = module.configuration.network[each.key]
-  input = {
+  options = {
     internet = var.internet == "PUBLIC" ? "ENABLE" : "DISABLE"
     nat      = var.nat == true ? "ENABLE" : "DISABLE"
     ipv6     = var.ipv6
     osn      = var.osn
+  }
+  input = {
+    tenancy = module.configuration.tenancy
+    service = module.configuration.service
+    network = module.configuration.network[each.key]
   }
   assets = {
     encryption = module.encryption["main"]
@@ -148,9 +154,9 @@ module "database" {
     password = var.create_wallet == false ? "RANDOM" : "VAULT"
   }
   input = {
-    account    = module.configuration.tenancy
-    database   = module.configuration.database
-    resident   = module.configuration.resident
+    tenancy  = module.configuration.tenancy
+    service  = module.configuration.service
+    database = module.configuration.database
   }
   assets = {
     encryption = module.encryption["main"]

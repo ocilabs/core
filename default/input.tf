@@ -20,7 +20,7 @@ variable "resident" {
   })
 }
 
-variable "solution" {
+variable "service" {
   description = "configuration paramenter for the service, defined through schema.tf"
   type = object({
     adb          = string,
