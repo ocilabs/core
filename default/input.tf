@@ -20,7 +20,7 @@ variable "resident" {
   })
 }
 
-variable "service" {
+variable "solution" {
   description = "configuration paramenter for the service, defined through schema.tf"
   type = object({
     adb          = string,
@@ -45,14 +45,14 @@ locals {
   adb_sizes      = jsondecode(file("${path.module}/database/sizes.json"))
   alerts         = jsondecode(file("${path.module}/resident/alerts.json"))
   budgets        = jsondecode(templatefile("${path.module}/resident/budgets.json", {user = var.account.user_id}))
-  channels       = jsondecode(templatefile("${path.module}/resident/channels.json", {owner = var.service.owner}))
+  channels       = jsondecode(templatefile("${path.module}/resident/channels.json", {owner = var.solution.owner}))
   controls       = jsondecode(file("${path.module}/resident/controls.json"))
   classification = jsondecode(file("${path.module}/resident/classification.json"))
   destinations   = jsondecode(file("${path.module}/network/destinations.json"))
   firewalls      = jsondecode(file("${path.module}/network/firewalls.json"))
   lifecycle      = jsondecode(file("${path.module}/resident/lifecycle.json"))
   profiles       = jsondecode(file("${path.module}/network/profiles.json"))
-  rfc6335        = jsondecode(file("${path.module}/network/rfc6335.json"))
+  rfc6335        = jsondecode(file("${path.module}/../library/rfc6335.json"))
   operators      = jsondecode(templatefile("${path.module}/resident/operators.json", {service = local.service_name}))
   /*
   policies       = jsondecode(templatefile("${path.module}/resident/policies.json", {
@@ -94,9 +94,9 @@ locals {
   }if contains(flatten(distinct(flatten(local.firewalls[*].outgoing))), destination.name)}
   freeform_tags = {
     "framework" = "ocloud"
-    "owner"     = var.service.owner
-    "lifecycle" = var.service.stage
-    "class"     = var.service.class
+    "owner"     = var.solution.owner
+    "lifecycle" = var.solution.stage
+    "class"     = var.solution.class
   }
   group_map = zipmap(
     flatten("${var.resident.domains[*].operators}"),
@@ -134,12 +134,12 @@ locals {
     if contains(flatten(distinct(flatten(local.firewalls[*].outgoing))), destination.name)
   })
   # Computed Parameter
-  service_name  = lower("${var.service.organization}_${var.service.solution}_${var.service.stage}")
+  service_name  = lower("${var.solution.organization}_${var.solution.solution}_${var.solution.stage}")
   service_label = format(
     "%s%s%s", 
-    lower(substr(var.service.organization, 0, 3)), 
-    lower(substr(var.service.solution, 0, 2)),
-    lower(substr(var.service.stage, 0, 3)),
+    lower(substr(var.solution.organization, 0, 3)), 
+    lower(substr(var.solution.solution, 0, 2)),
+    lower(substr(var.solution.stage, 0, 3)),
   )
   subnet_cidr = {for segment in var.resident.segments : segment.name => zipmap(
     keys(local.subnet_newbits[segment.name]),

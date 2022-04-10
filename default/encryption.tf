@@ -19,10 +19,10 @@ output "encryption" {
     secrets = {for secret in local.secrets : secret.resource => {
       name   = "${local.service_name}_${secret.resource}_secret"
       phrase = secret.phrase
-    }if var.service.encrypt == true}
+    }if var.solution.encrypt == true}
     passwords = [
       for secret in local.secrets : "${local.service_name}_${secret.resource}_password"
-      if var.service.encrypt == false
+      if var.solution.encrypt == false
     ]
   }}
 }

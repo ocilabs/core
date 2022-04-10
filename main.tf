@@ -48,7 +48,7 @@ module "configuration" {
     domains    = local.domains
     segments   = local.segments
   }
-  service = {
+  solution = {
     adb          = "${var.adb_type}_${var.adb_size}"
     budget       = var.budget
     class        = var.class
@@ -116,7 +116,7 @@ output "encryption" {
 // --- network configuration --- //
 module "network" {
   source = "github.com/ocilabs/network"
-  depends_on = [module.configuration, module.resident]
+  depends_on = [module.configuration, module.encryption, module.resident]
   providers = {oci = oci.service}
   for_each  = {for segment in local.segments : segment.name => segment}
   tenancy   = module.configuration.tenancy
@@ -129,7 +129,8 @@ module "network" {
     osn      = var.osn
   }
   assets = {
-    resident = module.resident
+    encryption = module.encryption["main"]
+    resident   = module.resident
   }
 }
 output "network" {
@@ -142,16 +143,19 @@ module "database" {
   source     = "github.com/ocilabs/database"
   depends_on = [module.configuration, module.resident, module.network, module.encryption]
   providers  = {oci = oci.service}
-  tenancy    = module.configuration.tenancy
-  resident   = module.configuration.resident
-  database   = module.configuration.database
-  input = {
+  options = {
     create   = var.create_adb
     password = var.create_wallet == false ? "RANDOM" : "VAULT"
   }
+  input = {
+    account    = module.configuration.tenancy
+    database   = module.configuration.database
+    resident   = module.configuration.resident
+  }
   assets = {
-    resident   = module.resident
     encryption = module.encryption["main"]
+    network    = module.network["core"]
+    resident   = module.resident
   }
 }
 output "database" {

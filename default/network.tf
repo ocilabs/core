@@ -4,7 +4,7 @@
 output "network" { 
   value = {for segment in var.resident.segments : segment.name => {
     name         = segment.name
-    region       = var.service.region
+    region       = var.solution.region
     display_name = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}"
     dns_label    = "${local.service_label}${index(local.vcn_list, segment.name) + 1}"
     compartment  = contains(flatten(var.resident.domains[*].name), "network") ? "${local.service_name}_network_compartment" : local.service_name
@@ -26,7 +26,7 @@ output "network" {
       }
       service    = {
         name     = "${local.service_name}_${index(local.vcn_list, segment.name) + 1}_service"
-        scope    = var.service.osn == "ALL" ? "osn" : "storage"
+        scope    = var.solution.osn == "ALL" ? "osn" : "storage"
         all      = local.osn_cidrs.all
         storage  = local.osn_cidrs.storage
       }
@@ -72,5 +72,5 @@ output "network" {
       prohibit_internet_ingress = contains(flatten(distinct(local.port_filter[subnet.firewall].ingress[*].zone)), "anywhere") ? false : true
       topology      = subnet.topology
     } if contains(var.resident.topologies, subnet.topology)}
-  }if segment.stage <= local.lifecycle[var.service.stage]}
+  }if segment.stage <= local.lifecycle[var.solution.stage]}
 }
