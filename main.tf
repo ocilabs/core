@@ -150,6 +150,7 @@ module "database" {
   depends_on = [module.configuration, module.resident, module.network, module.encryption]
   providers  = {oci = oci.service}
   config = {
+    class    = var.class
     create   = var.create_adb
     password = var.create_wallet == false ? "RANDOM" : "VAULT"
   }
