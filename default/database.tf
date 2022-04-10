@@ -7,7 +7,7 @@ output "database" {
       cores        = size.cores
       display_name = "${local.service_name}_database"
       license      = adb.license
-      name         = "${lower(adb.name)}_${size.name}"
+      name         = "${lower(adb.type)}_${size.name}"
       password     = var.solution.encrypt? "${local.service_name}_${adb.password}_secret" : "${local.service_name}_${adb.password}_password"
       stage        = adb.stage
       storage      = size.storage
