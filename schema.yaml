@@ -167,6 +167,16 @@ variables:
     visible: false
     required: true
 
+  name:
+    title: "Name of the service"
+    description: "Identifier for the service, the name should be unique within the tenancy"
+    type: string
+    default: "Name"
+    minLength: 1
+    maxLength: 25
+    pattern: "^[a-zA-Z]+$"
+    required: true
+
   nat:
     type: boolean
     title: "NAT for Private Subnets"
@@ -233,16 +243,6 @@ variables:
     description: "Provide an URL for the code source"
     type: string
     required: false
-
-  name:
-    title: "Name of the service"
-    description: "Identifier for the service, the name should be unique within the tenancy"
-    type: string
-    default: "Name"
-    minLength: 1
-    maxLength: 25
-    pattern: "^[a-zA-Z]+$"
-    required: true
 
   stage:
     title: "Select the lifecycle stage for the deployment"
