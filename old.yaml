@@ -14,25 +14,28 @@ variableGroups:
   variables:
   - tenancy_ocid
   - class
-  - budget
+
+- title: "Region"
+  visible: true
+  variables:
+  - location
+  - region
+
+- title: "Service"
+  visible: true
+  variables:
+  - parent
+  - compartment_ocid
+  - current_user_ocid
+  - organization
+  - name
+  - owner
+  - repository
 
 - title: "Lifecycle"
   visible: true
   variables:
   - stage
-
-- title: "Settings"
-  visible: true
-  variables:
-  - compartment_ocid
-  - current_user_ocid
-  - location
-  - name
-  - organization
-  - owner
-  - parent
-  - region
-  - repository
 
 - title: "Database"
   visible: true
@@ -47,19 +50,24 @@ variableGroups:
   - host
   - nodes
   - container
+  - apex
 
-- title: "Advanced Settings"
+- title: "Network"
   visible: true
   variables:
-  - vaultsettings
-  - create_wallet
-  - wallet
   - netsettings
   - internet
   - osn
-  - management
   - nat
   - ipv6
+  - management
+
+- title: "Wallet"
+  visible: true
+  variables:
+  - create_wallet
+  - wallet
+
 variables:
 
   adb_type:
@@ -83,22 +91,9 @@ variables:
       - MEDIUM
       - LARGE
 
-  budget:
-    title: "Sets a monthly budget for the service"
-    default: 0
-    required: false
-    visible: 
-      or:
-        - eq:
-          - class
-          - "PAYG"
-        - eq:
-          - class
-          - "UCC"
-
   class:
-    title: "Limits"
-    description: "Selecting a contract type restricts the resource portfolio to the corresponding service limits and avoids deployment errors."
+    title: "Define service limits related to the contract type"
+    description: "Choose the Universal Credit Consumption (UCC) model to select corresponding resource types"
     type: enum
     default: "FREE_TIER"
     required: true
@@ -110,7 +105,7 @@ variables:
 
   compartment_ocid:
     title: "Compartment ID"
-    description: "A unique identifier that creates a bspoke administrator domains for your service."
+    description: "A unique identifier that creates a bspoke administrator domains for your service"
     visible: false
     type: string
     required: true
@@ -122,13 +117,12 @@ variables:
 
   create_adb:
     type: boolean
-    title: "Autonomous Database"
+    title: "Create an Autonomous Database"
     required: false
 
   create_wallet:
     type: boolean
-    title: "Wallet"
-    visible: vaultsettings
+    title: "Create a Wallet"
     required: false
   
   current_user_ocid:
@@ -160,8 +154,8 @@ variables:
     default: false
 
   location:
-    title: "Region"
-    description: "Define the target region for the service deployment, the target region needs to be activated for a tenancy."
+    title: "Select the data center region for the service deployment"
+    description: "Before selecting an availability domain in a region, the target region should be activated for a tenancy"
     visible: true
     type: oci:identity:region:name
     default: region
@@ -169,14 +163,13 @@ variables:
 
   management:
     type: boolean
-    title: "Management Network"
+    title: "Management"
     visible: false
-    default : true
     required: true
 
   name:
-    title: "Service"
-    description: "Provide an identifier for the service, the name should be unique within the tenancy"
+    title: "Name of the service"
+    description: "Identifier for the service, the name should be unique within the tenancy"
     type: string
     default: "Name"
     minLength: 1
@@ -193,8 +186,7 @@ variables:
 
   netsettings:
     type: boolean
-    title: "Network"
-    description: "Advanced parameter for the network topology."
+    title: "Advanced Network Settings"
     required: true
     default: false
 
@@ -204,8 +196,8 @@ variables:
     required: false
 
   organization:
-    title: "Consumer"
-    description: "Identifier for the organization that will use the service."
+    title: "Name of the business unit"
+    description: "Identifier for the organization that will use the service"
     type: string
     default: "Organization"
     minLength: 1
@@ -224,7 +216,7 @@ variables:
       - DISABLE
 
   owner:
-    title: "Administrator"
+    title: "Service Administrator"
     description: "The service administrator will receive notifications when the service topology changes"
     type: string
     required: true
@@ -247,14 +239,14 @@ variables:
     required: true
 
   repository:
-    title: "Repository"
-    description: "Source code repository for the provisioning scripts (only used for information pusposes)"
+    title: "Source code repository for the provisioning scripts (only used for information pusposes)"
+    description: "Provide an URL for the code source"
     type: string
     required: false
 
   stage:
-    title: "Stage"
-    description: "Providing the lifecycle stage preselects an appropriate collection of operational controls"
+    title: "Select the lifecycle stage for the deployment"
+    description: "Selecting the lifecycle stage preselects an appropriate collection of operational controls"
     type: enum
     default: "DEVELOPMENT"
     required: true
@@ -270,18 +262,11 @@ variables:
     type: string
     required: true
 
-  vaultsettings:
-    type: boolean
-    title: "Encryption"
-    description: "Enforce the creation of a secret store. Storing secrets is strongly recommended for production, but not for the development phase."
-    required: true
-    default: false
-
   wallet:
-    title: "Type"
-    visible: vaultsettings
+    title: "Vault Type"
+    visible: create_wallet
     required: false
     type: enum
     enum:
-      - SOFTWARE
-      - HARDWARE
+      - Software
+      - HSM

@@ -13,13 +13,11 @@ variable "adb_type" {
   default     = "TRANSACTION_PROCESSING"
 }
 
-/*
 variable "budget" {
   type = number
   description = "Set a monthly budget for the service, cost tracking will send an alert when 90% of the budget has been consumed. The budget will be ingored when set to 0,-"
   default     = 500
 }
-*/
 
 variable "class" {
   type        = string
