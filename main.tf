@@ -82,13 +82,6 @@ module "resident" {
     parent_id     = var.tenancy_ocid
     user_id       = var.current_user_ocid
   }
-  config = {
-    # Enable compartment delete on destroy. If true, compartment will be deleted when `terraform destroy` is executed; If false, compartment will not be deleted on `terraform destroy` execution
-    enable_delete = var.stage != "PRODUCTION" ? true : false
-    # Reference to the deployment root. The service is setup in an encapsulating child compartment 
-    parent_id     = var.tenancy_ocid
-    user_id       = var.current_user_ocid
-  }
   input = {
     tenancy = module.configuration.tenancy
     service = module.configuration.service
@@ -106,10 +99,6 @@ module "encryption" {
   providers  = {oci = oci.service}
   for_each   = {for wallet in local.wallets : wallet.name => wallet}
   schema = {
-    create = var.create_wallet
-    type   = var.wallet == "SOFTWARE" ? "DEFAULT" : "VIRTUAL_PRIVATE"
-  }
-  config = {
     create = var.create_wallet
     type   = var.wallet == "SOFTWARE" ? "DEFAULT" : "VIRTUAL_PRIVATE"
   }
@@ -140,12 +129,6 @@ module "network" {
     ipv6     = var.ipv6
     osn      = var.osn
   }
-  config = {
-    internet = var.internet == "PUBLIC" ? "ENABLE" : "DISABLE"
-    nat      = var.nat == true ? "ENABLE" : "DISABLE"
-    ipv6     = var.ipv6
-    osn      = var.osn
-  }
   input = {
     tenancy = module.configuration.tenancy
     service = module.configuration.service
@@ -167,11 +150,6 @@ module "database" {
   depends_on = [module.configuration, module.resident, module.network, module.encryption]
   providers  = {oci = oci.service}
   schema = {
-    class    = var.class
-    create   = var.create_adb
-    password = var.create_wallet == false ? "RANDOM" : "VAULT"
-  }
-  config = {
     class    = var.class
     create   = var.create_adb
     password = var.create_wallet == false ? "RANDOM" : "VAULT"
