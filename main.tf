@@ -82,7 +82,7 @@ module "resident" {
     parent_id     = var.tenancy_ocid
     user_id       = var.current_user_ocid
   }
-  input = {
+  config = {
     tenancy = module.configuration.tenancy
     service = module.configuration.service
   }
@@ -102,7 +102,7 @@ module "encryption" {
     create = var.create_wallet
     type   = var.wallet == "SOFTWARE" ? "DEFAULT" : "VIRTUAL_PRIVATE"
   }
-  input = {
+  config = {
     tenancy    = module.configuration.tenancy
     service    = module.configuration.service
     encryption = module.configuration.encryption[each.key]
@@ -129,7 +129,7 @@ module "network" {
     ipv6     = var.ipv6
     osn      = var.osn
   }
-  input = {
+  config = {
     tenancy = module.configuration.tenancy
     service = module.configuration.service
     network = module.configuration.network[each.key]
@@ -154,7 +154,7 @@ module "database" {
     create   = var.create_adb
     password = var.create_wallet == false ? "RANDOM" : "VAULT"
   }
-  input = {
+  config = {
     tenancy  = module.configuration.tenancy
     service  = module.configuration.service
     database = module.configuration.database
@@ -184,7 +184,7 @@ module "host" {
   tenancy   = module.configuration.tenancy
   service   = module.configuration.service
   resident  = module.configuration.resident
-  input     = {
+  config     = {
     network = module.network["core"]
     name    = "operator"
     shape   = "SMALL"
