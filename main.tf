@@ -66,7 +66,7 @@ module "configuration" {
 }
 // --- tenancy configuration  --- //
 
-/*/ --- operation controls --- //
+// --- operation controls --- //
 provider "oci" {
   alias  = "home"
   region = module.configuration.tenancy.region.key
@@ -144,7 +144,7 @@ output "network" {
 }
 // --- network configuration --- //
 
-// --- database creation --- //
+/*/ --- database creation --- //
 module "database" {
   source     = "github.com/ocilabs/database"
   depends_on = [module.configuration, module.resident, module.network, module.encryption]
