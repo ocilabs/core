@@ -144,7 +144,7 @@ output "network" {
 }
 // --- network configuration --- //
 
-// --- database creation --- //
+/*/ --- database creation --- //
 module "database" {
   source     = "github.com/ocilabs/database"
   depends_on = [module.configuration, module.resident, module.network, module.encryption]
@@ -169,7 +169,7 @@ output "database" {
   value = {for resource, parameter in module.database : resource => parameter}
   sensitive = true
 }
-// --- database creation --- //
+// --- database creation --- /*/
 
 
 /*/ --- host configuration --- //
