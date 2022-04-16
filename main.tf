@@ -43,12 +43,12 @@ module "configuration" {
     home           = var.region
     user_id        = var.current_user_ocid
   }
-  resident = {
+  settings = {
     topologies = local.topologies
     domains    = local.domains
     segments   = local.segments
   }
-  solution = {
+  options = {
     adb          = "${var.adb_type}_${var.adb_size}"
     budget       = var.budget
     class        = var.class
@@ -75,14 +75,14 @@ module "resident" {
   source = "github.com/ocilabs/resident"
   depends_on = [module.configuration]
   providers  = {oci = oci.home}
-  schema = {
+  service = {
     # Enable compartment delete on destroy. If true, compartment will be deleted when `terraform destroy` is executed; If false, compartment will not be deleted on `terraform destroy` execution
     enable_delete = var.stage != "PRODUCTION" ? true : false
     # Reference to the deployment root. The service is setup in an encapsulating child compartment 
     parent_id     = var.tenancy_ocid
     user_id       = var.current_user_ocid
   }
-  config = {
+  configuration = {
     tenancy  = module.configuration.tenancy
     resident = module.configuration.resident
   }
@@ -98,11 +98,11 @@ module "encryption" {
   depends_on = [module.configuration, module.resident]
   providers  = {oci = oci.service}
   for_each   = {for wallet in local.wallets : wallet.name => wallet}
-  schema = {
+  options = {
     create = var.create_wallet
     type   = var.wallet == "SOFTWARE" ? "DEFAULT" : "VIRTUAL_PRIVATE"
   }
-  config = {
+  configuration = {
     tenancy    = module.configuration.tenancy
     resident   = module.configuration.resident
     encryption = module.configuration.encryption[each.key]
@@ -123,13 +123,13 @@ module "network" {
   depends_on = [module.configuration, module.encryption, module.resident]
   providers = {oci = oci.service}
   for_each  = {for segment in local.segments : segment.name => segment}
-  schema = {
+  options = {
     internet = var.internet == "PUBLIC" ? "ENABLE" : "DISABLE"
     nat      = var.nat == true ? "ENABLE" : "DISABLE"
     ipv6     = var.ipv6
     osn      = var.osn
   }
-  config = {
+  configuration = {
     tenancy = module.configuration.tenancy
     resident = module.configuration.resident
     network = module.configuration.network[each.key]
@@ -149,12 +149,12 @@ module "database" {
   source     = "github.com/ocilabs/database"
   depends_on = [module.configuration, module.resident, module.network, module.encryption]
   providers  = {oci = oci.service}
-  schema = {
+  options = {
     class    = var.class
     create   = var.create_adb
     password = var.create_wallet == false ? "RANDOM" : "VAULT"
   }
-  config = {
+  configuration = {
     tenancy  = module.configuration.tenancy
     resident = module.configuration.resident
     database = module.configuration.database
