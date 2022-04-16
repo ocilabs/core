@@ -44,8 +44,12 @@ output "resident" {
         }if budget.alert == alert.name && budget.period == period.name]]])
       )
     )
-    compartments = {for domain in var.settings.domains : "${local.service_name}_${domain.name}_compartment" => domain.stage}
-    groups       = {for operator in flatten(var.settings.domains[*].operators) : operator => "${local.service_name}_${operator}"}
+    compartments = {
+      for domain in var.settings.domains : "${local.service_name}_${domain.name}_compartment" => domain.stage
+    }
+    groups       = {
+      for operator in flatten(var.settings.domains[*].operators) : operator => "${local.service_name}_${operator}"
+    }
     label        = local.service_label
     name         = local.service_name
     notifications = {for channel in local.channels : "${local.service_name}_${channel.name}" => {
@@ -65,7 +69,9 @@ output "resident" {
     }
     repository   = var.options.repository
     stage        = local.lifecycle[var.options.stage]
-    tag_namespaces = {for namespace in local.controls : "${local.service_name}_${namespace.name}" => namespace.stage}
+    tag_namespaces = {
+      for namespace in local.controls : "${local.service_name}_${namespace.name}" => namespace.stage
+    }
     tags = {for tag in local.tags : tag.name => {
       name          = tag.name
       namespace     = local.tag_map[tag.name]
