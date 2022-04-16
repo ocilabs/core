@@ -75,7 +75,7 @@ module "resident" {
   source = "github.com/ocilabs/resident"
   depends_on = [module.configuration]
   providers  = {oci = oci.home}
-  service = {
+  options = {
     # Enable compartment delete on destroy. If true, compartment will be deleted when `terraform destroy` is executed; If false, compartment will not be deleted on `terraform destroy` execution
     enable_delete = var.stage != "PRODUCTION" ? true : false
     # Reference to the deployment root. The service is setup in an encapsulating child compartment 
