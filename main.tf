@@ -83,8 +83,8 @@ module "resident" {
     user_id       = var.current_user_ocid
   }
   config = {
-    tenancy = module.configuration.tenancy
-    service = module.configuration.service
+    tenancy  = module.configuration.tenancy
+    resident = module.configuration.resident
   }
 }
 output "resident" {
@@ -104,7 +104,7 @@ module "encryption" {
   }
   config = {
     tenancy    = module.configuration.tenancy
-    service    = module.configuration.service
+    resident   = module.configuration.resident
     encryption = module.configuration.encryption[each.key]
   }
   assets = {
@@ -131,7 +131,7 @@ module "network" {
   }
   config = {
     tenancy = module.configuration.tenancy
-    service = module.configuration.service
+    resident = module.configuration.resident
     network = module.configuration.network[each.key]
   }
   assets = {
@@ -156,7 +156,7 @@ module "database" {
   }
   config = {
     tenancy  = module.configuration.tenancy
-    service  = module.configuration.service
+    resident = module.configuration.resident
     database = module.configuration.database
   }
   assets = {

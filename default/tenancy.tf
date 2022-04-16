@@ -9,6 +9,6 @@ output "tenancy" {
     region   = {
       key  = local.home_region_key
       name = local.home_region_name
-      }
+    }
   }
 }
