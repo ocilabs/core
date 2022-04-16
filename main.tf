@@ -14,39 +14,54 @@ terraform {
 // --- tenancy configuration --- //
 provider "oci" {
   alias  = "service"
-  region = var.region
+  region = var.location
 }
-variable "tenancy_ocid" { }
+
+variable "tenancy_ocid" {}
+variable "region" {}
+variable "compartment_ocid" {}
+variable "current_user_ocid" {}
 
 locals {
-  topologies = flatten(compact([var.host == true ? "host" : "", var.nodes == true ? "nodes" : "", var.container == true ? "container" : ""]))
+  topologies = flatten(compact([
+    var.management == true ? "management" : "", 
+    var.host == true ? "host" : "", 
+    var.nodes == true ? "nodes" : "", 
+    var.container == true ? "container" : ""
+  ]))
   domains    = jsondecode(file("${path.module}/default/resident/domains.json"))
-  wallets    = jsondecode(file("${path.module}/default/encryption/wallets.json"))
   segments   = jsondecode(file("${path.module}/default/network/segments.json"))
-  database   = jsondecode(file("${path.module}/default/database/adb.json"))
+  wallets    = jsondecode(file("${path.module}/default/encryption/wallets.json"))
 }
 
 module "configuration" {
   source         = "./default/"
   providers = {oci = oci.service}
-  input = {
-    tenancy      = var.tenancy_ocid
-    class        = var.class
-    owner        = var.owner
-    organization = var.organization
-    solution     = var.solution
-    repository   = var.repository
-    stage        = var.stage
-    region       = var.region
-    osn          = var.osn
-    adb          = var.adb_type
+  account = {
+    tenancy_id     = var.tenancy_ocid
+    compartment_id = var.compartment_ocid
+    home           = var.region
+    user_id        = var.current_user_ocid
   }
-  resolve = {
+  settings = {
     topologies = local.topologies
     domains    = local.domains
-    wallets    = local.wallets
     segments   = local.segments
-    database   = local.database
+  }
+  options = {
+    adb          = "${var.adb_type}_${var.adb_size}"
+    budget       = var.budget
+    class        = var.class
+    encrypt      = var.create_wallet
+    name         = var.name
+    region       = var.location
+    organization = var.organization
+    osn          = var.osn
+    owner        = var.owner
+    repository   = var.repository
+    stage        = var.stage
+    tenancy      = var.tenancy_ocid
+    wallet       = var.wallet
   }
 }
 // --- tenancy configuration  --- //
@@ -60,13 +75,16 @@ module "resident" {
   source = "github.com/ocilabs/resident"
   depends_on = [module.configuration]
   providers  = {oci = oci.home}
-  tenancy    = module.configuration.tenancy
-  resident   = module.configuration.resident
-  input = {
+  options = {
+    # Enable compartment delete on destroy. If true, compartment will be deleted when `terraform destroy` is executed; If false, compartment will not be deleted on `terraform destroy` execution
+    enable_delete = var.stage != "PRODUCTION" ? true : false
     # Reference to the deployment root. The service is setup in an encapsulating child compartment 
     parent_id     = var.tenancy_ocid
-    # Enable compartment delete on destroy. If true, compartment will be deleted when `terraform destroy` is executed; If false, compartment will not be deleted on `terraform destroy` execution
-    enable_delete = var.stage != "PROD" ? true : false
+    user_id       = var.current_user_ocid
+  }
+  configuration = {
+    tenancy  = module.configuration.tenancy
+    resident = module.configuration.resident
   }
 }
 output "resident" {
@@ -80,15 +98,17 @@ module "encryption" {
   depends_on = [module.configuration, module.resident]
   providers  = {oci = oci.service}
   for_each   = {for wallet in local.wallets : wallet.name => wallet}
-  tenancy    = module.configuration.tenancy
-  resident   = module.configuration.resident
-  encryption = module.configuration.encryption[each.key]
-  input = {
+  options = {
     create = var.create_wallet
-    type   = var.wallet_type == "Software" ? "DEFAULT" : "VIRTUAL_PRIVATE"
+    type   = var.wallet == "SOFTWARE" ? "DEFAULT" : "VIRTUAL_PRIVATE"
+  }
+  configuration = {
+    tenancy    = module.configuration.tenancy
+    resident   = module.configuration.resident
+    encryption = module.configuration.encryption[each.key]
   }
   assets = {
-    resident = module.resident
+    resident   = module.resident
   }
 }
 output "encryption" {
@@ -100,20 +120,23 @@ output "encryption" {
 // --- network configuration --- //
 module "network" {
   source = "github.com/ocilabs/network"
-  depends_on = [module.configuration, module.resident]
+  depends_on = [module.configuration, module.encryption, module.resident]
   providers = {oci = oci.service}
   for_each  = {for segment in local.segments : segment.name => segment}
-  tenancy   = module.configuration.tenancy
-  resident  = module.configuration.resident
-  network   = module.configuration.network[each.key]
-  input = {
+  options = {
     internet = var.internet == "PUBLIC" ? "ENABLE" : "DISABLE"
     nat      = var.nat == true ? "ENABLE" : "DISABLE"
     ipv6     = var.ipv6
     osn      = var.osn
   }
+  configuration = {
+    tenancy = module.configuration.tenancy
+    resident = module.configuration.resident
+    network = module.configuration.network[each.key]
+  }
   assets = {
-    resident = module.resident
+    encryption = module.encryption["main"]
+    resident   = module.resident
   }
 }
 output "network" {
@@ -126,15 +149,20 @@ module "database" {
   source     = "github.com/ocilabs/database"
   depends_on = [module.configuration, module.resident, module.network, module.encryption]
   providers  = {oci = oci.service}
-  tenancy    = module.configuration.tenancy
-  resident   = module.configuration.resident
-  database   = module.configuration.databases.autonomous
-  input = {
+  options = {
+    class    = var.class
     create   = var.create_adb
+    password = var.create_wallet == false ? "RANDOM" : "VAULT"
+  }
+  configuration = {
+    tenancy  = module.configuration.tenancy
+    resident = module.configuration.resident
+    database = module.configuration.database
   }
   assets = {
+    encryption = module.encryption["main"]
+    network    = module.network["core"]
     resident   = module.resident
-    encryption = module.encryption["default"]
   }
 }
 output "database" {
@@ -156,10 +184,10 @@ module "host" {
   tenancy   = module.configuration.tenancy
   service   = module.configuration.service
   resident  = module.configuration.resident
-  input     = {
+  config     = {
     network = module.network["core"]
     name    = "operator"
-    shape   = "small"
+    shape   = "SMALL"
     image   = "linux"
     disk    = "san"
     nic     = "private"
