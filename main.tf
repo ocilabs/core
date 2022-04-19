@@ -130,9 +130,9 @@ module "network" {
     osn      = var.osn
   }
   configuration = {
-    tenancy = module.configuration.tenancy
+    tenancy  = module.configuration.tenancy
     resident = module.configuration.resident
-    network = module.configuration.network[each.key]
+    network  = module.configuration.network[each.key]
   }
   assets = {
     encryption = module.encryption["main"]
@@ -147,7 +147,12 @@ output "network" {
 // --- database creation --- //
 module "database" {
   source     = "github.com/ocilabs/database"
-  depends_on = [module.configuration, module.resident, module.network, module.encryption]
+  depends_on = [
+    module.configuration, 
+    module.resident, 
+    module.network, 
+    module.encryption
+  ]
   providers  = {oci = oci.service}
   options = {
     class    = var.class
@@ -171,26 +176,33 @@ output "database" {
 }
 // --- database creation --- //
 
-
 /*/ --- host configuration --- //
 module "host" {
-  source     = "./assets/host/"
+  source     = "github.com/ocilabs/host"
   depends_on = [
     module.configuration, 
     module.resident, 
-    module.network
+    module.network, 
+    module.encryption
   ]
-  providers  = { oci = oci.home }
-  tenancy   = module.configuration.tenancy
-  service   = module.configuration.service
-  resident  = module.configuration.resident
-  config     = {
-    network = module.network["core"]
+  providers  = {oci = oci.service}
+  options = {
     name    = "operator"
     shape   = "SMALL"
     image   = "linux"
     disk    = "san"
     nic     = "private"
+  }
+  configuration = {
+    tenancy  = module.configuration.tenancy
+    resident = module.configuration.resident
+    host     = module.configuration.host
+  }
+  assets = {
+    database   = module.database
+    encryption = module.encryption["main"]
+    network    = module.network["core"]
+    resident   = module.resident
   }
   ssh = {
     # Determine whether a ssh session via bastion service will be started
@@ -201,8 +213,7 @@ module "host" {
   }
 }
 output "host" {
-  value = {
-    for resource, parameter in module.host : resource => parameter
-  }
+  value = {for resource, parameter in module.database : resource => parameter}
+  sensitive = true
 }
 // --- host configuration --- /*/
