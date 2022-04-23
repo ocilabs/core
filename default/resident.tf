@@ -69,16 +69,27 @@ output "resident" {
     }
     repository   = var.options.repository
     stage        = local.lifecycle[var.options.stage]
-    tag_namespaces = {
-      for namespace in local.controls : "${local.service_name}_${namespace.name}" => namespace.stage
-    }
-    tags = {for tag in local.tags : tag.name => {
-      name          = tag.name
-      namespace     = local.tag_map[tag.name]
-      stage         = local.tag_namespaces["${local.tag_map[tag.name]}"]
-      values        = tag.values
-      default       = length(flatten([tag.values])) > 1 ? element(tag.values,0) : tostring(tag.values)
-      cost_tracking = tag.cost_tracking
-    }}
+    tag_namespaces = merge(
+      {for space in distinct(local.controls[*].name): "${local.service_name}_${space}" => min([for monitor in local.controls: monitor.stage if monitor.name == space]...)},
+      {"${local.service_name}_budget" : min(local.budgets.*.stage...)}
+    )
+    tags = merge(
+      {for tag in local.controls : tag.name => {
+        cost_tracking = false
+        default       = tag.values[0]
+        name          = tag.name
+        namespace     = "${local.service_name}_${tag.monitor}"
+        stage         = tag.stage
+        values        = tag.values
+      }},
+      {for tag in distinct(local.budgets.*.monitor): tag => {
+        cost_tracking = true
+        default       = {for budget in local.budgets : budget.monitor => budget.name...}[tag].0
+        name          = tag
+        namespace     = "${local.service_name}_budget"
+        stage         = min({for budget in local.budgets : budget.monitor => budget.stage...}[tag]...)
+        values        = {for budget in local.budgets : budget.monitor => budget.name...}[tag]
+      }}
+    )
   }
 }

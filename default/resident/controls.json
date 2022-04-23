@@ -1,17 +1,26 @@
 [
     {
-        "name"    : "budget",
-        "stage"   : 1,
-        "tags"    : ["cost_center", "cost_type", "created_by", "created_on"]
-    },
-    {
-        "name"    : "operation",
+        "name"    : "application",
+        "monitor" : "operation",
         "stage"   : 0,
-        "tags"    : ["application", "version", "last_updated"]
+        "values"  : ["IT", "HR", "Sales"]
     },
     {
-        "name"    : "governance",
+        "name"    : "version",
+        "monitor" : "operation",
+        "stage"   : 0,
+        "values"  : ["0.0.1"]
+    },
+    {
+        "name"    : "last_updated",
+        "monitor" : "operation",
+        "stage"   : 0,
+        "values"  : ["${date}"]
+    },
+    {
+        "name"    : "confidentiality",
+        "monitor" : "governance",
         "stage"   : 2,
-        "tags"    : ["confidentiality"]
+        "values"  : ["public", "confidential", "secret"]
     }
 ]
