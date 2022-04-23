@@ -1,0 +1,12 @@
+[
+  {
+    "name"        : "documents",
+    "description" : "enables file sharing over the internet",
+    "exposure"    : "PUBLIC",
+    "encryption"  : "storage",
+    "monitoring"  : true,
+    "replication" : "",
+    "stage"       : 0,
+    "tiering"     : "DISABLE"
+  }
+]

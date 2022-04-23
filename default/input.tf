@@ -82,8 +82,11 @@ locals {
   signatures     = jsondecode(file("${path.module}/encryption/signatures.json"))
   secrets        = jsondecode(file("${path.module}/encryption/secrets.json"))
   wallets        = jsondecode(file("${path.module}/encryption/wallets.json"))
+  # Storage Settings
+  buckets        = jsondecode(file("${path.module}/storage/buckets.json"))
+  backups        = jsondecode(file("${path.module}/storage/backups.json"))
 
-  #application_profiles = [for firewall, traffic in local.port_filter: traffic]
+  # Local variables
   defined_routes = {for segment in var.settings.segments : segment.name => {
     "cpe"      = length(keys(local.router_map)) != 0 ? try(local.router_map[segment.name].cpe,local.router_map["default"].cpe) : null
     "anywhere" = length(keys(local.router_map)) != 0 ? try(local.router_map[segment.name].anywhere,local.router_map["default"].anywhere) : null
@@ -153,12 +156,6 @@ locals {
     [for subnet in local.subnets : subnet.name if contains(var.settings.topologies, subnet.topology)],
     [for subnet in local.subnets : subnet.newbits if contains(var.settings.topologies, subnet.topology)]
   )}
-  # Merge tags with with the respective namespace information
-  tag_map = zipmap(
-    flatten([for tag in local.controls[*].tags : tag]),
-    flatten([for control in local.controls : [for tag in control.tags : "${local.service_name}_${control.name}"]])
-  ) 
-  tag_namespaces = {for namespace in local.controls : "${local.service_name}_${namespace.name}" => namespace.stage} 
   vcn_list   = var.settings.segments[*].name
   zones = {for segment in var.settings.segments : segment.name => merge(
     local.defined_routes[segment.name],

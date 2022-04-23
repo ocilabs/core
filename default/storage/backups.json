@@ -1,0 +1,8 @@
+[
+  {
+    "description" : "backup storage for databases",
+    "encryption"  : "storage",
+    "name"        : "database",
+    "stage"       : 2
+  }
+]
