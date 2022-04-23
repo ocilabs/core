@@ -44,7 +44,6 @@ locals {
   rfc6335        = jsondecode(file("${path.module}/../library/rfc6335.json"))
   backup         = jsondecode(file("${path.module}/../library/backup.json"))
   classification = jsondecode(file("${path.module}/../library/classification.json"))
-  lifecycle      = jsondecode(file("${path.module}/../library/lifecycle.json"))
   /*
   policies       = jsondecode(templatefile("${path.module}/../library/policies.json", {
     resident     = oci_identity_compartment.resident.name,

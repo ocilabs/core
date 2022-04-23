@@ -68,7 +68,7 @@ output "resident" {
       name = local.region_name
     }
     repository   = var.options.repository
-    stage        = local.lifecycle[var.options.stage]
+    stage        = var.options.stage
     tag_namespaces = merge(
       {for space in distinct(local.controls[*].name): "${local.service_name}_${space}" => min([for monitor in local.controls: monitor.stage if monitor.name == space]...)},
       {"${local.service_name}_budget" : min(local.budgets.*.stage...)}

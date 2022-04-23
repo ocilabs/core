@@ -72,5 +72,5 @@ output "network" {
       prohibit_internet_ingress = contains(flatten(distinct(local.port_filter[subnet.firewall].ingress[*].zone)), "anywhere") ? false : true
       topology      = subnet.topology
     } if contains(var.settings.topologies, subnet.topology)}
-  }if segment.stage <= local.lifecycle[var.options.stage]}
+  }if segment.stage <= var.options.stage}
 }

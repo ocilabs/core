@@ -30,6 +30,7 @@ locals {
     var.container == true ? "container" : ""
   ]))
   domains    = jsondecode(file("${path.module}/default/resident/domains.json"))
+  lifecycle  = jsondecode(file("${path.module}/library/lifecycle.json"))
   segments   = jsondecode(file("${path.module}/default/network/segments.json"))
   wallets    = jsondecode(file("${path.module}/default/encryption/wallets.json"))
 }
@@ -59,7 +60,7 @@ module "configuration" {
     osn          = var.osn
     owner        = var.owner
     repository   = var.repository
-    stage        = var.stage
+    stage        = local.lifecycle[var.stage]
     tenancy      = var.tenancy_ocid
     wallet       = var.wallet
   }
