@@ -169,17 +169,12 @@ module "database" {
   account = {
     tenancy_id     = var.tenancy_ocid
     class          = local.classification[var.class]
-    compartment_id = var.compartment_ocid
-    home           = var.region
-    user_id        = var.current_user_ocid
   }
   options = {
-    class    = var.class
     create   = var.create_adb
     password = var.create_wallet == false ? "RANDOM" : "VAULT"
   }
   configuration = {
-    tenancy  = module.configuration.tenancy
     service  = module.configuration.service
     database = module.configuration.database
   }
