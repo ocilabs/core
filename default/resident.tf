@@ -3,8 +3,12 @@
 
 output "resident" {
   value = {
-    owner        = var.service.owner
-    region       = {
+    label  = var.service.label
+    name   = var.service.name
+    owner  = var.service.owner
+    label  = var.service.label
+    name   = var.service.name
+    region = {
       key  = local.region_key
       name = local.region_name
     }

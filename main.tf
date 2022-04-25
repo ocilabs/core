@@ -79,7 +79,7 @@ provider "oci" {
   alias  = "home"
   region = module.configuration.tenancy.region.key
 }
-module "service" {
+module "resident" {
   source = "github.com/ocilabs/resident"
   depends_on = [module.configuration]
   providers  = {oci = oci.home}
@@ -99,7 +99,7 @@ module "service" {
     service = module.configuration.service
   }
 }
-output "service" {
+output "resident" {
   value = {for resource, parameter in module.service : resource => parameter}
 }
 // --- operation controls --- //
@@ -123,11 +123,11 @@ module "encryption" {
   }
   configuration = {
     tenancy    = module.configuration.tenancy
-    service    = module.configuration.service
+    resident   = module.configuration.resident
     encryption = module.configuration.encryption[each.key]
   }
   assets = {
-    service   = module.service
+    resident = module.resident
   }
 }
 output "encryption" {
@@ -157,12 +157,12 @@ module "network" {
   }
   configuration = {
     tenancy = module.configuration.tenancy
-    service = module.configuration.service
+    resident = module.configuration.resident
     network = module.configuration.network[each.key]
   }
   assets = {
     encryption = module.encryption["main"]
-    service    = module.service
+    resident    = module.resident
   }
 }
 output "network" {
@@ -189,13 +189,13 @@ module "database" {
     password = var.create_wallet == false ? "RANDOM" : "VAULT"
   }
   configuration = {
-    service  = module.configuration.service
+    resident = module.configuration.resident
     database = module.configuration.database
   }
   assets = {
     encryption = module.encryption["main"]
     network    = module.network["core"]
-    service    = module.service
+    resident   = module.resident
   }
 }
 output "database" {
