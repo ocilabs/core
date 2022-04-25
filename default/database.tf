@@ -3,19 +3,19 @@
 
 output "database" {
   value = flatten(distinct([for adb in local.adb_types: [for size in local.adb_sizes : {
-    compartment  = contains(flatten(local.domains[*].name), "database") ? "${local.service_name}_database_compartment" : local.service_name
+    compartment  = contains(flatten(local.domains[*].name), "database") ? "${var.service.name}_database_compartment" : var.service.name
     cores        = size.cores
-    display_name = "${local.service_name}_database"
+    display_name = "${var.service.name}_database"
     license      = adb.license
     name         = format(
       "%s%s", 
       lower(adb.type), 
       lower(size.name)
     )
-    password     = var.resident.encrypt? "${local.service_name}_${adb.password}_secret" : "${local.service_name}_${adb.password}_password"
+    password     = var.service.encrypt? "${var.service.name}_${adb.password}_secret" : "${var.service.name}_${adb.password}_password"
     stage        = adb.stage
     storage      = size.storage
     type         = adb.type
     version      = adb.version
-  }if var.resident.adb == "${adb.name}_${upper(size.name)}"]]))[0]
+  }if lower(var.service.adb) == lower("${adb.name}_${upper(size.name)}")]]))
 }

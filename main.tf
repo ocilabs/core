@@ -38,27 +38,41 @@ module "configuration" {
     home           = var.region
     user_id        = var.current_user_ocid
   }
-  resident = {
-    adb          = "${var.adb_type}_${var.adb_size}"
-    budget       = var.budget
-    encrypt      = var.create_wallet
-    name         = var.name
-    region       = var.location
-    organization = var.organization
-    osn          = var.osn
-    owner        = var.owner
-    repository   = var.repository
-    stage        = local.lifecycle[var.stage]
-    topologies   = flatten(compact([
-      var.management == true ? "management" : "", 
-      var.host == true ? "host" : "", 
-      var.nodes == true ? "nodes" : "", 
-      var.container == true ? "container" : ""
+  service = {
+    adb        = format(
+      "%s_%s",
+      lower(var.adb_type),
+      lower(var.adb_size)
+    )
+    budget     = var.budget
+    encrypt    = var.create_wallet
+    label      = format(
+      "%s%s%s", 
+      lower(substr(var.organization, 0, 3)), 
+      lower(substr(var.name, 0, 2)),
+      lower(substr(var.stage, 0, 3)),
+    )
+    name       = format(
+      "%s_%s_%s",
+      lower(var.organization),
+      lower(var.name),
+      lower(var.stage)
+    )
+    region     = var.location
+    stage      = local.lifecycle[var.stage]
+    osn        = var.osn
+    owner      = var.owner
+    repository = var.repository
+    topologies = flatten(compact([
+      var.management == true ? "cloud" : "", 
+      var.host       == true ? "host" : "", 
+      var.nodes      == true ? "nodes" : "", 
+      var.container  == true ? "container" : ""
     ]))
-    wallet       = var.wallet
+    wallet     = var.wallet
   }
 }
-// --- tenancy configuration  --- //
+// --- tenancy configuration --- //
 
 // --- operation controls --- //
 provider "oci" {

@@ -12,16 +12,16 @@ variable "account" {
   })
 }
 
-variable "resident" {
+variable "service" {
   description = "configuration paramenter for the service, defined through schema.tf"
   type = object({
     adb          = string,
     budget       = number,
     encrypt      = bool,
+    label        = string,
     name         = string,
-    owner        = string,
-    organization = string,
     osn          = string,
+    owner        = string,
     region       = string,
     repository   = string,
     stage        = string,
@@ -41,21 +41,21 @@ locals {
     database     = "${oci_identity_compartment.resident.name}_database_compartment",
     session_username = var.account.user_id,
     tenancy_OCID = var.account.tenancy_id,
-    #image_OCID   = "${local.service_name}_image_OCID",
-    #vault_OCID   = "${local.service_name}_vault_OCID",
-    #key_OCID     = "${local.service_name}_key_OCID",
-    #stream_OCID  = "${local.service_name}_stream_OCID",
-    #workspace_OCID = "${local.service_name}_workspace_OCID",
+    #image_OCID   = "${var.service.name}_image_OCID",
+    #vault_OCID   = "${var.service.name}_vault_OCID",
+    #key_OCID     = "${var.service.name}_key_OCID",
+    #stream_OCID  = "${var.service.name}_stream_OCID",
+    #workspace_OCID = "${var.service.name}_workspace_OCID",
   }))
   */
   # Service Settings
-  alerts         = jsondecode(file("${path.module}/service/alerts.json"))
-  budgets        = jsondecode(templatefile("${path.module}/service/budgets.json", {user = var.account.user_id}))
-  channels       = jsondecode(templatefile("${path.module}/service/channels.json", {owner = var.resident.owner}))
-  controls       = jsondecode(templatefile("${path.module}/service/controls.json", {date = timestamp()}))
-  domains        = jsondecode(file("${path.module}/service/domains.json"))
-  operators      = jsondecode(templatefile("${path.module}/service/operators.json", {service = local.service_name}))
-  periods        = jsondecode(file("${path.module}/service/periods.json"))
+  alerts         = jsondecode(file("${path.module}/resident/alerts.json"))
+  budgets        = jsondecode(templatefile("${path.module}/resident/budgets.json", {user = var.account.user_id}))
+  channels       = jsondecode(templatefile("${path.module}/resident/channels.json", {owner = var.service.owner}))
+  controls       = jsondecode(templatefile("${path.module}/resident/controls.json", {date = timestamp()}))
+  domains        = jsondecode(file("${path.module}/resident/domains.json"))
+  operators      = jsondecode(templatefile("${path.module}/resident/operators.json", {service = var.service.name}))
+  periods        = jsondecode(file("${path.module}/resident/periods.json"))
   # Network Settings
   destinations   = jsondecode(file("${path.module}/network/destinations.json"))
   firewalls      = jsondecode(file("${path.module}/network/firewalls.json"))
@@ -91,13 +91,13 @@ locals {
   }if contains(flatten(distinct(flatten(local.firewalls[*].outgoing))), destination.name)}
   freeform_tags = {
     "framework" = "ocloud"
-    "owner"     = var.resident.owner
-    "lifecycle" = var.resident.stage
+    "owner"     = var.service.owner
+    "lifecycle" = var.service.stage
     "class"     = var.account.class
   }
   group_map = zipmap(
     flatten("${local.domains[*].operators}"),
-    flatten([for domain in local.domains : [for operator in domain.operators : "${local.service_name}_${domain.name}_compartment"]])
+    flatten([for domain in local.domains : [for operator in domain.operators : "${var.service.name}_${domain.name}_compartment"]])
   )
   ports = concat(local.rfc6335, local.profiles)
   port_map = {for firewall in local.firewalls : firewall.name => flatten(distinct(flatten([for zone in firewall.incoming : local.sources[zone]])))}
@@ -134,21 +134,13 @@ locals {
     for destination in local.destinations : destination.name => destination.zones
     if contains(flatten(distinct(flatten(local.firewalls[*].outgoing))), destination.name)
   })
-  # Computed Parameter
-  service_name  = lower("${var.resident.organization}_${var.resident.name}_${var.resident.stage}")
-  service_label = format(
-    "%s%s%s", 
-    lower(substr(var.resident.organization, 0, 3)), 
-    lower(substr(var.resident.name, 0, 2)),
-    lower(substr(var.resident.stage, 0, 3)),
-  )
   subnet_cidr = {for segment in local.segments : segment.name => zipmap(
     keys(local.subnet_newbits[segment.name]),
     flatten(cidrsubnets(segment.cidr, values(local.subnet_newbits[segment.name])...))
   )}
   subnet_newbits = {for segment in local.segments : segment.name => zipmap(
-    [for subnet in local.subnets : subnet.name if contains(var.resident.topologies, subnet.topology)],
-    [for subnet in local.subnets : subnet.newbits if contains(var.resident.topologies, subnet.topology)]
+    [for subnet in local.subnets : subnet.name if contains(var.service.topologies, subnet.topology)],
+    [for subnet in local.subnets : subnet.newbits if contains(var.service.topologies, subnet.topology)]
   )}
   vcn_list   = local.segments[*].name
   zones = {for segment in local.segments : segment.name => merge(
