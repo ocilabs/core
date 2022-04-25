@@ -1,0 +1,27 @@
+[
+  {
+    "name"      : "operation",
+    "budget"    : 1,
+    "channels"  : ["activation", "events"],
+    "operators" : ["cloudops", "auditor", "secops"],
+    "stage"     : 0
+  },{
+    "name"      : "network",
+    "budget"    : 0,
+    "channels"  : ["events"],
+    "operators" : ["netops"],
+    "stage"     : 0
+  },{
+    "name"      : "database",
+    "budget"    : 1,
+    "channels"  : ["events"],
+    "operators" : ["dba"],
+    "stage"     : 0
+  },{
+    "name"      : "application",
+    "budget"    : 0,
+    "channels"  : ["events"],
+    "operators" : ["sysops"],
+    "stage"     : 0
+  }
+]

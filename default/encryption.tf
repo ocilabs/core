@@ -3,7 +3,7 @@
 
 output "encryption" {
   value = {for wallet in local.wallets : wallet.name => {
-    compartment = contains(flatten(var.settings.domains[*].name), "operation") ? "${local.service_name}_operation_compartment" : local.service_name
+    compartment = contains(flatten(local.domains[*].name), "operation") ? "${local.service_name}_operation_compartment" : local.service_name
     stage     = wallet.stage
     vault     = "${local.service_name}_${wallet.name}_vault"
     key       = {
@@ -19,10 +19,10 @@ output "encryption" {
     secrets = {for secret in local.secrets : secret.resource => {
       name   = "${local.service_name}_${secret.resource}_secret"
       phrase = secret.phrase
-    }if var.options.encrypt == true}
+    }if var.resident.encrypt == true}
     passwords = [
       for secret in local.secrets : "${local.service_name}_${secret.resource}_password"
-      if var.options.encrypt == false
+      if var.resident.encrypt == false
     ]
   }}
 }

@@ -23,16 +23,9 @@ variable "compartment_ocid" {}
 variable "current_user_ocid" {}
 
 locals {
-  topologies = flatten(compact([
-    var.management == true ? "management" : "", 
-    var.host == true ? "host" : "", 
-    var.nodes == true ? "nodes" : "", 
-    var.container == true ? "container" : ""
-  ]))
-  domains    = jsondecode(file("${path.module}/default/resident/domains.json"))
-  lifecycle  = jsondecode(file("${path.module}/library/lifecycle.json"))
-  segments   = jsondecode(file("${path.module}/default/network/segments.json"))
-  wallets    = jsondecode(file("${path.module}/default/encryption/wallets.json"))
+  lifecycle      = jsondecode(file("${path.module}/settings/lifecycle.json"))
+  backup         = jsondecode(file("${path.module}/settings/backup.json"))
+  classification = jsondecode(file("${path.module}/settings/classification.json"))
 }
 
 module "configuration" {
@@ -40,19 +33,14 @@ module "configuration" {
   providers = {oci = oci.service}
   account = {
     tenancy_id     = var.tenancy_ocid
+    class          = local.classification[var.class]
     compartment_id = var.compartment_ocid
     home           = var.region
     user_id        = var.current_user_ocid
   }
-  settings = {
-    topologies = local.topologies
-    domains    = local.domains
-    segments   = local.segments
-  }
-  options = {
+  resident = {
     adb          = "${var.adb_type}_${var.adb_size}"
     budget       = var.budget
-    class        = var.class
     encrypt      = var.create_wallet
     name         = var.name
     region       = var.location
@@ -61,7 +49,12 @@ module "configuration" {
     owner        = var.owner
     repository   = var.repository
     stage        = local.lifecycle[var.stage]
-    tenancy      = var.tenancy_ocid
+    topologies   = flatten(compact([
+      var.management == true ? "management" : "", 
+      var.host == true ? "host" : "", 
+      var.nodes == true ? "nodes" : "", 
+      var.container == true ? "container" : ""
+    ]))
     wallet       = var.wallet
   }
 }
@@ -72,7 +65,7 @@ provider "oci" {
   alias  = "home"
   region = module.configuration.tenancy.region.key
 }
-module "resident" {
+module "service" {
   source = "github.com/ocilabs/resident"
   depends_on = [module.configuration]
   providers  = {oci = oci.home}
@@ -84,12 +77,12 @@ module "resident" {
     user_id       = var.current_user_ocid
   }
   configuration = {
-    tenancy  = module.configuration.tenancy
-    resident = module.configuration.resident
+    tenancy = module.configuration.tenancy
+    service = module.configuration.service
   }
 }
-output "resident" {
-  value = {for resource, parameter in module.resident : resource => parameter}
+output "service" {
+  value = {for resource, parameter in module.service : resource => parameter}
 }
 // --- operation controls --- //
 
@@ -105,11 +98,11 @@ module "encryption" {
   }
   configuration = {
     tenancy    = module.configuration.tenancy
-    resident   = module.configuration.resident
+    service    = module.configuration.service
     encryption = module.configuration.encryption[each.key]
   }
   assets = {
-    resident   = module.resident
+    service   = module.service
   }
 }
 output "encryption" {
@@ -131,13 +124,13 @@ module "network" {
     osn      = var.osn
   }
   configuration = {
-    tenancy  = module.configuration.tenancy
-    resident = module.configuration.resident
-    network  = module.configuration.network[each.key]
+    tenancy = module.configuration.tenancy
+    service = module.configuration.service
+    network = module.configuration.network[each.key]
   }
   assets = {
     encryption = module.encryption["main"]
-    resident   = module.resident
+    service    = module.service
   }
 }
 output "network" {
@@ -162,13 +155,13 @@ module "database" {
   }
   configuration = {
     tenancy  = module.configuration.tenancy
-    resident = module.configuration.resident
+    service  = module.configuration.service
     database = module.configuration.database
   }
   assets = {
     encryption = module.encryption["main"]
     network    = module.network["core"]
-    resident   = module.resident
+    service    = module.service
   }
 }
 output "database" {

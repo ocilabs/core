@@ -437,7 +437,7 @@
     "max": 4195,
     "transport": "tcp",
     "protocol": 6,
-    "description": "AWS protocol for cloud remoting solution"
+    "description": "AWS protocol for cloud remoting service"
   },
   {
     "id": "aws-wsp-udp",
@@ -447,7 +447,7 @@
     "max": 4195,
     "transport": "udp",
     "protocol": 17,
-    "description": "AWS protocol for cloud remoting solution"
+    "description": "AWS protocol for cloud remoting service"
   },
   {
     "id": "aws-wsp-sctp",
@@ -457,7 +457,7 @@
     "max": 4195,
     "transport": "sctp",
     "protocol": 132,
-    "description": "AWS protocol for cloud remoting solution"
+    "description": "AWS protocol for cloud remoting service"
   },
   {
     "id": "aws-wsp-dccp",
@@ -467,7 +467,7 @@
     "max": 4195,
     "transport": "dccp",
     "protocol": 33,
-    "description": "AWS protocol for cloud remoting solution"
+    "description": "AWS protocol for cloud remoting service"
   },
   {
     "id": "spdm-tcp",
@@ -10757,7 +10757,7 @@
     "max": 4043,
     "transport": "tcp",
     "protocol": 6,
-    "description": "Neighbour Identity Resolution"
+    "description": "Neighbour Identity Reservice"
   },
   {
     "id": "nirp-udp",
@@ -10767,7 +10767,7 @@
     "max": 4043,
     "transport": "udp",
     "protocol": 17,
-    "description": "Neighbour Identity Resolution"
+    "description": "Neighbour Identity Reservice"
   },
   {
     "id": "ldxp-tcp",
@@ -50057,7 +50057,7 @@
     "max": 1903,
     "transport": "tcp",
     "protocol": 6,
-    "description": "Local Link Name Resolution"
+    "description": "Local Link Name Reservice"
   },
   {
     "id": "linkname-udp",
@@ -50067,7 +50067,7 @@
     "max": 1903,
     "transport": "udp",
     "protocol": 17,
-    "description": "Local Link Name Resolution"
+    "description": "Local Link Name Reservice"
   },
   {
     "id": "fjicl-tep-b-tcp",
@@ -66347,7 +66347,7 @@
     "max": 1096,
     "transport": "tcp",
     "protocol": 6,
-    "description": "Common Name Resolution Protocol"
+    "description": "Common Name Reservice Protocol"
   },
   {
     "id": "cnrprotocol-udp",
@@ -66357,7 +66357,7 @@
     "max": 1096,
     "transport": "udp",
     "protocol": 17,
-    "description": "Common Name Resolution Protocol"
+    "description": "Common Name Reservice Protocol"
   },
   {
     "id": "nicelink-tcp",
@@ -74957,7 +74957,7 @@
     "max": 135,
     "transport": "tcp",
     "protocol": 6,
-    "description": "DCE endpoint resolution"
+    "description": "DCE endpoint reservice"
   },
   {
     "id": "epmap-udp",
@@ -74967,7 +74967,7 @@
     "max": 135,
     "transport": "udp",
     "protocol": 17,
-    "description": "DCE endpoint resolution"
+    "description": "DCE endpoint reservice"
   },
   {
     "id": "ingres-net-tcp",
@@ -93837,7 +93837,7 @@
     "max": 5769,
     "transport": "tcp",
     "protocol": 6,
-    "description": "x509solutions Internal CA"
+    "description": "x509services Internal CA"
   },
   {
     "id": "spramsca-udp",
@@ -93847,7 +93847,7 @@
     "max": 5769,
     "transport": "udp",
     "protocol": 17,
-    "description": "x509solutions Internal CA"
+    "description": "x509services Internal CA"
   },
   {
     "id": "spramsd-tcp",
@@ -93857,7 +93857,7 @@
     "max": 5770,
     "transport": "tcp",
     "protocol": 6,
-    "description": "x509solutions Secure Data"
+    "description": "x509services Secure Data"
   },
   {
     "id": "spramsd-udp",
@@ -93867,7 +93867,7 @@
     "max": 5770,
     "transport": "udp",
     "protocol": 17,
-    "description": "x509solutions Secure Data"
+    "description": "x509services Secure Data"
   },
   {
     "id": "netagent-tcp",
@@ -97557,7 +97557,7 @@
     "max": 7170,
     "transport": "tcp",
     "protocol": 6,
-    "description": "Adaptive Name/Service Resolution"
+    "description": "Adaptive Name/Service Reservice"
   },
   {
     "id": "nsrp-udp",
@@ -97567,7 +97567,7 @@
     "max": 7170,
     "transport": "udp",
     "protocol": 17,
-    "description": "Adaptive Name/Service Resolution"
+    "description": "Adaptive Name/Service Reservice"
   },
   {
     "id": "drm-production-tcp",

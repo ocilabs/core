@@ -1,0 +1,26 @@
+[
+    {
+        "name"    : "application",
+        "monitor" : "operation",
+        "stage"   : 0,
+        "values"  : ["IT", "HR", "Sales"]
+    },
+    {
+        "name"    : "version",
+        "monitor" : "operation",
+        "stage"   : 0,
+        "values"  : ["0.0.1"]
+    },
+    {
+        "name"    : "last_updated",
+        "monitor" : "operation",
+        "stage"   : 0,
+        "values"  : ["${date}"]
+    },
+    {
+        "name"    : "confidentiality",
+        "monitor" : "governance",
+        "stage"   : 2,
+        "values"  : ["public", "confidential", "secret"]
+    }
+]

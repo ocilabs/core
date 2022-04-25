@@ -5,27 +5,18 @@ variable "account" {
   description = "retrieved tenancy data"
   type = object({
     tenancy_id     = string,
+    class          = string,
     compartment_id = string,
     home           = string,
     user_id        = string
   })
 }
 
-variable "settings" {
-  description = "configuration paramenter for the service, defined through schema.tf"
-  type = object({
-    topologies = list(string),
-    domains    = list(any),
-    segments   = list(any)
-  })
-}
-
-variable "options" {
+variable "resident" {
   description = "configuration paramenter for the service, defined through schema.tf"
   type = object({
     adb          = string,
     budget       = number,
-    class        = string,
     encrypt      = bool,
     name         = string,
     owner        = string,
@@ -34,24 +25,22 @@ variable "options" {
     region       = string,
     repository   = string,
     stage        = string,
-    tenancy      = string,
+    topologies   = list(any),
     wallet       = string
   })
 }
 
 locals {
-  # General Settings
-  rfc6335        = jsondecode(file("${path.module}/../library/rfc6335.json"))
-  backup         = jsondecode(file("${path.module}/../library/backup.json"))
-  classification = jsondecode(file("${path.module}/../library/classification.json"))
+  # Libraries
+  rfc6335        = jsondecode(file("${path.module}/library/rfc6335.json"))
   /*
-  policies       = jsondecode(templatefile("${path.module}/../library/policies.json", {
+  policies       = jsondecode(templatefile("${path.module}/library/policies.json", {
     resident     = oci_identity_compartment.resident.name,
     application  = "${oci_identity_compartment.resident.name}_application_compartment",
     network      = "${oci_identity_compartment.resident.name}_network_compartment",
     database     = "${oci_identity_compartment.resident.name}_database_compartment",
     session_username = var.account.user_id,
-    tenancy_OCID = var.tenancy.id,
+    tenancy_OCID = var.account.tenancy_id,
     #image_OCID   = "${local.service_name}_image_OCID",
     #vault_OCID   = "${local.service_name}_vault_OCID",
     #key_OCID     = "${local.service_name}_key_OCID",
@@ -60,18 +49,20 @@ locals {
   }))
   */
   # Service Settings
-  alerts         = jsondecode(file("${path.module}/resident/alerts.json"))
-  budgets        = jsondecode(templatefile("${path.module}/resident/budgets.json", {user = var.account.user_id}))
-  channels       = jsondecode(templatefile("${path.module}/resident/channels.json", {owner = var.options.owner}))
-  controls       = jsondecode(templatefile("${path.module}/resident/controls.json", {date = timestamp()}))
-  operators      = jsondecode(templatefile("${path.module}/resident/operators.json", {service = local.service_name}))
-  periods        = jsondecode(file("${path.module}/resident/periods.json"))
+  alerts         = jsondecode(file("${path.module}/service/alerts.json"))
+  budgets        = jsondecode(templatefile("${path.module}/service/budgets.json", {user = var.account.user_id}))
+  channels       = jsondecode(templatefile("${path.module}/service/channels.json", {owner = var.resident.owner}))
+  controls       = jsondecode(templatefile("${path.module}/service/controls.json", {date = timestamp()}))
+  domains        = jsondecode(file("${path.module}/service/domains.json"))
+  operators      = jsondecode(templatefile("${path.module}/service/operators.json", {service = local.service_name}))
+  periods        = jsondecode(file("${path.module}/service/periods.json"))
   # Network Settings
   destinations   = jsondecode(file("${path.module}/network/destinations.json"))
   firewalls      = jsondecode(file("${path.module}/network/firewalls.json"))
   profiles       = jsondecode(file("${path.module}/network/profiles.json"))
   routers        = jsondecode(file("${path.module}/network/routers.json"))
   sections       = jsondecode(file("${path.module}/network/sections.json"))
+  segments       = jsondecode(file("${path.module}/network/segments.json"))
   sources        = jsondecode(file("${path.module}/network/sources.json"))
   subnets        = jsondecode(file("${path.module}/network/subnets.json"))
   # Database Settings
@@ -86,7 +77,7 @@ locals {
   backups        = jsondecode(file("${path.module}/storage/backups.json"))
 
   # Local variables
-  defined_routes = {for segment in var.settings.segments : segment.name => {
+  defined_routes = {for segment in local.segments : segment.name => {
     "cpe"      = length(keys(local.router_map)) != 0 ? try(local.router_map[segment.name].cpe,local.router_map["default"].cpe) : null
     "anywhere" = length(keys(local.router_map)) != 0 ? try(local.router_map[segment.name].anywhere,local.router_map["default"].anywhere) : null
     "vcn"      = segment.cidr
@@ -100,13 +91,13 @@ locals {
   }if contains(flatten(distinct(flatten(local.firewalls[*].outgoing))), destination.name)}
   freeform_tags = {
     "framework" = "ocloud"
-    "owner"     = var.options.owner
-    "lifecycle" = var.options.stage
-    "class"     = var.options.class
+    "owner"     = var.resident.owner
+    "lifecycle" = var.resident.stage
+    "class"     = var.account.class
   }
   group_map = zipmap(
-    flatten("${var.settings.domains[*].operators}"),
-    flatten([for domain in var.settings.domains : [for operator in domain.operators : "${local.service_name}_${domain.name}_compartment"]])
+    flatten("${local.domains[*].operators}"),
+    flatten([for domain in local.domains : [for operator in domain.operators : "${local.service_name}_${domain.name}_compartment"]])
   )
   ports = concat(local.rfc6335, local.profiles)
   port_map = {for firewall in local.firewalls : firewall.name => flatten(distinct(flatten([for zone in firewall.incoming : local.sources[zone]])))}
@@ -130,6 +121,10 @@ locals {
       zone        = zone
     }if profile == port.name]]])))
   }}
+  region   = {
+    key  = local.home_region_key
+    name = local.home_region_name
+  }
   router_map = {for router in local.routers : router.name => {
     name     = router.name
     cpe      = router.cpe
@@ -140,23 +135,23 @@ locals {
     if contains(flatten(distinct(flatten(local.firewalls[*].outgoing))), destination.name)
   })
   # Computed Parameter
-  service_name  = lower("${var.options.organization}_${var.options.name}_${var.options.stage}")
+  service_name  = lower("${var.resident.organization}_${var.resident.name}_${var.resident.stage}")
   service_label = format(
     "%s%s%s", 
-    lower(substr(var.options.organization, 0, 3)), 
-    lower(substr(var.options.name, 0, 2)),
-    lower(substr(var.options.stage, 0, 3)),
+    lower(substr(var.resident.organization, 0, 3)), 
+    lower(substr(var.resident.name, 0, 2)),
+    lower(substr(var.resident.stage, 0, 3)),
   )
-  subnet_cidr = {for segment in var.settings.segments : segment.name => zipmap(
+  subnet_cidr = {for segment in local.segments : segment.name => zipmap(
     keys(local.subnet_newbits[segment.name]),
     flatten(cidrsubnets(segment.cidr, values(local.subnet_newbits[segment.name])...))
   )}
-  subnet_newbits = {for segment in var.settings.segments : segment.name => zipmap(
-    [for subnet in local.subnets : subnet.name if contains(var.settings.topologies, subnet.topology)],
-    [for subnet in local.subnets : subnet.newbits if contains(var.settings.topologies, subnet.topology)]
+  subnet_newbits = {for segment in local.segments : segment.name => zipmap(
+    [for subnet in local.subnets : subnet.name if contains(var.resident.topologies, subnet.topology)],
+    [for subnet in local.subnets : subnet.newbits if contains(var.resident.topologies, subnet.topology)]
   )}
-  vcn_list   = var.settings.segments[*].name
-  zones = {for segment in var.settings.segments : segment.name => merge(
+  vcn_list   = local.segments[*].name
+  zones = {for segment in local.segments : segment.name => merge(
     local.defined_routes[segment.name],
     local.sections[segment.name],
     local.subnet_cidr[segment.name]
