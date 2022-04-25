@@ -69,6 +69,10 @@ module "service" {
   source = "github.com/ocilabs/resident"
   depends_on = [module.configuration]
   providers  = {oci = oci.home}
+  account = {
+    tenancy_id     = var.tenancy_ocid
+    class          = local.classification[var.class]
+  }
   options = {
     # Enable compartment delete on destroy. If true, compartment will be deleted when `terraform destroy` is executed; If false, compartment will not be deleted on `terraform destroy` execution
     enable_delete = var.stage != "PRODUCTION" ? true : false
@@ -91,6 +95,13 @@ module "encryption" {
   source     = "github.com/ocilabs/encryption"
   depends_on = [module.configuration, module.resident]
   providers  = {oci = oci.service}
+  account = {
+    tenancy_id     = var.tenancy_ocid
+    class          = local.classification[var.class]
+    compartment_id = var.compartment_ocid
+    home           = var.region
+    user_id        = var.current_user_ocid
+  }
   for_each   = {for wallet in local.wallets : wallet.name => wallet}
   options = {
     create = var.create_wallet
@@ -116,6 +127,13 @@ module "network" {
   source = "github.com/ocilabs/network"
   depends_on = [module.configuration, module.encryption, module.resident]
   providers = {oci = oci.service}
+  account = {
+    tenancy_id     = var.tenancy_ocid
+    class          = local.classification[var.class]
+    compartment_id = var.compartment_ocid
+    home           = var.region
+    user_id        = var.current_user_ocid
+  }
   for_each  = {for segment in local.segments : segment.name => segment}
   options = {
     internet = var.internet == "PUBLIC" ? "ENABLE" : "DISABLE"
@@ -148,6 +166,13 @@ module "database" {
     module.encryption
   ]
   providers  = {oci = oci.service}
+  account = {
+    tenancy_id     = var.tenancy_ocid
+    class          = local.classification[var.class]
+    compartment_id = var.compartment_ocid
+    home           = var.region
+    user_id        = var.current_user_ocid
+  }
   options = {
     class    = var.class
     create   = var.create_adb
