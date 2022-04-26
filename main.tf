@@ -23,9 +23,11 @@ variable "compartment_ocid" {}
 variable "current_user_ocid" {}
 
 locals {
-  lifecycle      = jsondecode(file("${path.module}/settings/lifecycle.json"))
   backup         = jsondecode(file("${path.module}/settings/backup.json"))
   classification = jsondecode(file("${path.module}/settings/classification.json"))
+  lifecycle      = jsondecode(file("${path.module}/settings/lifecycle.json"))
+  segments       = jsondecode(file("${path.module}/default/network/segments.json"))
+  wallets        = jsondecode(file("${path.module}/default/encryption/wallets.json"))
 }
 
 module "configuration" {
@@ -95,8 +97,7 @@ module "resident" {
     user_id       = var.current_user_ocid
   }
   configuration = {
-    tenancy = module.configuration.tenancy
-    service = module.configuration.service
+    resident = module.configuration.resident
   }
 }
 output "resident" {
@@ -112,9 +113,6 @@ module "encryption" {
   account = {
     tenancy_id     = var.tenancy_ocid
     class          = local.classification[var.class]
-    compartment_id = var.compartment_ocid
-    home           = var.region
-    user_id        = var.current_user_ocid
   }
   for_each   = {for wallet in local.wallets : wallet.name => wallet}
   options = {
@@ -122,7 +120,6 @@ module "encryption" {
     type   = var.wallet == "SOFTWARE" ? "DEFAULT" : "VIRTUAL_PRIVATE"
   }
   configuration = {
-    tenancy    = module.configuration.tenancy
     resident   = module.configuration.resident
     encryption = module.configuration.encryption[each.key]
   }
@@ -144,9 +141,6 @@ module "network" {
   account = {
     tenancy_id     = var.tenancy_ocid
     class          = local.classification[var.class]
-    compartment_id = var.compartment_ocid
-    home           = var.region
-    user_id        = var.current_user_ocid
   }
   for_each  = {for segment in local.segments : segment.name => segment}
   options = {
@@ -156,19 +150,53 @@ module "network" {
     osn      = var.osn
   }
   configuration = {
-    tenancy = module.configuration.tenancy
     resident = module.configuration.resident
-    network = module.configuration.network[each.key]
+    network  = module.configuration.network[each.key]
   }
   assets = {
     encryption = module.encryption["main"]
-    resident    = module.resident
+    resident   = module.resident
   }
 }
 output "network" {
   value = {for resource, parameter in module.network : resource => parameter}
 }
 // --- network configuration --- //
+
+// --- database creation --- //
+module "storage" {
+  source     = "github.com/ocilabs/storage"
+  depends_on = [
+    module.configuration, 
+    module.resident, 
+    module.network, 
+    module.encryption
+  ]
+  providers  = {oci = oci.service}
+  account = {
+    tenancy_id     = var.tenancy_ocid
+    class          = local.classification[var.class]
+  }
+  options = {
+    compartment           = "application"
+    kms_key_id            = "..."
+    object_events_enabled = true
+  }
+  configuration = {
+    resident = module.configuration.resident
+    storage  = module.configuration.storage
+  }
+  assets = {
+    encryption = module.encryption["main"]
+    network    = module.network["core"]
+    resident   = module.resident
+  }
+}
+output "storage" {
+  value = {for resource, parameter in module.database : resource => parameter}
+  sensitive = true
+}
+// --- storage services --- //
 
 // --- database creation --- //
 module "database" {
