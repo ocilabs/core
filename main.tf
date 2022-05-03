@@ -178,9 +178,11 @@ module "storage" {
     class          = local.classification[var.class]
   }
   options = {
-    compartment           = "application"
-    kms_key_id            = "..."
-    object_events_enabled = true
+    compartment = ""
+    encryption  = "DISBALE"
+    monitoring  = "DISABLE"
+    replication = "DISABLE"
+    tiering     = "DISABLE"
   }
   configuration = {
     resident = module.configuration.resident
